@@ -6,7 +6,9 @@
       Click "Add Item" to start Herding your Cats
     </p>
     <ul></ul>
-    <li v-for="detail in tripDetails" :key="detail.id">{{ detail.name }}</li>
+    <li v-for="detail in tripDetails" :key="detail.category + Math.floor(Math.random() * 10000)">
+      {{ detail.category }}
+    </li>
   </section>
   <nav>
     <a href="">View Timeline</a>
@@ -36,7 +38,7 @@ export default {
   data() {
     return {
       trip: {},
-      tripDetails: [{ name: 'Test', id: 1 }]
+      tripDetails: {}
     }
   },
   components: {
@@ -55,6 +57,7 @@ export default {
       )
       const data = await response.json()
       this.trip = data
+      this.tripDetails = data.details
     }
   },
   created() {
