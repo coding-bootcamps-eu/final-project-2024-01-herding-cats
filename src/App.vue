@@ -1,1 +1,3 @@
-<template>Hej Världen!</template>
+<template>
+  <router-view></router-view>
+</template>
