@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import HomeView from '../views/HomeView.vue'
 import TripOverview from '@/views/TripOverview.vue'
 
@@ -16,6 +17,7 @@ const router = createRouter({
       component: TripOverview
     }
   ]
+
 })
 
 export default router
