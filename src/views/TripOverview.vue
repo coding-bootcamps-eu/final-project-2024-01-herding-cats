@@ -1,5 +1,5 @@
 <template>
-  <h2>{{ trip.name }}</h2>
+  <h2>{{ trip.eventTitle }}</h2>
   <ToggleSwitch labelText="This trip is Public" />
   <section class="overview">
     <p v-if="tripDetails.length < 1" class="initial-text">
@@ -35,7 +35,7 @@ import ToggleSwitch from '@/components/ToggleSwitch.vue'
 export default {
   data() {
     return {
-      trip: { name: 'Testtrip', id: 123456789 },
+      trip: {},
       tripDetails: [{ name: 'Test', id: 1 }]
     }
   },
@@ -48,7 +48,17 @@ export default {
     },
     async copyId() {
       await navigator.clipboard.writeText(this.trip.id)
+    },
+    async loadData() {
+      const response = await fetch(
+        'http://localhost:3000/events/7220e93a-804f-4c9e-880a-8e53e429c1b3'
+      )
+      const data = await response.json()
+      this.trip = data
     }
+  },
+  created() {
+    this.loadData()
   }
 }
 </script>
