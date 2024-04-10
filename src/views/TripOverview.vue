@@ -1,5 +1,5 @@
 <template>
-  <h2>Trip.name</h2>
+  <h2>{{ trip.name }}</h2>
   <ToggleSwitch labelText="This trip is Public" />
   <section class="overview">
     <p class="initial-text">Click "Add Item" to start Herding your Cats</p>
@@ -23,8 +23,8 @@
     </form>
   </dialog>
   <section id="trip-id">
-    <p>Trip ID:111111</p>
-    <button>Copy ID to Clipboard</button>
+    <p>Trip ID:{{ trip.id }}</p>
+    <button @click="copyId">Copy ID to Clipboard</button>
   </section>
 </template>
 
@@ -33,6 +33,7 @@ import ToggleSwitch from '@/components/ToggleSwitch.vue'
 export default {
   data() {
     return {
+      trip: { name: 'Testtrip', id: 123456789 },
       tripDetails: [{ name: 'Test', id: 1 }]
     }
   },
@@ -42,6 +43,9 @@ export default {
   methods: {
     openOptions() {
       this.$refs['add-options'].showModal()
+    },
+    async copyId() {
+      await navigator.clipboard.writeText(this.trip.id)
     }
   }
 }
