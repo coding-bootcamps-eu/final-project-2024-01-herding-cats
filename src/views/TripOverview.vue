@@ -2,7 +2,9 @@
   <h2>{{ trip.name }}</h2>
   <ToggleSwitch labelText="This trip is Public" />
   <section class="overview">
-    <p class="initial-text">Click "Add Item" to start Herding your Cats</p>
+    <p v-if="tripDetails.length < 1" class="initial-text">
+      Click "Add Item" to start Herding your Cats
+    </p>
     <ul></ul>
     <li v-for="detail in tripDetails" :key="detail.id">{{ detail.name }}</li>
   </section>
