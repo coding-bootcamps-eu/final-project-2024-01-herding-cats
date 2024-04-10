@@ -1,11 +1,27 @@
 <template>
   <h2>Trip.name</h2>
   <ToggleSwitch labelText="This trip is Public" />
-  <section class="overview">Click "Add Item" to start Herding your Cats</section>
+  <section class="overview">
+    <p class="initial-text">Click "Add Item" to start Herding your Cats</p>
+    <ul></ul>
+    <li v-for="detail in tripDetails" :key="detail.id">{{ detail.name }}</li>
+  </section>
   <nav>
     <a href="">View Timeline</a>
   </nav>
-  <button>Add Item</button>
+  <button @click="openOptions">Add Item</button>
+  <dialog class="add-options" ref="add-options">
+    <form method="dialog" action="">
+      <a href="">Transport</a>
+      <a href="">Lodging</a>
+      <a href="">Activity</a>
+      <a href="">Group Members</a>
+      <a href="">Packing List</a>
+      <a href="">Notes</a>
+      <br />
+      <button>Cancel</button>
+    </form>
+  </dialog>
   <section id="trip-id">
     <p>Trip ID:111111</p>
     <button>Copy ID to Clipboard</button>
@@ -15,8 +31,18 @@
 <script>
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
 export default {
+  data() {
+    return {
+      tripDetails: [{ name: 'Test', id: 1 }]
+    }
+  },
   components: {
     ToggleSwitch
+  },
+  methods: {
+    openOptions() {
+      this.$refs['add-options'].showModal()
+    }
   }
 }
 </script>
@@ -29,5 +55,10 @@ export default {
   margin: 1rem;
   min-height: 10rem;
   background-color: blanchedalmond;
+}
+
+.add-options form {
+  display: flex;
+  flex-direction: column;
 }
 </style>
