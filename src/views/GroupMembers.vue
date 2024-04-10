@@ -5,8 +5,12 @@
       <div class="list">
         <ul>
           <li v-for="(groupmember, index) in groupmembers" :key="index">
-            {{ groupmember.name }}, {{ groupmember.startDate }} - {{ groupmember.endDate }},
-            {{ groupmember.isAdmin ? 'Admin' : 'Participant' }}
+            {{ groupmember.name }} - {{ groupmember.isAdmin ? 'Admin' : 'Participant' }}
+            <button @click="deleteMember(index)">x</button>
+
+            <ul>
+              <li>{{ groupmember.startDate }}/{{ groupmember.endDate }} <br /></li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -57,6 +61,9 @@ export default {
       } else {
         alert('Enter the name of the participant')
       }
+    },
+    deleteMember(index) {
+      this.groupmembers.splice(index, 1)
     }
   }
 }
@@ -79,5 +86,9 @@ export default {
 
 .admin input {
   margin-right: 5px;
+}
+
+li li {
+  list-style-type: none;
 }
 </style>
