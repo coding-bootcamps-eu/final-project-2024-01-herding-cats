@@ -4,6 +4,7 @@ import NotesView from '@/views/NotesView.vue'
 import GroupMembers from '@/views/GroupMembers.vue'
 import TripOverview from '@/views/TripOverview.vue'
 import TransportView from '@/views/TransportView.vue'
+import ActivityView from '@/views/ActivityView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/transport',
       name: 'Transport',
       component: TransportView
+    },
+    {
+      path: '/activity',
+      name: 'Activity',
+      component: ActivityView
     }
   ]
 })
