@@ -3,10 +3,16 @@ import { createRouter, createWebHistory } from 'vue-router'
 import NotesView from '@/views/NotesView.vue'
 import GroupMembers from '@/views/GroupMembers.vue'
 import TripOverview from '@/views/TripOverview.vue'
+import StartPage from '@/views/StartPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: StartPage
+    },
     {
       path: '/notes',
       name: 'notes',
@@ -19,7 +25,12 @@ const router = createRouter({
     },
     {
       path: '/trip',
-      name: 'Trip',
+      name: 'newTrip',
+      component: TripOverview
+    },
+    {
+      path: '/trip/:id',
+      name: 'trip',
       component: TripOverview
     }
   ]
