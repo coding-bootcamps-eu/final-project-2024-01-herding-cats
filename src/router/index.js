@@ -25,7 +25,7 @@ const router = createRouter({
     },
     {
       path: '/transport',
-      name: '/Transport',
+      name: 'Transport',
       component: TransportView
     }
   ]
