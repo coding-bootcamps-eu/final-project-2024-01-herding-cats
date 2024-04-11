@@ -20,9 +20,11 @@
 
     <div>
       <label for="tele">Phone:</label>
+      <label class="fineprint">(use the +49 formate)</label>
       <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
       <!-- Wenn div === false, dann wird das div angezeigt -->
       <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
+      <img src="../assets/WhatsApp.svg.png" />
     </div>
   </div>
 </template>
@@ -81,5 +83,9 @@ export default {
 .fineprint {
   color: var(--turqoise-gray-background);
   font-size: 1rem;
+}
+
+img {
+  width: 3rem;
 }
 </style>
