@@ -78,20 +78,6 @@ export default {
 .underline {
   text-decoration: underline;
 }
-
-.container {
-  margin: 0.7rem auto;
-  font-family: 'Satoshi-Variable';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  line-height: 2.7rem;
-  width: 32rem;
-  height: 4rem;
-  border: 0.1rem solid var(--dark-button-blue);
-  box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
-}
-
 .fineprint {
   color: var(--turqoise-gray-background);
   font-size: 1rem;

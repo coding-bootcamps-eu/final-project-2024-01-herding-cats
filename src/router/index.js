@@ -19,7 +19,7 @@ const router = createRouter({
       component: GroupMembers
     },
     {
-      path: '/groupmembers/profile',
+      path: '/groupmembers/:id',
       name: 'profile',
       component: ProfilView
     },
