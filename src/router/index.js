@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import NotesView from '@/views/NotesView.vue'
 import GroupMembers from '@/views/GroupMembers.vue'
+import ProfilView from '@/views/ProfilView.vue'
 import TripOverview from '@/views/TripOverview.vue'
 import StartPage from '@/views/StartPage.vue'
 import TransportView from '@/views/TransportView.vue'
@@ -23,6 +24,11 @@ const router = createRouter({
       path: '/groupmembers',
       name: 'groupmembers',
       component: GroupMembers
+    },
+    {
+      path: '/groupmembers/:id',
+      name: 'profile',
+      component: ProfilView
     },
     {
       path: '/trip',
