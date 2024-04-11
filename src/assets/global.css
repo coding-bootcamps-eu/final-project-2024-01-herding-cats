@@ -116,6 +116,11 @@ button:active {
   border: 0.1rem solid var(--pink-background);
 }
 
+.btn-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 input[type='text'] {
   margin: 0.7rem auto;
   font-family: 'Satoshi-Variable';
