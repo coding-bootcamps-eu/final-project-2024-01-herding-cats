@@ -25,6 +25,11 @@
   --yellow-calendar: #f4e2a6;
 }
 
+.required::after {
+  content: '*';
+  color: red;
+}
+
 html {
   font-size: 10px;
 }

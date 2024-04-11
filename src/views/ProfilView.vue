@@ -1,0 +1,99 @@
+<template>
+  <div class="container">
+    <h2>Profil page</h2>
+    <p class="fineprint">Click enter to submit your edits</p>
+    <div>
+      <label class="required" for="name">Name:</label>
+      <div class="underline" v-if="!editingName" @click="startEditing('name')">{{ name }}</div>
+      <!-- Wenn div === false, dann wird das div angezeigt -->
+      <input v-else type="text" v-model="nameInput" @keyup.enter="finishEditing('name')" />
+    </div>
+
+    <div>
+      <label for="adresse">Address:</label>
+      <div class="underline" v-if="!editingAdresse" @click="startEditing('adresse')">
+        {{ adresse }}
+      </div>
+      <!-- Wenn div === false, dann wird das div angezeigt sonst input -->
+      <input v-else type="text" v-model="adresseInput" @keyup.enter="finishEditing('adresse')" />
+    </div>
+
+    <div>
+      <label for="tele">Phone:</label>
+      <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
+      <!-- Wenn div === false, dann wird das div angezeigt -->
+      <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      editingName: false,
+      name: 'click to change',
+      nameInput: '',
+
+      editingAdresse: false,
+      adresse: 'click to change',
+      adresseInput: '',
+
+      editingPhone: false,
+      tele: 'click to change',
+      teleInput: ''
+    }
+  },
+  methods: {
+    startEditing(inputFeld) {
+      if (inputFeld === 'name') {
+        this.editingName = true
+      }
+      if (inputFeld === 'adresse') {
+        this.editingAdresse = true
+      }
+      if (inputFeld === 'tele') {
+        this.editingPhone = true
+      }
+    },
+    finishEditing(inputFeld) {
+      if (inputFeld === 'name') {
+        this.editingName = false
+        this.name = this.nameInput
+      }
+      if (inputFeld === 'adresse') {
+        this.editingAdresse = false
+        this.adresse = this.adresseInput
+      }
+      if (inputFeld === 'tele') {
+        this.editingPhone = false
+        this.tele = this.teleInput
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.underline {
+  text-decoration: underline;
+}
+
+.container {
+  margin: 0.7rem auto;
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 2.7rem;
+  width: 32rem;
+  height: 4rem;
+  border: 0.1rem solid var(--dark-button-blue);
+  box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
+}
+
+.fineprint {
+  color: var(--turqoise-gray-background);
+  font-size: 1rem;
+}
+</style>
