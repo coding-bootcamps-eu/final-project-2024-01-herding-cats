@@ -16,31 +16,18 @@
         </ul>
       </div>
 
-      <div class="addMember">
-        <div class="inputtext">
-          <label for="name">Name:</label>
-          <input v-model="newMember.name" placeholder="e. g. Max Mustermann" />
-        </div>
-        <div class="inputtext">
-          <label for="start">Start of travel:</label>
-          <input type="date" id="start" v-model="newMember.startDate" />
-          <label for="end">End of travel:</label>
-          <input type="date" id="end" v-model="newMember.endDate" />
-        </div>
-        <div class="admin">
-          <input type="checkbox" v-model="newMember.isAdmin" />
-          <label>Admin</label>
-        </div>
-        <button @click.prevent="addMember">Add group member</button>
-      </div>
+      <InputForm :item-name="itemName" />
     </div>
   </form>
 </template>
 
 <script>
+import InputForm from '@/components/InputForm.vue'
+
 export default {
   data() {
     return {
+      itemName: 'Group Member',
       newMember: {
         name: '',
         startDate: '',
@@ -54,6 +41,11 @@ export default {
   created() {
     this.memberId = this.$route.params.id
   },
+
+  components: {
+    InputForm
+  },
+
   methods: {
     addMember() {
       if (this.newMember.name.trim() === '') {

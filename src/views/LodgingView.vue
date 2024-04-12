@@ -18,8 +18,8 @@
       </li>
     </ul>
     <button>Back</button>
+    <InputForm :item-name="itemName" />
   </main>
-  <footer><button href="">Add new lodging</button></footer>
 </template>
 
 <style scoped>
@@ -37,12 +37,26 @@
 </style>
 
 <script>
+import InputForm from '@/components/InputForm.vue'
 export default {
   data() {
     return {
+      itemName: 'Lodging',
       trip: {},
-      tripDetails: []
+      tripDetails: [],
+      newLodging: {
+        category: 'hotel',
+        company: 'test',
+        name: '',
+        startDate: '',
+        endDate: '',
+        isAdmin: false,
+        id: 1
+      }
     }
+  },
+  components: {
+    InputForm
   },
   computed: {
     lodgingEntry() {
