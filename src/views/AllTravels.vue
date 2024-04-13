@@ -11,9 +11,9 @@
     <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
         <ul>
-          <li>Log Out</li>
-          <li><router-link to="/notes">Link zu NotesVue</router-link></li>
+          <li><router-link to="/notes">Notes</router-link></li>
           <li>Neue Reise erstellen</li>
+          <li><router-link to="/logout">Log Out</router-link></li>
         </ul>
       </div>
     </transition>
