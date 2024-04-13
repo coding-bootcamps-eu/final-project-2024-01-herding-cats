@@ -13,9 +13,9 @@
         <label v-if="isLodging || isTransport" for="adress">Adress:</label>
         <input v-if="isLodging || isTransport" id="adress" v-model="newLodging.endDate" />
         <label for="begin">{{ beginName }}:</label>
-        <input type="date" id="begin" v-model="newLodging.startDate" />
+        <input type="datetime-local" id="begin" v-model="newLodging.startDate" />
         <label for="end">{{ endName }}:</label>
-        <input type="date" id="end" v-model="newLodging.endDate" />
+        <input type="datetime-local" id="end" v-model="newLodging.endDate" />
         <label v-if="isLodging || isTransport" for="notes">Notes:</label>
         <input v-if="isLodging || isTransport" id="notes" />
       </div>
