@@ -16,7 +16,7 @@
         <button>Edit</button>
       </li>
     </ul>
-    <InputForm :item-name="itemName" />
+    <InputForm :item-name="itemName" :begin-name="beginName" :end-name="endName" />
   </main>
 </template>
 
@@ -40,6 +40,8 @@ export default {
   data() {
     return {
       itemName: 'Transport',
+      beginName: 'Departure',
+      endName: 'Arrival',
       trip: {},
       tripDetails: []
     }
