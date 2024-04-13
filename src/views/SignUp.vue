@@ -3,14 +3,26 @@
     <h1>Sign Up</h1>
 
     <form>
-      <input type="text" placeholder="First name" v-model="firstname" />
-      <span class="asterisk">*</span>
-      <input type="text" placeholder="Last name" v-model="lastname" />
-      <input type="text" placeholder="E-mail" v-model="email" />
-      <input type="text" placeholder="Address" v-model="address" />
-      <input type="text" placeholder="Phone" v-model="phone" />
-      <input type="password" placeholder="Password" v-model="password" />
-      <input type="password" placeholder="Confirm Password" v-model="confirmPassword" />
+      <label class="required">First Name</label>
+      <input type="text" />
+
+      <label class="required">Last Name</label>
+      <input type="text" />
+
+      <label class="required">E-Mail</label>
+      <input type="email" />
+
+      <label>Address</label>
+      <input type="text" />
+
+      <label>Phone</label>
+      <input type="text" />
+
+      <label class="required">Password</label>
+      <input type="password" />
+
+      <label class="required">Confirm Password</label>
+      <input type="password" />
     </form>
     <button @click="createAccount">Create Account</button>
   </div>
@@ -30,11 +42,7 @@ export default {
     }
   },
   methods: {
-    createAccount() {
-      // Implement your account creation logic here
-      // You can access form data using this.name, this.email, etc.
-      // Validate form data and perform necessary actions
-    }
+    createAccount() {}
   }
 }
 </script>
