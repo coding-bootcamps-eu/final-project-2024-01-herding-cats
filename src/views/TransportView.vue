@@ -16,8 +16,8 @@
         <button>Edit</button>
       </li>
     </ul>
+    <InputForm :item-name="itemName" />
   </main>
-  <footer><button href="">Add new transportation</button></footer>
 </template>
 
 <style scoped>
@@ -35,9 +35,11 @@
 </style>
 
 <script>
+import InputForm from '@/components/InputForm.vue'
 export default {
   data() {
     return {
+      itemName: 'Transport',
       trip: {},
       tripDetails: []
     }
@@ -52,6 +54,9 @@ export default {
       })
       return data
     }
+  },
+  components: {
+    InputForm
   },
   methods: {
     async loadData() {

@@ -6,18 +6,18 @@
         <input id="item-name" v-model="newLodging.name" placeholder="e. g. Max Mustermann" />
       </div>
       <div class="inputtext">
-        <label v-if="isLodging" for="zipcode">Zipcode:</label>
-        <input v-if="isLodging" id="zipcode" v-model="newLodging.endDate" />
-        <label v-if="isLodging" for="city">City:</label>
-        <input v-if="isLodging" id="city" v-model="newLodging.endDate" />
-        <label v-if="isLodging" for="adress">Adress:</label>
-        <input v-if="isLodging" id="adress" v-model="newLodging.endDate" />
+        <label v-if="'isLodging' || 'isTransport'" for="zipcode">Zipcode:</label>
+        <input v-if="'isLodging' || 'isTransport'" id="zipcode" v-model="newLodging.endDate" />
+        <label v-if="'isLodging' || 'isTransport'" for="city">City:</label>
+        <input v-if="'isLodging' || 'isTransport'" id="city" v-model="newLodging.endDate" />
+        <label v-if="'isLodging' || 'isTransport'" for="adress">Adress:</label>
+        <input v-if="'isLodging' || 'isTransport'" id="adress" v-model="newLodging.endDate" />
         <label for="begin">Begin:</label>
         <input type="date" id="begin" v-model="newLodging.startDate" />
         <label for="end">End:</label>
         <input type="date" id="end" v-model="newLodging.endDate" />
-        <label v-if="isLodging" for="notes">Notes:</label>
-        <input v-if="isLodging" id="notes" v-model="newLodging.endDate" />
+        <label v-if="'isLodging' || 'isTransport'" for="notes">Notes:</label>
+        <input v-if="'isLodging' || 'isTransport'" id="notes" />
       </div>
       <div v-if="isGroupMembers" class="admin">
         <input id="set-admin" type="checkbox" v-model="newLodging.isAdmin" />
@@ -70,6 +70,9 @@ export default {
     },
     isLodging() {
       return this.$route.name === 'Lodging'
+    },
+    isTransport() {
+      return this.$route.name === 'transport'
     }
   },
 
