@@ -1,11 +1,15 @@
 <template>
+  <header><img src="@/assets/cat-logo/cat-logo-large.svg" alt="Herding Cats Logotype" /></header>
   <main class="start-page-main">
     <h1>
       Off to corral some kitty chaos.<br />
       See you around!
     </h1>
+
+    <div class="backtoLogIn">
+      <router-link :to="{ name: 'home' }"><button>Back to LogIn</button></router-link>
+    </div>
   </main>
-  <header><img src="@/assets/cat-logo/cat-logo-large.svg" alt="Herding Cats Logotype" /></header>
 </template>
 
 <style scoped>
@@ -22,9 +26,13 @@ img {
 }
 
 h1 {
-  margin-top: 10rem;
+  margin-top: 8rem;
   color: white;
   font-weight: 400;
   text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.backtoLogIn {
+  margin-top: 5rem;
 }
 </style>
