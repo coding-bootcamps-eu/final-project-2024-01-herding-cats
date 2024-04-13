@@ -31,8 +31,10 @@
     <form>
       <label for="fname">Search trip to join</label>
       <input
-        type="search"
-        placeholder="&#x1F50D; search..."
+        type="text"
+        class="icon"
+        value
+        placeholder="Search"
         id="fname"
         name="fname"
         @keyup="searchPublicTrip"
@@ -114,14 +116,21 @@ export default {
   list-style-type: circle;
 }
 
-input[type='submit'] {
-  font-size: 1.3em;
-  padding: 5px 12px;
-  font-weight: 300;
-  color: grey;
-  border: 1px solid silver;
-  background-image: linear-gradient(to top, gainsboro 0%, white 90%);
-  border-radius: 20px;
+.icon {
+  padding-left: 25px;
+  background: url('https://static.thenounproject.com/png/101791-200.png') no-repeat left;
+  background-size: 20px;
+
+  margin: 0.7rem auto;
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 2.7rem;
+  width: 32rem;
+  height: 4rem;
+  border: 0.1rem solid var(--dark-button-blue);
+  box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
 }
 
 form {
