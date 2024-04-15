@@ -1,38 +1,33 @@
 <template>
-  <h2>Transport</h2>
+  <h2>Lodging</h2>
   <main>
     <ul>
-      <li class="transport-entry" v-for="transport of transportList" :key="transport.id">
-        <h3>{{ transport.name }}</h3>
+      <li class="lodging-entry" v-for="lodging of lodgingList" :key="lodging.id">
+        <h3>{{ lodging.name }}</h3>
         <ul>
-          <li>{{ transport.zipcode }} {{ transport.city }}</li>
-          <li>{{ transport.address }}</li>
-          <li>Departure: {{ transport.startDate }}</li>
-          <li>Arrival: {{ transport.endDate }}</li>
+          <li>{{ lodging.zipcode }} {{ lodging.city }}</li>
+          <li>{{ lodging.address }}</li>
+          <li v-if="lodging.startDate">From: {{ lodging.startDate }}</li>
+          <li v-if="lodging.endDate">Until: {{ lodging.endDate }}</li>
           <br />
-          <li v-if="transport.notes">Notes: {{ transport.notes }}</li>
+          <li v-if="lodging.notes">Notes: {{ lodging.notes }}</li>
         </ul>
         <button>Edit</button>
       </li>
     </ul>
-    <InputForm
-      @clickAdd="getFromChild"
-      :item-name="itemName"
-      :begin-name="beginName"
-      :end-name="endName"
-      :placeholder="placeholder"
-    />
+    <button>Back</button>
+    <InputForm @clickAdd="getFromChild" :item-name="itemName" :placeholder="placeholder" />
   </main>
 </template>
 
 <style scoped>
-.transport-entry {
+.lodging-entry {
   margin: 0 auto;
   text-align: center;
   max-width: 60%;
 }
 
-.transport-entry + .transport-entry {
+.lodging-entry + .lodging-entry {
   border-top: 0.25rem solid black;
   margin-top: 2rem;
   padding-top: 1rem;
@@ -44,28 +39,26 @@ import InputForm from '@/components/InputForm.vue'
 export default {
   data() {
     return {
-      itemName: 'Transport',
-      beginName: 'Departure',
-      endName: 'Arrival',
-      placeholder: 'e.g. Hauptbahnhof',
+      itemName: 'Lodging',
+      placeholder: 'e.g. Hotel Vier Jahreszeiten',
       trip: {},
       tripDetails: [],
-      transportList: []
+      lodgingList: []
     }
   },
+  components: {
+    InputForm
+  },
   computed: {
-    transportEntry() {
+    lodgingEntry() {
       let data = []
       this.tripDetails.forEach(function (entry) {
-        if (entry.category === 'flight') {
+        if (entry.category === 'hotel') {
           data.push(entry)
         }
       })
       return data
     }
-  },
-  components: {
-    InputForm
   },
   methods: {
     async loadData() {
@@ -77,7 +70,7 @@ export default {
       this.tripDetails = data.details
     },
     getFromChild(data) {
-      this.transportList = data
+      this.lodgingList = data
     }
   },
   created() {
