@@ -8,6 +8,7 @@ import TimeLine from '@/views/TimeLine.vue'
 import StartPage from '@/views/StartPage.vue'
 import TransportView from '@/views/TransportView.vue'
 import ActivityView from '@/views/ActivityView.vue'
+import LogOut from '@/views/LogOut.vue'
 import AllTravels from '@/views/AllTravels.vue'
 
 
@@ -18,6 +19,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: StartPage
+    },
+    {
+      path: '/LogOut',
+      name: 'logout',
+      component: LogOut
     },
     {
       path: '/AllTravels',
