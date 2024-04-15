@@ -1,27 +1,36 @@
 <template>
   <div class="container">
-    <h2>LogIn</h2>
-    <label> E-mail </label>
-    <input type="email" />
+    <h2 class="title">LogIn</h2>
+    <label class="required"> E-mail </label>
+    <input type="email" v-model="email" />
 
-    <label> Password </label>
-    <input type="password" />
+    <label class="required"> Password </label>
+    <input type="password" v-model="password" />
 
-    <!-- <RouterLink :to={name: ./alltravels}> -->
-
-    <button>LogIn</button>
-
-    <!-- </RouterLink> -->
+    <router-link :to="{ name: 'alltravels' }">
+      <button class="weiterbtn" @click="logIn">LogIn</button>
+    </router-link>
 
     <h3>Welcome back!</h3>
   </div>
 </template>
 
-<style scoped>
-button {
-  margin-top: 5rem;
-}
+<script>
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
 
+  methods: {
+    logIn() {}
+  }
+}
+</script>
+
+<style scoped>
 h3 {
   margin-top: 10rem;
 }

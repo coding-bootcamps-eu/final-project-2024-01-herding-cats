@@ -12,6 +12,7 @@ import LogIn from '@/views/LogIn.vue'
 import SignUp from '@/views/SignUp.vue'
 import LogOut from '@/views/LogOut.vue'
 import AllTravels from '@/views/AllTravels.vue'
+import NewTrip from '@/views/NewTrip.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,16 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: StartPage
+    },
+    {
+      path: '/TripOverview',
+      name: 'tripoverview',
+      component: TripOverview
+    },
+    {
+      path: '/NewTrip',
+      name: 'newtrip',
+      component: NewTrip
     },
     {
       path: '/LogIn',
@@ -31,6 +42,7 @@ const router = createRouter({
       name: 'signup',
       component: SignUp
     },
+    {
       path: '/LogOut',
       name: 'logout',
       component: LogOut
