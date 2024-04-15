@@ -7,6 +7,7 @@ import TripOverview from '@/views/TripOverview.vue'
 import StartPage from '@/views/StartPage.vue'
 import TransportView from '@/views/TransportView.vue'
 import ActivityView from '@/views/ActivityView.vue'
+import PackList from '@/views/PackList.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/activity',
       name: 'Activity',
       component: ActivityView
+    },
+    {
+      path: '/packlist',
+      name: 'packlist',
+      component: PackList
     }
   ]
 })
