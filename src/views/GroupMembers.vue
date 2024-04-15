@@ -4,19 +4,20 @@
       <h3>Group members</h3>
       <div class="list">
         <ul>
-          <li v-for="(groupmember, index) in groupmembers" :key="index">
-            <router-link :to="{ name: 'profile', params: { id: groupmember.id } }">
-              {{ groupmember.name }} - {{ groupmember.isAdmin ? 'Admin' : 'Participant' }}
+          <li v-for="(groupMember, index) in groupMembers" :key="index">
+            <router-link :to="{ name: 'profile', params: { id: groupMember.id } }">
+              {{ groupMember.name }} - {{ groupMember.isAdmin ? 'Admin' : 'Participant' }}
             </router-link>
             <button @click="deleteMember(index)">x</button>
             <ul>
-              <li>{{ groupmember.startDate }}/{{ groupmember.endDate }} <br /></li>
+              <li v-if="lodging.startDate">From: {{ groupMember.startDate }}</li>
+              <li v-if="lodging.endDate">Until: {{ groupMember.endDate }}</li>
             </ul>
           </li>
         </ul>
       </div>
 
-      <InputForm :item-name="itemName" />
+      <InputForm @clickAdd="getFromChild" :item-name="itemName" :placeholder="placeholder" />
     </div>
   </form>
 </template>
@@ -28,14 +29,8 @@ export default {
   data() {
     return {
       itemName: 'Group Member',
-      newMember: {
-        name: '',
-        startDate: '',
-        endDate: '',
-        isAdmin: false,
-        id: 1
-      },
-      groupmembers: []
+      placeholder: 'e. g. Max Mustermann',
+      groupMembers: []
     }
   },
   created() {
@@ -47,24 +42,14 @@ export default {
   },
 
   methods: {
-    addMember() {
-      if (this.newMember.name.trim() === '') {
-        alert('Enter the name of the participant')
-      } else {
-        this.groupmembers.push({ ...this.newMember })
-        this.newMember.id = Math.floor(Math.random() * 1000000).toString()
-        this.newMember.name = ''
-        this.newMember.startDate = ''
-        this.newMember.endDate = ''
-        this.newMember.isAdmin = false
-      }
-    },
-
     deleteMember(index) {
-      this.groupmembers.splice(index, 1)
+      this.groupMembers.splice(index, 1)
     },
     goToProfile(id) {
       this.$router.push({ name: 'profile', params: { id } })
+    },
+    getFromChild(data) {
+      this.groupMembers = data
     }
   }
 }

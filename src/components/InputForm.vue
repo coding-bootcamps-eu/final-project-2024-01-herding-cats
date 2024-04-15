@@ -3,26 +3,27 @@
     <form method="dialog" class="addLodging">
       <div class="inputtext">
         <label for="item-name">{{ itemName }}:</label>
-        <input id="item-name" v-model="newLodging.name" placeholder="e. g. Max Mustermann" />
+        <input id="item-name" v-model="newEntry.name" :placeholder="placeholder" />
       </div>
       <div class="inputtext">
         <label v-if="isLodging || isTransport" for="zipcode">Zipcode:</label>
-        <input v-if="isLodging || isTransport" id="zipcode" v-model="newLodging.endDate" />
+        <input v-if="isLodging || isTransport" id="zipcode" v-model="newEntry.zipcode" />
         <label v-if="isLodging || isTransport" for="city">City:</label>
-        <input v-if="isLodging || isTransport" id="city" v-model="newLodging.endDate" />
-        <label v-if="isLodging || isTransport" for="adress">Adress:</label>
-        <input v-if="isLodging || isTransport" id="adress" v-model="newLodging.endDate" />
+        <input v-if="isLodging || isTransport" id="city" v-model="newEntry.city" />
+        <label v-if="isLodging || isTransport" for="address">Adress:</label>
+        <input v-if="isLodging || isTransport" id="address" v-model="newEntry.address" />
         <label for="begin">{{ beginName }}:</label>
-        <input type="datetime-local" id="begin" v-model="newLodging.startDate" />
+        <input type="datetime-local" id="begin" v-model="newEntry.startDate" />
         <label for="end">{{ endName }}:</label>
-        <input type="datetime-local" id="end" v-model="newLodging.endDate" />
+        <input type="datetime-local" id="end" v-model="newEntry.endDate" />
         <label v-if="isLodging || isTransport" for="notes">Notes:</label>
-        <input v-if="isLodging || isTransport" id="notes" />
+        <input v-if="isLodging || isTransport" id="notes" v-model="newEntry.notes" />
       </div>
       <div v-if="isGroupMembers" class="admin">
-        <input id="set-admin" type="checkbox" v-model="newLodging.isAdmin" />
+        <input id="set-admin" type="checkbox" v-model="newEntry.isAdmin" />
         <label for="set-admin">Admin</label>
       </div>
+      <button @click="addItem">Save</button>
       <button>Cancel</button>
     </form>
   </dialog>
@@ -46,14 +47,15 @@
 export default {
   data() {
     return {
-      trip: {},
       tripDetails: [],
-      newLodging: {
-        category: 'hotel',
-        company: 'test',
+      newEntry: {
         name: '',
+        zipcode: '',
+        city: '',
+        address: '',
         startDate: '',
         endDate: '',
+        notes: '',
         isAdmin: false,
         id: 1
       }
@@ -69,7 +71,9 @@ export default {
     endName: {
       type: String,
       default: 'Until'
-    }
+    },
+    contentArray: Array,
+    placeholder: String
   },
 
   computed: {
@@ -85,22 +89,31 @@ export default {
   },
 
   methods: {
-    addLodging() {
-      if (this.newLodging.name.trim() === '') {
+    addItem() {
+      if (this.newEntry.name.trim() === '') {
         alert('Enter the name of the participant')
       } else {
-        this.tripDetails.push({ ...this.newLodging })
+        this.newEntry.id = Math.floor(Math.random() * 1000000).toString()
+        this.tripDetails.push({ ...this.newEntry })
+        this.newEntry.name = ''
+        this.newEntry.zipcode = ''
+        this.newEntry.city = ''
+        this.newEntry.address = ''
+        this.newEntry.startDate = ''
+        this.newEntry.endDate = ''
+        this.newEntry.notes = ''
+        this.newEntry.isAdmin = false
         console.log(this.tripDetails)
-        this.newLodging.id = Math.floor(Math.random() * 1000000).toString()
-        this.newLodging.name = ''
-        this.newLodging.startDate = ''
-        this.newLodging.endDate = ''
-        this.newLodging.isAdmin = false
       }
     },
     openDialog() {
       this.$refs['add-item'].showModal()
     }
-  }
+  },
+  created() {
+    this.$emit('clickAdd', this.tripDetails)
+  },
+
+  emits: ['clickAdd']
 }
 </script>

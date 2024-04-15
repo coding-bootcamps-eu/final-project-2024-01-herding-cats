@@ -2,21 +2,26 @@
   <h2>Transport</h2>
   <main>
     <ul>
-      <li
-        class="transport-entry"
-        v-for="transport of transportEntry"
-        :key="transport.category + Math.floor(Math.random() * 10000)"
-      >
-        <h3>{{ transport.from }}</h3>
+      <li class="transport-entry" v-for="transport of transportList" :key="transport.id">
+        <h3>{{ transport.name }}</h3>
         <ul>
-          <li>{{ transport.company }}</li>
-          <li>{{ transport.startTime }}</li>
-          <li>transport.notes</li>
+          <li>{{ transport.zipcode }} {{ transport.city }}</li>
+          <li>{{ transport.address }}</li>
+          <li>Departure: {{ transport.startDate }}</li>
+          <li>Arrival: {{ transport.endDate }}</li>
+          <br />
+          <li v-if="transport.notes">Notes: {{ transport.notes }}</li>
         </ul>
         <button>Edit</button>
       </li>
     </ul>
-    <InputForm :item-name="itemName" :begin-name="beginName" :end-name="endName" />
+    <InputForm
+      @clickAdd="getFromChild"
+      :item-name="itemName"
+      :begin-name="beginName"
+      :end-name="endName"
+      :placeholder="placeholder"
+    />
   </main>
 </template>
 
@@ -42,8 +47,10 @@ export default {
       itemName: 'Transport',
       beginName: 'Departure',
       endName: 'Arrival',
+      placeholder: 'e.g. Hauptbahnhof',
       trip: {},
-      tripDetails: []
+      tripDetails: [],
+      transportList: []
     }
   },
   computed: {
@@ -68,6 +75,9 @@ export default {
       const data = await response.json()
       this.trip = data
       this.tripDetails = data.details
+    },
+    getFromChild(data) {
+      this.transportList = data
     }
   },
   created() {

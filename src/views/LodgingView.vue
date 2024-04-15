@@ -2,23 +2,21 @@
   <h2>Lodging</h2>
   <main>
     <ul>
-      <li
-        class="lodging-entry"
-        v-for="lodging of lodgingEntry"
-        :key="lodging.category + Math.floor(Math.random() * 10000)"
-      >
-        <h3>{{ lodging.company }}</h3>
+      <li class="lodging-entry" v-for="lodging of lodgingList" :key="lodging.id">
+        <h3>{{ lodging.name }}</h3>
         <ul>
-          <li>{{ lodging.address.city }}</li>
-          <li>{{ lodging.address.street }}</li>
-          <li>{{ lodging.startTime }}</li>
-          <li>lodging.notes</li>
+          <li>{{ lodging.zipcode }} {{ lodging.city }}</li>
+          <li>{{ lodging.address }}</li>
+          <li v-if="lodging.startDate">From: {{ lodging.startDate }}</li>
+          <li v-if="lodging.endDate">Until: {{ lodging.endDate }}</li>
+          <br />
+          <li v-if="lodging.notes">Notes: {{ lodging.notes }}</li>
         </ul>
         <button>Edit</button>
       </li>
     </ul>
     <button>Back</button>
-    <InputForm :item-name="itemName" />
+    <InputForm @clickAdd="getFromChild" :item-name="itemName" :placeholder="placeholder" />
   </main>
 </template>
 
@@ -42,17 +40,10 @@ export default {
   data() {
     return {
       itemName: 'Lodging',
+      placeholder: 'e.g. Hotel Vier Jahreszeiten',
       trip: {},
       tripDetails: [],
-      newLodging: {
-        category: 'hotel',
-        company: 'test',
-        name: '',
-        startDate: '',
-        endDate: '',
-        isAdmin: false,
-        id: 1
-      }
+      lodgingList: []
     }
   },
   components: {
@@ -77,6 +68,9 @@ export default {
       const data = await response.json()
       this.trip = data
       this.tripDetails = data.details
+    },
+    getFromChild(data) {
+      this.lodgingList = data
     }
   },
   created() {
