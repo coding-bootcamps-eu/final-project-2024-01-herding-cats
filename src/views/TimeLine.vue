@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <h1>Timeline</h1>
+    <h2>Timeline</h2>
 
     <div class="line">
       <div v-for="item in sortedItems" :key="item.id">
-        <h2 class="week">{{ weekNumber(item.startDate) }}</h2>
-        <h2 class="weekline">{{ item.category }}</h2>
+        <h3 class="week">{{ weekNumber(item.startDate) }}</h3>
+        <h3 class="weekline">{{ item.category }}</h3>
         <h3>{{ item.to }}</h3>
         <p>Start date: {{ item.startDate }}</p>
         <p>Time: {{ item.startTime }}</p>
@@ -21,7 +21,7 @@ export default {
       items: [
         {
           category: 'flight',
-          startDate: '2015-03-25',
+          startDate: '2015-01-25',
           startTime: '9:45',
           from: 'Hamburg Flughafen',
           to: 'Malaga Airport',
@@ -44,7 +44,7 @@ export default {
         {
           category: 'flight',
           startDate: '2015-01-25',
-          startTime: '9:45',
+          startTime: '9:30',
           from: 'Hamburg Flughafen',
           to: 'Stockholm Airport',
           gate: 'D4',
@@ -57,26 +57,34 @@ export default {
   },
   computed: {
     sortedItems() {
-      return this.items.slice().sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+      // 2024-04-16T09:30:00:
+      return this.items.slice().sort((a, b) => {
+        let datecomp = new Date(a.startDate) - new Date(b.startDate)
+        if (datecomp === 0) {
+          return a.startTime.localeCompare(b.startTime)
+        }
+        return datecomp
+      })
     }
   },
   methods: {
     weekNumber(startDate) {
-      //define a date object variable that will take the current system date
+      //object with current date
       const todaydate = new Date(startDate)
 
-      //find the year of the current date
-      let oneJan = new Date(todaydate.getFullYear(), 0, 1)
+      //object für den 1. Januar des jetzigen Jahres
+      // let oneJan = new Date(todaydate.getFullYear(), 0, 1)
 
-      // calculating number of days in given year before a given date
-      let numberOfDays = Math.floor((todaydate - oneJan) / (24 * 60 * 60 * 1000))
+      // // number of days between 1. Januar and today (24 Std./Tag, 60 min./std., 60 sec./min, 1000 Millisekunden/ sec.
+      // let numberOfDays = Math.floor((todaydate - oneJan) / (24 * 60 * 60 * 1000))
 
-      // adding 1 since to current date and returns value starting from 0
-      let result = Math.ceil((todaydate.getDay() + 1 + numberOfDays) / 7)
+      // Kalenderwoche:
+      let daynr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      let weekday = todaydate.getDay()
+      let weekday2 = daynr[parseInt(weekday)]
+      // let result = Math.ceil((todaydate.getDay() + 1 + numberOfDays) / 7)
 
-      console.log(result)
-
-      return 'Week ' + result
+      return weekday2
     }
   }
 }
