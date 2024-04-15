@@ -5,7 +5,8 @@
     <h2>Travel App</h2>
     <h3>Manage the Impossible</h3>
     <div class="start-button-input">
-      <router-link :to="{ name: 'newTrip' }"><button>New Trip</button></router-link>
+      <router-link :to="{ name: 'login' }"><button>LogIn</button></router-link>
+      <router-link :to="{ name: 'signup' }"><button>SignUp</button></router-link>
       <form>
         <input
           type="text"
@@ -63,7 +64,7 @@ header {
   height: 25.7rem;
 }
 img {
-  padding: 3rem;
+  padding: 2rem;
   margin-left: 1.5rem;
 }
 h2 {

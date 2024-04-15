@@ -1,8 +1,6 @@
 <template>
-  <div id="note-list">
-    <header>
-      <h2>Notes</h2>
-    </header>
+  <div id="note-list" class="container">
+    <h2 class="title">Notes</h2>
 
     <div id="input-area">
       <textarea
@@ -137,5 +135,12 @@ ul.note-content li {
 
 #input-area {
   padding: 60px 0px 5px 0px;
+}
+
+#note-list header h2 {
+  font-size: 60px;
+  line-height: 60px;
+  padding: 75px 20px 0 160px;
+  z-index: 2;
 }
 </style>
