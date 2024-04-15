@@ -73,6 +73,7 @@ export default {
 .line {
   width: 100%;
   height: 3px;
+  margin-top: 5px;
   background-color: #000;
 }
 
@@ -84,6 +85,7 @@ export default {
   height: 100%;
   background-color: whitesmoke;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding-left: 5px;
 }
 
 .slide-enter-active {
@@ -120,17 +122,7 @@ export default {
   padding-left: 25px;
   background: url('https://static.thenounproject.com/png/101791-200.png') no-repeat left;
   background-size: 20px;
-
   margin: 0.7rem auto;
-  font-family: 'Satoshi-Variable';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  line-height: 2.7rem;
-  width: 32rem;
-  height: 4rem;
-  border: 0.1rem solid var(--dark-button-blue);
-  box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
 }
 
 form {
