@@ -1,13 +1,14 @@
 <template>
   <form>
-    <div id="form">
+    <div id="form" class="container">
       <h3>Group members</h3>
       <div class="list">
         <ul>
           <li v-for="(groupmember, index) in groupmembers" :key="index">
-            {{ groupmember.name }} - {{ groupmember.isAdmin ? 'Admin' : 'Participant' }}
+            <router-link :to="{ name: 'profile', params: { id: groupmember.id } }">
+              {{ groupmember.name }} - {{ groupmember.isAdmin ? 'Admin' : 'Participant' }}
+            </router-link>
             <button @click="deleteMember(index)">x</button>
-
             <ul>
               <li>{{ groupmember.startDate }}/{{ groupmember.endDate }} <br /></li>
             </ul>
@@ -23,7 +24,6 @@
         <div class="inputtext">
           <label for="start">Start of travel:</label>
           <input type="date" id="start" v-model="newMember.startDate" />
-
           <label for="end">End of travel:</label>
           <input type="date" id="end" v-model="newMember.endDate" />
         </div>
@@ -45,25 +45,34 @@ export default {
         name: '',
         startDate: '',
         endDate: '',
-        isAdmin: false
+        isAdmin: false,
+        id: 1
       },
       groupmembers: []
     }
   },
+  created() {
+    this.memberId = this.$route.params.id
+  },
   methods: {
     addMember() {
-      if (this.newMember.name.trim() !== '') {
+      if (this.newMember.name.trim() === '') {
+        alert('Enter the name of the participant')
+      } else {
         this.groupmembers.push({ ...this.newMember })
+        this.newMember.id = Math.floor(Math.random() * 1000000).toString()
         this.newMember.name = ''
         this.newMember.startDate = ''
         this.newMember.endDate = ''
         this.newMember.isAdmin = false
-      } else {
-        alert('Enter the name of the participant')
       }
     },
+
     deleteMember(index) {
       this.groupmembers.splice(index, 1)
+    },
+    goToProfile(id) {
+      this.$router.push({ name: 'profile', params: { id } })
     }
   }
 }
