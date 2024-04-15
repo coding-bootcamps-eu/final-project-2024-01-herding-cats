@@ -8,12 +8,14 @@ import TimeLine from '@/views/TimeLine.vue'
 import StartPage from '@/views/StartPage.vue'
 import TransportView from '@/views/TransportView.vue'
 import ActivityView from '@/views/ActivityView.vue'
+import PackList from '@/views/PackList.vue'
 import LodgingView from '@/views/LodgingView.vue'
 import LogIn from '@/views/LogIn.vue'
 import SignUp from '@/views/SignUp.vue'
 import LogOut from '@/views/LogOut.vue'
 import AllTravels from '@/views/AllTravels.vue'
 import NewTrip from '@/views/NewTrip.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -92,6 +94,11 @@ const router = createRouter({
       path: '/activity',
       name: 'Activity',
       component: ActivityView
+    },
+    {
+      path: '/packlist',
+      name: 'packlist',
+      component: PackList
     },
     {
       path: '/lodging',
