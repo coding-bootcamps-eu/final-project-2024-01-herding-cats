@@ -8,6 +8,7 @@ import TimeLine from '@/views/TimeLine.vue'
 import StartPage from '@/views/StartPage.vue'
 import TransportView from '@/views/TransportView.vue'
 import ActivityView from '@/views/ActivityView.vue'
+import LogIn from '@/views/LogIn.vue'
 import SignUp from '@/views/SignUp.vue'
 import LogOut from '@/views/LogOut.vue'
 import AllTravels from '@/views/AllTravels.vue'
@@ -19,6 +20,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: StartPage
+    },
+    {
+      path: '/LogIn',
+      name: 'login',
+      component: LogIn
     },
     {
       path: '/SignUp',
