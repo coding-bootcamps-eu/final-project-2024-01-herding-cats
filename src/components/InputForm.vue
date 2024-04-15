@@ -2,8 +2,8 @@
   <dialog ref="add-item">
     <form method="dialog" class="addLodging">
       <div class="inputtext">
-        <label for="item-name">{{ itemName }}:</label>
-        <input id="item-name" v-model="newEntry.name" :placeholder="placeholder" />
+        <label class="required" for="item-name">{{ itemName }}:</label>
+        <input required id="item-name" v-model="newEntry.name" :placeholder="placeholder" />
       </div>
       <div class="inputtext">
         <label v-if="isLodging || isTransport" for="zipcode">Zipcode:</label>
@@ -24,7 +24,7 @@
         <label for="set-admin">Admin</label>
       </div>
       <button @click="addItem">Save</button>
-      <button>Cancel</button>
+      <button @click="closeDialog">Cancel</button>
     </form>
   </dialog>
   <footer>
@@ -49,6 +49,7 @@ export default {
     return {
       tripDetails: [],
       newEntry: {
+        category: '',
         name: '',
         zipcode: '',
         city: '',
@@ -94,6 +95,7 @@ export default {
         alert('Enter the name of the participant')
       } else {
         this.newEntry.id = Math.floor(Math.random() * 1000000).toString()
+        this.newEntry.category = this.$route.name
         this.tripDetails.push({ ...this.newEntry })
         this.newEntry.name = ''
         this.newEntry.zipcode = ''
@@ -108,6 +110,9 @@ export default {
     },
     openDialog() {
       this.$refs['add-item'].showModal()
+    },
+    closeDialog() {
+      this.$refs['add-item'].close()
     }
   },
   created() {
