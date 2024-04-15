@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Sign Up</h1>
+    <h2 class="title">Sign Up</h2>
 
     <form>
       <label class="required">First Name</label>
@@ -24,7 +24,7 @@
       <label class="required">Confirm Password</label>
       <input type="password" />
     </form>
-    <button @click="createAccount">Create Account</button>
+    <button class="weiterbtn" @click="createAccount">Create Account</button>
   </div>
 </template>
 

@@ -1,4 +1,7 @@
 <template>
+  <h2>Create new trip</h2>
+</template>
+
   <div class="container">
     <h2 class="title">Create new trip</h2>
 

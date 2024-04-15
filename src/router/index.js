@@ -23,6 +23,11 @@ const router = createRouter({
       component: StartPage
     },
     {
+      path: '/TripOverview',
+      name: 'tripoverview',
+      component: TripOverview
+    },
+    {
       path: '/NewTrip',
       name: 'newtrip',
       component: NewTrip

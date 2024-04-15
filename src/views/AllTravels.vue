@@ -11,8 +11,8 @@
     <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
         <ul>
+          <li><router-link to="/newtrip">Create new trip</router-link></li>
           <li><router-link to="/notes">Notes</router-link></li>
-          <li>Neue Reise erstellen</li>
           <li><router-link to="/logout">Log Out</router-link></li>
         </ul>
       </div>
@@ -54,7 +54,7 @@ export default {
     hideSidebar() {
       setTimeout(() => {
         this.showSidebar = false
-      }, 1000)
+      }, 2000)
     }
   }
 }
