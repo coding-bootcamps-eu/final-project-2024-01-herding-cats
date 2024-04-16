@@ -92,7 +92,6 @@ h3 {
   font-style: normal;
   font-weight: 500;
   font-size: 2.4rem;
-  line-height: 3.2rem;
   text-align: center;
   color: #000000;
   text-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
@@ -103,7 +102,6 @@ p {
   font-style: normal;
   font-weight: 400;
   font-size: 2rem;
-  line-height: 2.7rem;
   color: #000000;
 }
 
@@ -114,7 +112,6 @@ button {
   font-style: normal;
   font-weight: 400;
   font-size: 2rem;
-  line-height: 2.7rem;
   color: white;
   width: 32rem;
   height: 4rem;
@@ -151,28 +148,38 @@ input[type='text'] {
   box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
 }
 
-input[type='text']::placeholder {
+textarea {
+  width: 28rem;
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: #000000;
+  border: 0.1rem solid var(--dark-button-blue);
+  box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
+}
+
+input[type='text']::placeholder,
+textarea::placeholder {
   color: var(--turqoise-gray-background);
 }
 
 input[type='text']:focus,
 input[type='text']:active,
-input[type='text']:hover {
+input[type='text']:hover,
+textarea:focus,
+textarea:active,
+textarea:hover {
   box-shadow: white 0px 0px 1rem;
   outline: 0.1rem solid white;
 }
 
 .container {
-  margin: 0.7rem auto;
-  font-family: 'Satoshi-Variable';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  line-height: 2.7rem;
   width: 32rem;
-  height: 4rem;
-  border: 0.1rem solid var(--dark-button-blue);
-  box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
+  min-height: 52rem;
+  background-color: var(--green-packing-list);
+  border: 1px solid #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .required::after {
@@ -182,4 +189,26 @@ input[type='text']:hover {
 
 .weiterbtn {
   margin-top: 5rem;
+}
+
+/* style for password information */
+
+.info {
+  position: relative;
+}
+
+.info .extra-info {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: max-content;
+}
+
+.info:hover .extra-info,
+.info .info-icon:hover + .extra-info {
+  display: block;
 }

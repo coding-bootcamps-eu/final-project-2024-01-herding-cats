@@ -1,0 +1,124 @@
+<template>
+  <dialog ref="add-item">
+    <form method="dialog" class="addLodging">
+      <div class="inputtext">
+        <label class="required" for="item-name">{{ itemName }}:</label>
+        <input required id="item-name" v-model="newEntry.name" :placeholder="placeholder" />
+      </div>
+      <div class="inputtext">
+        <label v-if="isLodging || isTransport" for="zipcode">Zipcode:</label>
+        <input v-if="isLodging || isTransport" id="zipcode" v-model="newEntry.zipcode" />
+        <label v-if="isLodging || isTransport" for="city">City:</label>
+        <input v-if="isLodging || isTransport" id="city" v-model="newEntry.city" />
+        <label v-if="isLodging || isTransport" for="address">Adress:</label>
+        <input v-if="isLodging || isTransport" id="address" v-model="newEntry.address" />
+        <label for="begin">{{ beginName }}:</label>
+        <input type="datetime-local" id="begin" v-model="newEntry.startDate" />
+        <label for="end">{{ endName }}:</label>
+        <input type="datetime-local" id="end" v-model="newEntry.endDate" />
+        <label v-if="isLodging || isTransport" for="notes">Notes:</label>
+        <input v-if="isLodging || isTransport" id="notes" v-model="newEntry.notes" />
+      </div>
+      <div v-if="isGroupMembers" class="admin">
+        <input id="set-admin" type="checkbox" v-model="newEntry.isAdmin" />
+        <label for="set-admin">Admin</label>
+      </div>
+      <button @click="addItem">Save</button>
+      <button @click="closeDialog">Cancel</button>
+    </form>
+  </dialog>
+  <footer>
+    <button @click.prevent="openDialog">Add new {{ itemName }}</button>
+  </footer>
+</template>
+
+<style>
+.inputtext input {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.admin input {
+  margin-right: 5px;
+}
+</style>
+
+<script>
+export default {
+  data() {
+    return {
+      tripDetails: [],
+      newEntry: {
+        category: '',
+        name: '',
+        zipcode: '',
+        city: '',
+        address: '',
+        startDate: '',
+        endDate: '',
+        notes: '',
+        isAdmin: false,
+        id: 1
+      }
+    }
+  },
+
+  props: {
+    itemName: String,
+    beginName: {
+      type: String,
+      default: 'From'
+    },
+    endName: {
+      type: String,
+      default: 'Until'
+    },
+    contentArray: Array,
+    placeholder: String
+  },
+
+  computed: {
+    isGroupMembers() {
+      return this.$route.name === 'groupmembers'
+    },
+    isLodging() {
+      return this.$route.name === 'Lodging'
+    },
+    isTransport() {
+      return this.$route.name === 'Transport'
+    }
+  },
+
+  methods: {
+    addItem() {
+      if (this.newEntry.name.trim() === '') {
+        alert('Enter the name of the participant')
+      } else {
+        this.newEntry.id = Math.floor(Math.random() * 1000000).toString()
+        this.newEntry.category = this.$route.name
+        this.tripDetails.push({ ...this.newEntry })
+        this.newEntry.name = ''
+        this.newEntry.zipcode = ''
+        this.newEntry.city = ''
+        this.newEntry.address = ''
+        this.newEntry.startDate = ''
+        this.newEntry.endDate = ''
+        this.newEntry.notes = ''
+        this.newEntry.isAdmin = false
+        console.log(this.tripDetails)
+      }
+    },
+    openDialog() {
+      this.$refs['add-item'].showModal()
+    },
+    closeDialog() {
+      this.$refs['add-item'].close()
+    }
+  },
+  created() {
+    this.$emit('clickAdd', this.tripDetails)
+  },
+
+  emits: ['clickAdd']
+}
+</script>
