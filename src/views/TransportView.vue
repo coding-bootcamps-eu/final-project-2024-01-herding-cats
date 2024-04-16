@@ -12,7 +12,7 @@
           <br />
           <li v-if="transport.notes">Notes: {{ transport.notes }}</li>
         </ul>
-        <button>Edit</button>
+        <button class="weiterbtn">Edit</button>
       </li>
     </ul>
     <InputForm

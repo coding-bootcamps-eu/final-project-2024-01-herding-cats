@@ -1,15 +1,14 @@
 <template>
-  <div id="note-list" class="container">
-    <h2 class="title">Notes</h2>
-
-    <div id="input-area">
-      <textarea
-        v-model="newNotes"
-        id="note-input"
-        placeholder="Take notes for your trip ..."
-        @keydown.enter="addNote"
-      ></textarea>
-    </div>
+  <div class="container">
+    <header>
+      <h2 class="title2">Notes</h2>
+    </header>
+    <textarea
+      v-model="newNotes"
+      id="note-input"
+      placeholder="Take notes for your trip ..."
+      @keydown.enter="addNote"
+    ></textarea>
 
     <div v-for="(note, index) in notes" :key="index" class="note">
       <ul class="note-content">
@@ -63,7 +62,7 @@ template {
     sans-serif;
   font-weight: 200;
 }
-#note-list {
+.container {
   width: 960px;
   height: 1109px;
   background: linear-gradient(to bottom, white 29px, #00b0d7 1px);
@@ -92,7 +91,7 @@ template {
     0px 0px 6px rgba(0, 0, 0, 0.2);
 }
 
-#note-list:before {
+.container:before {
   content: '';
   display: block;
   position: absolute;
@@ -104,19 +103,21 @@ template {
   background: #db4034;
 }
 
-#note-list header {
-  height: 150px;
+.container header {
+  height: 10px;
   width: 100%;
   background: white;
   position: absolute;
+  margin-top: 2rem;
   top: 0;
   left: 0;
 }
 
-#note-list header h2 {
-  font-size: 60px;
-  line-height: 60px;
-  padding: 75px 20px 0 160px;
+#note-input {
+  width: calc(100% - 200px);
+  margin: 0 auto;
+  position: relative;
+  top: -60px;
 }
 
 .note {
@@ -130,17 +131,31 @@ template {
 }
 
 ul.note-content li {
-  margin-bottom: 3px;
+  margin-bottom: 30px;
+  list-style-type: disc;
+  position: relative;
 }
 
-#input-area {
-  padding: 60px 0px 5px 0px;
+.title2 {
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 3.2rem;
+  line-height: 4.3rem;
+  text-align: center;
+  color: #0a0a0a;
+  text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
+  margin-bottom: 3rem;
 }
 
-#note-list header h2 {
-  font-size: 60px;
-  line-height: 60px;
-  padding: 75px 20px 0 160px;
-  z-index: 2;
+.delete-btn {
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  position: absolute;
+  left: -1.3em;
+  top: 80%;
+  transform: translateY(-90%);
+  line-height: 0.5px;
 }
 </style>

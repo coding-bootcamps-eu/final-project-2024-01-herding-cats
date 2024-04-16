@@ -9,7 +9,7 @@
     <input v-model="tripdesc" type="text" />
 
     <router-link :to="{ name: 'alltravels' }">
-      <button @click="makeTrip">Go to overview over your trips</button>
+      <button class="weiterbtn" @click="makeTrip">Go to overview over your trips</button>
     </router-link>
   </div>
 </template>
