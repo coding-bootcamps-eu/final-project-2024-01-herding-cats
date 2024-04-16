@@ -3,7 +3,7 @@
     <form method="dialog" class="addLodging">
       <div class="inputtext">
         <label class="required" for="item-name">{{ itemName }}:</label>
-        <input required id="item-name" v-model="newEntry.name" :placeholder="placeholder" />
+        <input id="item-name" v-model="newEntry.name" :placeholder="placeholder" />
       </div>
       <div class="inputtext">
         <label v-if="isLodging || isTransport" for="zipcode">Zipcode:</label>
@@ -23,7 +23,7 @@
         <input id="set-admin" type="checkbox" v-model="newEntry.isAdmin" />
         <label for="set-admin">Admin</label>
       </div>
-      <button @click="addItem">Save</button>
+      <button @click.prevent="addItem">Save</button>
       <button @click="closeDialog">Cancel</button>
     </form>
   </dialog>
@@ -74,7 +74,9 @@ export default {
       default: 'Until'
     },
     contentArray: Array,
-    placeholder: String
+    placeholder: String,
+    tripApiUrl: String,
+    tripId: String
   },
 
   computed: {
@@ -82,15 +84,15 @@ export default {
       return this.$route.name === 'groupmembers'
     },
     isLodging() {
-      return this.$route.name === 'Lodging'
+      return this.$route.name === 'lodging'
     },
     isTransport() {
-      return this.$route.name === 'Transport'
+      return this.$route.name === 'transport'
     }
   },
 
   methods: {
-    addItem() {
+    async addItem() {
       if (this.newEntry.name.trim() === '') {
         alert('Enter the name of the participant')
       } else {
@@ -105,7 +107,14 @@ export default {
         this.newEntry.endDate = ''
         this.newEntry.notes = ''
         this.newEntry.isAdmin = false
-        console.log(this.tripDetails)
+
+        await fetch(`http://localhost:3000/events/${this.$route.params.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.tripDetails)
+        })
       }
     },
     openDialog() {

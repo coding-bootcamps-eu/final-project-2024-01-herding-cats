@@ -80,21 +80,19 @@ export default {
       return this.tripDetails
     },
 
-    async addItem() {
-      if (this.newDetails.trim() !== '') {
-        this.tripDetails.items.push(this.newDetails.trim())
-        this.newDetails = ''
-        this.disableBtn = true
-      }
+    // async addItem() {
+    //   this.tripDetails.items.push(this.newDetails.trim())
+    //   this.newDetails = ''
+    //   this.disableBtn = true
 
-      await fetch(`${this.tripApiUrl}/${this.tripId}/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.tripData)
-      })
-    },
+    //   await fetch(`${this.tripApiUrl}/${this.tripId}/`, {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(this.tripData)
+    //   })
+    // },
 
     async deleteItem(index) {
       this.tripDetails.items.splice(index, 1)[0]
