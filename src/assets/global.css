@@ -190,3 +190,25 @@ textarea:hover {
 .weiterbtn {
   margin-top: 5rem;
 }
+
+/* style for password information */
+
+.info {
+  position: relative;
+}
+
+.info .extra-info {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: max-content;
+}
+
+.info:hover .extra-info,
+.info .info-icon:hover + .extra-info {
+  display: block;
+}
