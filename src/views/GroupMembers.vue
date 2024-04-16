@@ -31,7 +31,7 @@
           <input type="checkbox" v-model="newMember.isAdmin" />
           <label>Admin</label>
         </div>
-        <button @click.prevent="addMember">Add group member</button>
+        <button class="weiterbtn" @click.prevent="addMember">Add group member</button>
       </div>
     </div>
   </form>

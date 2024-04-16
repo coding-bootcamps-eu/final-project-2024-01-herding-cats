@@ -13,7 +13,7 @@
           <li>{{ transport.startTime }}</li>
           <li>transport.notes</li>
         </ul>
-        <button>Edit</button>
+        <button class="weiterbtn">Edit</button>
       </li>
     </ul>
   </main>
