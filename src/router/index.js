@@ -16,7 +16,6 @@ import LogOut from '@/views/LogOut.vue'
 import AllTravels from '@/views/AllTravels.vue'
 import NewTrip from '@/views/NewTrip.vue'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -86,7 +85,7 @@ const router = createRouter({
       component: TripOverview
     },
     {
-      path: '/transport',
+      path: '/transport/:id',
       name: 'Transport',
       component: TransportView
     },
