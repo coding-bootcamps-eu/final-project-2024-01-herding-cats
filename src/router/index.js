@@ -86,12 +86,12 @@ const router = createRouter({
     },
     {
       path: '/transport/:id',
-      name: 'Transport',
+      name: 'transport',
       component: TransportView
     },
     {
       path: '/activity',
-      name: 'Activity',
+      name: 'activity',
       component: ActivityView
     },
     {
@@ -101,7 +101,7 @@ const router = createRouter({
     },
     {
       path: '/lodging',
-      name: 'Lodging',
+      name: 'lodging',
       component: LodgingView
     }
   ]
