@@ -1,66 +1,119 @@
 <template>
-  <div class="container">
-    <h2 class="title">LogIn</h2>
-    <label class="required"> E-mail </label>
-    <input type="email" v-model="email" />
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-large.svg" width="200px" alt="Herding Cats Logo" />
+    <h2>Login</h2>
+  </header>
+  <main>
+    <div class="container">
+      <label for="e-mail"><h3 class="required">E-Mail</h3></label>
+      <input type="email" id="e-mail" v-model="email" placeholder=" example@example.com" />
 
-    <div class="info">
-      <label class="required">
-        Password
-        <span class="info-icon" @mouseover="showInfo" @mouseleave="hideInfo">&#9432;</span>
-        <span class="extra-info">
-          Password must contain:
-          <ul>
-            <li>min. 8 characters</li>
-            <li>min. 1 uppercase letter</li>
-            <li>min. 1 lowercase letter</li>
-            <li>min. 1 digit</li>
-          </ul>
-        </span>
-      </label>
-      <input type="password" v-model="password" />
+      <!--  Password stuff     
+        Saved for later - nice to have
+        <div class="info">
+        <label for="pw">
+          <p class="required">
+            Password
+            <span class="info-icon" @mouseover="showInfo" @mouseleave="hideInfo">&#9432;</span>
+            <span class="extra-info">
+              Password must contain:
+              <ul>
+                <li>min. 8 characters</li>
+                <li>min. 1 uppercase letter</li>
+                <li>min. 1 lowercase letter</li>
+                <li>min. 1 digit</li>
+              </ul>
+            </span>
+          </p>
+        </label>
+        <input type="password" id="pw" v-model="password" />
+      </div> -->
+
+      <router-link @click.prevent="logIn" :to="validation() ? { name: 'alltravels' } : ''">
+        <button>logIn</button>
+      </router-link>
     </div>
-
-    <router-link @click.prevent="logIn" :to="validation() ? { name: 'alltravels' } : ''">
-      <button class="weiterbtn">LogIn</button>
-    </router-link>
-  </div>
+  </main>
 </template>
 
 <script>
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
-      email: '',
-      password: ''
+      state: herdingCatsstore(),
+      email: ''
+      //password: ''
     }
   },
 
   methods: {
     validation() {
-      if (
-        this.email === '' ||
-        this.password.length < 8 ||
-        !/[A-Z]/.test(this.password) ||
-        !/[a-z]/.test(this.password) ||
-        !/\d/.test(this.password)
-      ) {
-        return false
-      } else {
+      this.state.user = this.state.userData.find((user) => user.email === this.email)
+      if (this.state.user) {
+        console.log(this.state.user)
         return true
+      } else {
+        return false
       }
     },
     logIn() {
       if (!this.validation()) {
-        alert(`Please make sure your e-mail address and password are entered correctly.
-    Your password must contain:
-    - min. 8 characters
-    - min. 1 uppercase letter
-    - min. 1 lowercase letter
-    - min. 1 digit`)
+        alert('Please make sure your e-mail address is entered correctly.')
         return
       }
     }
   }
 }
+/* Password Validation stuff
+Your password must contain:
+    - min. 8 characters
+    - min. 1 uppercase letter
+    - min. 1 lowercase letter
+    - min. 1 digit`
+         ||
+          this.password.length < 8 ||
+          !/[A-Z]/.test(this.password) ||
+          !/[a-z]/.test(this.password) ||
+        !/\d/.test(this.password)
+        */
 </script>
+
+<style scoped>
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  margin: 2rem auto;
+  width: 100vw;
+  height: 22.7rem;
+}
+.container {
+  background-color: var(--pink-activities);
+  min-height: auto;
+}
+
+/* style for password information 
+
+.info {
+  position: relative;
+}
+
+.info .extra-info {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: max-content;
+}
+
+.info:hover .extra-info,
+.info .info-icon:hover + .extra-info {
+  display: block;
+}
+*/
+</style>

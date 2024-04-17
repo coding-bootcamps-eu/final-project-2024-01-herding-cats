@@ -57,7 +57,6 @@ export default {
       const response = await fetch(`${this.tripApiUrl}/${tripId}`)
       const apiData = await response.json()
       this.tripData = apiData
-      console.log(this.tripData)
       this.tripDetails = this.tripData.details.find((obj) => obj.category === 'packlist')
       return this.tripDetails
     },
@@ -91,8 +90,7 @@ export default {
     }
   },
   created() {
-    //this.tripId = this.$route.params.id
-    this.tripId = '7221'
+    this.tripId = this.$route.params.id
     this.loadData(this.tripId)
   }
 }
