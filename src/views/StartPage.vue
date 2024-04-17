@@ -1,26 +1,26 @@
 <template>
-  <header><img src="@/assets/cat-logo/cat-logo-large.svg" alt="Herding Cats Logotype" /></header>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logotype" />
+  </header>
   <main class="start-page-main">
     <h1>Herding Cats</h1>
     <h2>Travel App</h2>
     <h3>Manage the Impossible</h3>
     <div class="start-button-input">
       <router-link :to="{ name: 'login' }"><button>LogIn</button></router-link>
-      <router-link :to="{ name: 'signup' }"><button>SignUp</button></router-link>
-      <form>
+      <router-link :to="{ name: 'signup' }"><button>Sign Up</button></router-link>
+      <form @submit.prevent="checkValidId">
         <input
           type="text"
           name="trip-id"
           id="trip-id"
           placeholder=" # Enter a Trip ID"
           v-model="tripId"
-          @input="checkValidId"
+          @input="checkInputLength"
         />
-        <router-link :to="'/trip/' + tripId">
-          <button :disabled="disableGoBtn" :class="{ 'btn-disabled': disableGoBtn }">
-            Go to Trip
-          </button></router-link
-        >
+        <button :disabled="disableGoBtn" :class="{ 'btn-disabled': disableGoBtn }">
+          Go to Trip
+        </button>
       </form>
     </div>
   </main>
@@ -30,27 +30,42 @@
 export default {
   data() {
     return {
+      tripApiUrl: 'http://localhost:3000/events',
       tripId: '',
-      disableGoBtn: true
+      disableGoBtn: true,
+      tripData: [],
+      allTripIds: []
     }
   },
-  computed: {
-    tripLink() {
-      if (this.tripId === '') {
-        return '/trip'
-      } else {
-        return '/trip/' + this.tripId
-      }
-    }
-  },
+
   methods: {
-    checkValidId() {
-      if (this.tripId.trim().length >= 5) {
-        this.disableGoBtn = false
+    async loadData() {
+      const response = await fetch(this.tripApiUrl)
+      const apiData = await response.json()
+      this.tripData = apiData
+      return this.tripData
+    },
+
+    checkInputLength() {
+      this.disableGoBtn = this.tripId.trim().length <= 5
+    },
+
+    async checkValidId() {
+      await this.loadData()
+      this.tripData.forEach((trip) => {
+        this.allTripIds.push(trip.id)
+      })
+      if (this.allTripIds.includes(this.tripId)) {
+        this.$router.push({ name: 'trip', params: { id: this.tripId } })
+        return true
       } else {
-        this.disableGoBtn = true
+        alert("Looks like you put in a Trip ID that doesn't exist")
+        return false
       }
     }
+  },
+  created() {
+    this.loadData()
   }
 }
 </script>
