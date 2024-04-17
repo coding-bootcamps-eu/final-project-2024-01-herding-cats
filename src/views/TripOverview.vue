@@ -1,22 +1,29 @@
 <template>
-  <h2>{{ trip.eventTitle }}</h2>
-  <div class="container">
+  <header>
+    <h2>{{ tripData.eventTitle }}</h2>
+
     <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
       <div class="line"></div>
       <div class="line"></div>
       <div class="line"></div>
     </div>
+  </header>
 
-    <ToggleSwitch class="switch" labelText="This trip is Public" />
-    <section class="overview">
+  <main>
+    <section class="container overview">
       <p v-if="tripDetails.length < 1" class="initial-text">
         Click "Add Item" to start Herding your Cats
       </p>
-      <ul></ul>
-      <li v-for="detail in tripDetails" :key="detail.category + Math.floor(Math.random() * 10000)">
-        {{ detail.category }}
-      </li>
+      <ul class="list">
+        <h3>Overview</h3>
+        <li v-for="detail in tripDetails" :key="detail.category">
+          <p>{{ detail.category }}</p>
+          <button class="detail-btn">Details</button>
+        </li>
+      </ul>
     </section>
+    <button class="timeline">Timeline</button>
+    <ToggleSwitch class="switch" labelText="This trip is Public" />
 
     <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
@@ -41,11 +48,11 @@
         <button>Cancel</button>
       </form>
     </dialog>
-    <section id="trip-id">
-      <p>Trip ID:{{ trip.id }}</p>
-      <button @click="copyId">Copy ID to Clipboard</button>
+    <section class="copy-trip-id">
+      <p class="white-box-id">Trip ID: {{ tripId }}</p>
+      <button class="btn-copy-id" @click="copyId">Copy ID</button>
     </section>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -53,8 +60,12 @@ import ToggleSwitch from '@/components/ToggleSwitch.vue'
 export default {
   data() {
     return {
-      trip: {},
-      tripDetails: {},
+      tripApiUrl: 'http://localhost:3000/events',
+      newDetails: '',
+      tripData: [],
+      tripId: '',
+      tripDetails: [],
+      disableBtn: true,
       showSidebar: false
     }
   },
@@ -66,16 +77,48 @@ export default {
       this.$refs['add-options'].showModal()
     },
     async copyId() {
-      await navigator.clipboard.writeText(this.trip.id)
+      await navigator.clipboard.writeText(this.tripId)
     },
     async loadData() {
-      const response = await fetch(
-        'http://localhost:3000/events/7220e93a-804f-4c9e-880a-8e53e429c1b3'
-      )
-      const data = await response.json()
-      this.trip = data
-      this.tripDetails = data.details
+      const response = await fetch(`${this.tripApiUrl}/${this.tripId}`)
+      const apiData = await response.json()
+      this.tripData = apiData
+      if (this.tripId === this.tripData.id) {
+        console.log('tripId test passed')
+      } else {
+        alert("Looks like you put in a Trip ID that doesn't exist")
+      }
+      this.tripDetails = this.tripData.details
+      return this.tripDetails
     },
+
+    checkTripId() {
+      if (this.tripId === undefined) {
+        this.createTrip()
+      } else {
+        this.loadData()
+      }
+    },
+
+    async createTrip() {
+      console.log('createTrip initiated')
+      ;(this.tripData = {
+        id: '',
+        userId: '',
+        eventTitle: 'Trip Title',
+        eventDescription: 'Add a short desciption (Optional)',
+        public: false,
+        details: []
+      }),
+        await fetch(this.tripApiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.tripData)
+        })
+    },
+
     hideSidebar() {
       setTimeout(() => {
         this.showSidebar = false
@@ -83,19 +126,55 @@ export default {
     }
   },
   created() {
-    this.loadData()
+    this.tripId = this.$route.params.id
+    console.log('Routed tripId: ' + this.tripId)
+    this.checkTripId()
   }
 }
 </script>
 
 <style scoped>
-#trip-id {
-  margin-top: 5px;
+.list {
+  margin-top: 2rem;
+}
+
+.detail-btn {
+  width: 10rem;
+}
+.copy-trip-id {
+  position: relative;
+  background-color: white;
+  display: flex;
+  align-items: baseline;
+  width: 28rem;
+  height: 4rem;
+}
+.btn-copy-id {
+  position: relative;
+  width: 10rem;
+  height: 3.6rem;
+  margin-top: 0.2rem;
+  margin-right: 0.2rem;
+}
+.white-box-id {
+  color: black;
+  position: absolute;
+  background-color: white;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+
+.container {
+  background-color: var(--turqoise-gray-background);
 }
 .overview {
-  margin: 5rem 0rem;
+  color: black;
   min-height: 10rem;
-  background-color: blanchedalmond;
+  background-color: var(--gray-accomodation);
+}
+.timeline {
+  color: black;
+  background-color: var(--yellow-calendar);
 }
 .switch {
   margin: 5rem 0px;

@@ -16,7 +16,6 @@ import LogOut from '@/views/LogOut.vue'
 import AllTravels from '@/views/AllTravels.vue'
 import NewTrip from '@/views/NewTrip.vue'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -96,7 +95,7 @@ const router = createRouter({
       component: ActivityView
     },
     {
-      path: '/packlist',
+      path: '/packlist/:id',
       name: 'packlist',
       component: PackList
     },
