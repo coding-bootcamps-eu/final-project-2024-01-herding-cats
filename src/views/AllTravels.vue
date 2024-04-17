@@ -18,7 +18,16 @@
       </div>
     </transition>
 
-    <div class="calendar-placeholder">Calendar placeholder</div>
+    <div id="app">
+      <div class="wrap">
+        <ejs-calendar
+          id="calendar"
+          ref="CalendarInstance"
+          :isMultiSelection="isMultiSelection"
+          :values="values"
+        ></ejs-calendar>
+      </div>
+    </div>
 
     <div class="calendar-list">
       <h3>List of your trips</h3>
@@ -43,11 +52,22 @@
   </div>
 </template>
 
+<script setup>
+// import Vue from 'vue'
+import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
+// import { CalendarPlugin } from '@syncfusion/ej2-vue-calendars'
+// Vue.use(CalendarPlugin)
+</script>
+
 <script>
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
-      showSidebar: false
+      showSidebar: false,
+      isMultiSelection: true,
+      values: [new Date('4/15/2024'), new Date('4/18/2024')],
+      state: herdingCatsstore()
     }
   },
   methods: {
@@ -101,12 +121,9 @@ export default {
   transform: translateX(-200px);
 }
 
-.calendar-placeholder {
-  width: 30rem;
-  height: 25rem;
-  background-color: white;
-  border: 2px solid black;
-  margin-top: 3rem;
+.wrap {
+  margin: 10px auto;
+  max-width: 250px;
 }
 
 .calendar-list {
