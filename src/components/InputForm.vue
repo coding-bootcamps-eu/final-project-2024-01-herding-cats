@@ -90,12 +90,23 @@ export default {
   },
 
   methods: {
+    convertDate(date) {
+      const year = date.slice(0, 4)
+      const month = date.slice(5, 7)
+      const day = date.slice(8, 10)
+      const time = date.slice(11, 16)
+      const convertedDate = day + '.' + month + '.' + year + ' - ' + time
+      return convertedDate
+    },
+
     addItem() {
       if (this.newEntry.name.trim() === '') {
         alert('Enter the name of the participant')
       } else {
         this.newEntry.id = Math.floor(Math.random() * 1000000).toString()
         this.newEntry.category = this.$route.name
+        this.newEntry.startDate = this.convertDate(this.newEntry.startDate)
+        this.newEntry.endDate = this.convertDate(this.newEntry.endDate)
         this.tripDetails.push({ ...this.newEntry })
         this.newEntry.name = ''
         this.newEntry.zipcode = ''
