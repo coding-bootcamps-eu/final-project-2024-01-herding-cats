@@ -1,12 +1,28 @@
-import { ref, computed } from 'vue'
+//import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
+export const herdingCatsstore = defineStore('registration', {
+  state: () => {
+    return {
+      apiUrl: 'http://localhost:3000/',
+      user: {},
+      userData: null,
+      tripData: []
+    }
+  },
+  actions: {
+    async loadUserData() {
+      const response = await fetch(this.apiUrl + 'users')
+      const apiUserData = await response.json()
+      this.userData = apiUserData
+      return this.userData
+    }
 
-  return { count, doubleCount, increment }
+    /*   async loadTripData() {
+      const response = await fetch(this.apiUrl + 'events')
+      const apiTripData = await response.json()
+      this.tripData = apiTripData
+      return this.TripData
+    } */
+  }
 })

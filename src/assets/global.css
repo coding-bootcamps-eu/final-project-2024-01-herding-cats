@@ -23,11 +23,13 @@
   --turqoise-notes: #599097;
   --turqoise-gray-background: #88a3a7;
   --yellow-calendar: #f4e2a6;
+  --required-red: rgb(165, 0, 0);
 }
 
 .required::after {
   content: '*';
-  color: red;
+  color: var(--required-red);
+  margin-left: 0.5rem;
 }
 
 html {
@@ -125,7 +127,9 @@ button:active {
   cursor: not-allowed;
 }
 
-input[type='text'] {
+input[type='text'],
+input[type='email'],
+input[type='password'] {
   margin: 0.7rem auto;
   font-family: 'Satoshi-Variable';
   font-style: normal;
@@ -159,7 +163,13 @@ input[type='text']:active,
 input[type='text']:hover,
 textarea:focus,
 textarea:active,
-textarea:hover {
+textarea:hover,
+input[type='email']:focus,
+input[type='email']:active,
+input[type='email']:hover,
+input[type='password']:focus,
+input[type='password']:active,
+input[type='password']:hover {
   box-shadow: white 0px 0px 1rem;
   outline: 0.1rem solid white;
 }
@@ -168,37 +178,11 @@ textarea:hover {
   width: 32rem;
   min-height: 52rem;
   background-color: var(--green-packing-list);
-  border: 1px solid #ffffff;
+  border: 1px solid white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.required::after {
-  color: red;
-  margin-left: 5px;
+  padding: 2rem;
 }
 
 .weiterbtn {
   margin-top: 5rem;
-}
-
-/* style for password information */
-
-.info {
-  position: relative;
-}
-
-.info .extra-info {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 5px;
-  width: max-content;
-}
-
-.info:hover .extra-info,
-.info .info-icon:hover + .extra-info {
-  display: block;
 }
