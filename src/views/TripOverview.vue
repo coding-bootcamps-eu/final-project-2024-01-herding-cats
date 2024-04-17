@@ -22,7 +22,10 @@
         </li>
       </ul>
     </section>
-    <button class="timeline">Timeline</button>
+    <router-link to="/timeline">
+      <button class="timeline">Timeline</button>
+    </router-link>
+
     <ToggleSwitch class="switch" labelText="This trip is Public" />
 
     <transition name="slide">
