@@ -26,7 +26,7 @@ img {
 }
 
 h1 {
-  margin-top: 8rem;
+  margin-top: 2rem;
   color: white;
   font-weight: 400;
   text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);

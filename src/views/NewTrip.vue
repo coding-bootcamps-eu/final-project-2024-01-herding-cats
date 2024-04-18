@@ -8,8 +8,14 @@
     <label class="required"> Event description </label>
     <input v-model="tripdesc" type="text" />
 
+    <label class="required"> Start of trip </label>
+    <input v-model="tripStart" type="text" />
+
+    <label class="required"> End of trip </label>
+    <input v-model="tripEnd" type="text" />
+
     <router-link :to="{ name: 'alltravels' }">
-      <button class="weiterbtn" @click="makeTrip">Go to overview over your trips</button>
+      <button class="weiterbtn" @click="makeTrip">List of your trips</button>
     </router-link>
   </div>
 </template>
@@ -20,7 +26,9 @@ export default {
     return {
       tripname: '',
       tripdesc: '',
-      randomId: ''
+      randomId: '',
+      tripStart: '',
+      tripEnd: ''
     }
   },
   methods: {
