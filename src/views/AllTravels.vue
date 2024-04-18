@@ -18,13 +18,30 @@
       </div>
     </transition>
 
-    <div class="calendar-placeholder">Calendar placeholder</div>
+    <div id="app">
+      <div class="wrap">
+        <ejs-calendar
+          id="calendar"
+          ref="CalendarInstance"
+          :isMultiSelection="isMultiSelection"
+          :values="values"
+        ></ejs-calendar>
+      </div>
+    </div>
 
     <div class="calendar-list">
-      <h3>List of your trips</h3>
+      <h4>List of your trips</h4>
       <ul>
-        <li>Stockholm Reise - TripID</li>
-        <li>Wandern Rheinland - TripID</li>
+        <router-link
+          v-for="trip in state.tripData"
+          :key="trip.tripTitle"
+          :to="{ path: '/trip/' + trip.tripTitle.toLowerCase() }"
+        >
+          <li>
+            {{ trip.tripTitle }}: {{ trip.tripStart.split(' ')[0] }} -
+            {{ trip.tripEnd.split(' ')[0] }}
+          </li>
+        </router-link>
       </ul>
     </div>
 
@@ -43,11 +60,28 @@
   </div>
 </template>
 
+<script setup>
+// import Vue from 'vue'
+import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
+// import { CalendarPlugin } from '@syncfusion/ej2-vue-calendars'
+// Vue.use(CalendarPlugin)
+</script>
+
 <script>
+import { herdingCatsstore } from '@/stores/counter.js'
+
 export default {
   data() {
     return {
-      showSidebar: false
+      showSidebar: false,
+      isMultiSelection: true,
+      values: [
+        new Date('1/1/2020'),
+        new Date('1/15/2020'),
+        new Date('1/3/2020'),
+        new Date('1/25/2020')
+      ],
+      state: herdingCatsstore()
     }
   },
   methods: {
@@ -55,7 +89,8 @@ export default {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
-    }
+    },
+    formatChange() {}
   }
 }
 </script>
@@ -88,6 +123,17 @@ export default {
   padding-left: 5px;
 }
 
+h4 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form label {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
 .slide-enter-active {
   transition: transform 0.3s;
 }
@@ -101,21 +147,20 @@ export default {
   transform: translateX(-200px);
 }
 
-.calendar-placeholder {
-  width: 30rem;
-  height: 25rem;
-  background-color: white;
-  border: 2px solid black;
-  margin-top: 3rem;
+.wrap {
+  margin: 10px auto;
+  max-width: 250px;
 }
 
 .calendar-list {
-  margin-top: 3rem;
+  text-align: center;
 }
 
-.calendar-list ul li {
+ul li {
   list-style-position: inside;
   list-style-type: circle;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .icon {
@@ -127,5 +172,6 @@ export default {
 
 form {
   margin-top: 3rem;
+  font-weight: bold;
 }
 </style>

@@ -1,0 +1,113 @@
+{
+    "users": [
+        {
+            "id": "4a3eac09-f652-4d5e-8f4d-691502a71ef6",
+            "name": "pinhead",
+            "email": "pinhead@test.de",
+            "trips": [
+                "12345"
+            ]
+        },
+        {
+            "id": "4a3eav12-e682-4r7r-9f4t-711502a71ef6",
+            "name": "jane",
+            "email": "jane@test.de",
+            "trips": [
+                "12345"
+            ]
+        }
+    ],
+    "events": [
+        {
+            "id": "12345",
+            "admins": [
+                {
+                    "userId": "4a3eac09-f652-4d5e-8f4d-691502a71ef6"
+                },
+                {
+                    "userId": "4a3eav12-e682-4r7r-9f4t-711502a71ef6"
+                }
+            ],
+            "eventTitle": "Ausflug nach Bremen",
+            "eventStart": "16.05.2024 - 13:30",
+            "eventEnd": "20.05.2024 - 12:00",
+            "public": false,
+            "details": [
+                {
+                    "category": "transport",
+                    "name": "Hauptbahnhof",
+                    "startDate": "16.05.2024 - 13:30",
+                    "endDate": "16.05.2024 - 15:07",
+                    "zipcode": "20099",
+                    "city": "Hamburg",
+                    "address": "Hachmannplatz 16",
+                    "notes": "Wir treffen uns 15 Minuten vorher bei Gleis 3."
+                },
+                {
+                    "category": "lodging",
+                    "name": "Vier Jahreszeiten",
+                    "zipcode": "28195",
+                    "city": "Bremen",
+                    "address": "Hauptstr. 1"
+                },
+                {
+                    "category": "activity",
+                    "name": "Stadtführung",
+                    "startDate": "17.05.2024 - 10:00",
+                    "endDate": "17.05.2024 - 12:00",
+                    "zipcode": "28195",
+                    "city": "Bremen",
+                    "address": "Mozartstr. 42"
+                },
+                {
+                    "category": "activity",
+                    "name": "Fußball spielen",
+                    "startDate": "19.05.2024 - 13:00",
+                    "notes": "Wir gehen vom Hotel gemeinsam zum Sportplatz"
+                },
+                {
+                    "category": "transport",
+                    "name": "Parkplatz bei Aldi",
+                    "startDate": "20.05.2024 - 12:00",
+                    "zipcode": "28195",
+                    "city": "Bremen",
+                    "address": "Aldiallee 13"
+                },
+                {
+                    "category": "groupmembers",
+                    "groupmembers": [
+                        {
+                            "name": "Gustav"
+                        },
+                        {
+                            "name": "Sonja"
+                        },
+                        {
+                            "name": "Claas",
+                            "startDate": "19.05.2024 - 12:30",
+                            "endDate": "20.05.2024 - 18:00"
+                        }
+                    ]
+                },
+                {
+                    "category": "packlist",
+                    "items": [
+                        "Fußball",
+                        "Bahnticket",
+                        "Gute Laune :)"
+                    ]
+                },
+                {
+                    "notes": [
+                        {
+                            "0": "Frühstück ist immer von 07:00 - 10:00 Uhr"
+                        },
+                        {
+                            "1": "Auf der Herding Cats App regelmäßig nach neuen oder geänderten Terminen gucken."
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
