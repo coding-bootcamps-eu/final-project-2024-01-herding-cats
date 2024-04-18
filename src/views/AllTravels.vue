@@ -69,7 +69,6 @@ import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
 
 <script>
 import { herdingCatsstore } from '@/stores/counter.js'
-
 export default {
   data() {
     return {
@@ -81,6 +80,7 @@ export default {
         new Date('1/3/2020'),
         new Date('1/25/2020')
       ],
+
       state: herdingCatsstore()
     }
   },
@@ -89,8 +89,8 @@ export default {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
-    },
-    formatChange() {}
+
+    }
   }
 }
 </script>

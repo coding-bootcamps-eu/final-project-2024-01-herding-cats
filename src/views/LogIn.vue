@@ -28,10 +28,7 @@
         </label>
         <input type="password" id="pw" v-model="password" />
       </div> -->
-
-      <router-link @click.prevent="logIn" :to="validation() ? { name: 'alltravels' } : ''">
-        <button>logIn</button>
-      </router-link>
+      <button @click="logIn()">LogIn</button>
     </div>
   </main>
 </template>
@@ -51,16 +48,18 @@ export default {
     validation() {
       this.state.user = this.state.userData.find((user) => user.email === this.email)
       if (this.state.user) {
-        console.log(this.state.user)
+        this.state.tripData = []
+        this.state.loadUserTripData()
         return true
       } else {
         return false
       }
     },
     logIn() {
-      if (!this.validation()) {
+      if (this.validation()) {
+        this.$router.push({ name: 'alltravels' })
+      } else {
         alert('Please make sure your e-mail address is entered correctly.')
-        return
       }
     }
   }
@@ -94,7 +93,7 @@ header {
   min-height: auto;
 }
 
-/* style for password information 
+/* style for password information
 
 .info {
   position: relative;
