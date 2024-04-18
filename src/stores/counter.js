@@ -23,13 +23,26 @@ export const herdingCatsstore = defineStore('registration', {
       const apiUserData = await response.json()
       this.userData = apiUserData
       return this.userData
-    }
+    },
 
-    /*   async loadTripData() {
-      const response = await fetch(this.apiUrl + 'events')
-      const apiTripData = await response.json()
-      this.tripData = apiTripData
-      return this.TripData
-    } */
+    async loadUserTripData() {
+      if (this.user && this.user.trips && this.user.trips.length > 0) {
+        for (const tripId of this.user.trips) {
+          await this.loadTripData(tripId)
+        }
+      }
+    },
+
+    async loadTripData(tripId) {
+      const existingTrip = this.tripData.find((trip) => trip.id === tripId)
+      if (!existingTrip) {
+        const response = await fetch(this.apiUrl + 'events/' + tripId)
+        const apiTripData = await response.json()
+        this.tripData.push(apiTripData)
+        return this.tripData
+      } else {
+        return this.tripData
+      }
+    }
   }
 })
