@@ -119,7 +119,7 @@ export default {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(this.tripData)
+          body: JSON.stringify(this.state.tripData[0])
         })
 
         this.newEntry.name = ''
