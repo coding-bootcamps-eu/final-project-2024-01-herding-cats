@@ -29,6 +29,8 @@
                 }
             ],
             "eventTitle": "Ausflug nach Bremen",
+            "eventStart": "16.05.2024 - 13:30",
+            "eventEnd": "20.05.2024 - 12:00",
             "public": false,
             "details": [
                 {
@@ -73,17 +75,19 @@
                 },
                 {
                     "category": "groupmembers",
-                    "name": "Gustav"
-                },
-                {
-                    "category": "groupmembers",
-                    "name": "Sonja"
-                },
-                {
-                    "category": "groupmembers",
-                    "name": "Claas",
-                    "startDate": "19.05.2024 - 12:30",
-                    "endDate": "20.05.2024 - 18:00"
+                    "groupmembers": [
+                        {
+                            "name": "Gustav"
+                        },
+                        {
+                            "name": "Sonja"
+                        },
+                        {
+                            "name": "Claas",
+                            "startDate": "19.05.2024 - 12:30",
+                            "endDate": "20.05.2024 - 18:00"
+                        }
+                    ]
                 },
                 {
                     "category": "packlist",

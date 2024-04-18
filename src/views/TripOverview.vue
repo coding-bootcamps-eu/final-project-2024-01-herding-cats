@@ -18,7 +18,9 @@
         <h3>Overview</h3>
         <li v-for="detail in tripDetails" :key="detail.category">
           <p>{{ detail.category }}</p>
-          <button class="detail-btn">Details</button>
+          <router-link :to="`/${detail.category}/${this.tripId}`">
+            <button class="detail-btn">Details</button></router-link
+          >
         </li>
       </ul>
     </section>
