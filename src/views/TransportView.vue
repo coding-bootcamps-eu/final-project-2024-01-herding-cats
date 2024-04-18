@@ -1,6 +1,6 @@
 <template>
   <h2>Transport</h2>
-  <main>
+  <main class="container">
     <ul>
       <li class="transport-entry" v-for="transport of transportEntries" :key="transport.id">
         <h3>{{ transport.name }}</h3>
