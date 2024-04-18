@@ -55,13 +55,11 @@ export default {
   },
   computed: {
     transportEntries() {
-      let data = []
-      this.state.tripData[0].details.forEach(function (entry) {
-        if (entry.category === 'transport') {
-          data.push(entry)
-        }
-      })
-      return data
+      if (this.state.tripData.length > 0 && this.state.tripData[0].details) {
+        return this.state.tripData[0].details.filter((entry) => entry.category === 'transport')
+      } else {
+        return []
+      }
     }
   },
 
