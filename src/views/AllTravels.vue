@@ -45,18 +45,7 @@
       </ul>
     </div>
 
-    <form>
-      <label for="fname">Search trip to join</label>
-      <input
-        type="text"
-        class="icon"
-        value
-        placeholder="Search"
-        id="fname"
-        name="fname"
-        @keyup="searchPublicTrip"
-      />
-    </form>
+    <searchPublicTrips />
   </div>
 </template>
 
@@ -68,6 +57,7 @@ import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
 </script>
 
 <script>
+import searchPublicTrips from '@/components/searchPublicTrips.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
@@ -80,16 +70,18 @@ export default {
         new Date('1/3/2020'),
         new Date('1/25/2020')
       ],
-
       state: herdingCatsstore()
     }
   },
+  components: {
+    searchPublicTrips
+  },
+
   methods: {
     hideSidebar() {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
-
     }
   }
 }
@@ -129,11 +121,6 @@ h4 {
   font-weight: bold;
 }
 
-form label {
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
 .slide-enter-active {
   transition: transform 0.3s;
 }
@@ -158,20 +145,8 @@ form label {
 
 ul li {
   list-style-position: inside;
-  list-style-type: circle;
+  list-style-type: none;
   font-size: 15px;
   margin-bottom: 10px;
-}
-
-.icon {
-  padding-left: 25px;
-  background: url('https://static.thenounproject.com/png/101791-200.png') no-repeat left;
-  background-size: 20px;
-  margin: 0.7rem auto;
-}
-
-form {
-  margin-top: 3rem;
-  font-weight: bold;
 }
 </style>
