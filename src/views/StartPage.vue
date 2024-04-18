@@ -47,7 +47,7 @@ export default {
     },
 
     checkInputLength() {
-      this.disableGoBtn = this.tripId.trim().length <= 5
+      this.disableGoBtn = this.tripId.trim().length <= 4
     },
 
     async checkValidId() {
