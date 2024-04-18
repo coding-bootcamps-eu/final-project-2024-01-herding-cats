@@ -44,10 +44,12 @@
 </template>
 
 <script>
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
-      showSidebar: false
+      showSidebar: false,
+      state: herdingCatsstore()
     }
   },
   methods: {
@@ -56,6 +58,9 @@ export default {
         this.showSidebar = false
       }, 2000)
     }
+  },
+  created() {
+    console.log(this.state.tripData)
   }
 }
 </script>
