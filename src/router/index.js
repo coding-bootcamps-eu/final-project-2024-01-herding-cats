@@ -85,7 +85,7 @@ const router = createRouter({
       component: TripOverview
     },
     {
-      path: '/transport',
+      path: '/transport/:id',
       name: 'Transport',
       component: TransportView
     },

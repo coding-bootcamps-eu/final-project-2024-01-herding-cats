@@ -2,13 +2,13 @@
   <h2>Transport</h2>
   <main>
     <ul>
-      <li class="transport-entry" v-for="transport of transportList" :key="transport.id">
+      <li class="transport-entry" v-for="transport of transportEntries" :key="transport.id">
         <h3>{{ transport.name }}</h3>
         <ul>
           <li>{{ transport.zipcode }} {{ transport.city }}</li>
           <li>{{ transport.address }}</li>
-          <li>Departure: {{ transport.startDate }}</li>
-          <li>Arrival: {{ transport.endDate }}</li>
+          <li v-if="transport.startDate">Departure: {{ transport.startDate }}</li>
+          <li v-if="transport.endDate">Arrival: {{ transport.endDate }}</li>
           <br />
           <li v-if="transport.notes">Notes: {{ transport.notes }}</li>
         </ul>
@@ -41,47 +41,40 @@
 
 <script>
 import InputForm from '@/components/InputForm.vue'
+import { herdingCatsstore } from '@/stores/counter.js'
+
 export default {
   data() {
     return {
+      state: herdingCatsstore(),
       itemName: 'Transport',
       beginName: 'Departure',
       endName: 'Arrival',
-      placeholder: 'e.g. Hauptbahnhof',
-      trip: {},
-      tripDetails: [],
-      transportList: []
+      placeholder: 'e.g. Hauptbahnhof'
     }
   },
   computed: {
-    transportEntry() {
+    transportEntries() {
       let data = []
-      this.tripDetails.forEach(function (entry) {
-        if (entry.category === 'flight') {
+      this.state.tripData[0].details.forEach(function (entry) {
+        if (entry.category === 'transport') {
           data.push(entry)
         }
       })
       return data
     }
   },
+
   components: {
     InputForm
   },
   methods: {
-    async loadData() {
-      const response = await fetch(
-        'http://localhost:3000/events/7220e93a-804f-4c9e-880a-8e53e429c1b3'
-      )
-      const data = await response.json()
-      this.trip = data
-      this.tripDetails = data.details
-    },
     getFromChild(data) {
       this.transportList = data
     }
   },
   created() {
-    this.loadData()
+    this.state.loadTripData(this.$route.params.id)
   }
 }
 </script>
