@@ -1,18 +1,23 @@
 <template>
   <h2>Transport</h2>
-  <main>
+  <main class="container">
     <ul>
-      <li class="transport-entry" v-for="transport of transportList" :key="transport.id">
+      <li
+        class="transport-entry"
+        v-for="(transport, index) of transportEntries"
+        :key="transport.id"
+      >
         <h3>{{ transport.name }}</h3>
         <ul>
           <li>{{ transport.zipcode }} {{ transport.city }}</li>
           <li>{{ transport.address }}</li>
-          <li>Departure: {{ transport.startDate }}</li>
-          <li>Arrival: {{ transport.endDate }}</li>
+          <li v-if="transport.startDate">Departure: {{ transport.startDate }}</li>
+          <li v-if="transport.endDate">Arrival: {{ transport.endDate }}</li>
           <br />
           <li v-if="transport.notes">Notes: {{ transport.notes }}</li>
         </ul>
         <button class="weiterbtn">Edit</button>
+        <button class="delete-btn" @click="deleteItem(index)">x</button>
       </li>
     </ul>
     <InputForm
@@ -41,47 +46,52 @@
 
 <script>
 import InputForm from '@/components/InputForm.vue'
+import { herdingCatsstore } from '@/stores/counter.js'
+
 export default {
   data() {
     return {
+      tripApiUrl: 'http://localhost:3000/events',
+      state: herdingCatsstore(),
       itemName: 'Transport',
       beginName: 'Departure',
       endName: 'Arrival',
-      placeholder: 'e.g. Hauptbahnhof',
-      trip: {},
-      tripDetails: [],
-      transportList: []
+      placeholder: 'e.g. Hauptbahnhof'
     }
   },
   computed: {
-    transportEntry() {
-      let data = []
-      this.tripDetails.forEach(function (entry) {
-        if (entry.category === 'flight') {
-          data.push(entry)
+    transportEntries() {
+      if (this.state.tripData.length > 0) {
+        if (this.state.tripData[0].details) {
+          return this.state.tripData[0].details.transport
         }
-      })
-      return data
+        return []
+      } else {
+        return []
+      }
     }
   },
+
   components: {
     InputForm
   },
   methods: {
-    async loadData() {
-      const response = await fetch(
-        'http://localhost:3000/events/7220e93a-804f-4c9e-880a-8e53e429c1b3'
-      )
-      const data = await response.json()
-      this.trip = data
-      this.tripDetails = data.details
-    },
     getFromChild(data) {
       this.transportList = data
+    },
+    async deleteItem(index) {
+      this.state.tripData[0].details.transport.splice(index, 1)
+      await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.tripData[0])
+      })
     }
   },
   created() {
-    this.loadData()
+    this.state.loadTripData(this.$route.params.id)
   }
 }
 </script>
