@@ -10,8 +10,19 @@ export default {
       state: herdingCatsstore()
     }
   },
+  methods: {
+    checkLoggedInUser() {
+      const storedUser = localStorage.getItem('loggedUser')
+      if (storedUser !== null) {
+        return (this.state.user = JSON.parse(storedUser))
+      } else {
+        return (this.state.user = {})
+      }
+    }
+  },
   created() {
     this.state.loadUserData()
+    this.checkLoggedInUser()
   }
 }
 </script>
