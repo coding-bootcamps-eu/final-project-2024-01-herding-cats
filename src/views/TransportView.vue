@@ -80,7 +80,6 @@ export default {
       this.transportList = data
     },
     async deleteItem(index) {
-      console.log(this.state.tripData[0].details.transport[index])
       this.state.tripData[0].details.transport.splice(index, 1)
       await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
         method: 'PUT',

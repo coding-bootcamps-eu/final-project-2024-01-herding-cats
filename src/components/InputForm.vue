@@ -131,7 +131,6 @@ export default {
         this.newEntry.endDate = ''
         this.newEntry.notes = ''
         this.newEntry.isAdmin = false
-        console.log(this.state.tripData)
       }
     },
     openDialog() {
