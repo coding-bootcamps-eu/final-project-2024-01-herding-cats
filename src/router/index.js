@@ -90,7 +90,7 @@ const router = createRouter({
       component: TransportView
     },
     {
-      path: '/activity',
+      path: '/activity/:id',
       name: 'activity',
       component: ActivityView
     },
