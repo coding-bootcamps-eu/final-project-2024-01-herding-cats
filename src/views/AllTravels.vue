@@ -46,6 +46,7 @@
     </div>
 
     <searchPublicTrips />
+
   </div>
 </template>
 
@@ -64,13 +65,14 @@ export default {
     return {
       showSidebar: false,
       isMultiSelection: true,
-      values: [
+      values: [],
+      state: herdingCatsstore(),
+      values2: [
         new Date('1/1/2020'),
         new Date('1/15/2020'),
         new Date('1/3/2020'),
         new Date('1/25/2020')
-      ],
-      state: herdingCatsstore()
+      ]
     }
   },
   components: {
@@ -82,7 +84,23 @@ export default {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
+    },
+    formatChange() {
+      this.state.tripData.forEach((trip) => {
+        const date = trip.tripStart.split('.')
+        const day = date[0]
+        const month = date[1]
+        const year = date[2]
+
+        const dateChanged = `${month}/${day}/${year}`
+
+        this.values.push(new Date(dateChanged))
+      })
     }
+  },
+  mounted() {
+    this.formatChange()
+
   }
 }
 </script>

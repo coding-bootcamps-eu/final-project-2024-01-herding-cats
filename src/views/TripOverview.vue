@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h2>{{ tripData.eventTitle }}</h2>
+    <h2>{{ tripData.tripTitle }}</h2>
 
     <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
       <div class="line"></div>
@@ -109,9 +109,10 @@ export default {
       console.log('createTrip initiated')
       ;(this.tripData = {
         id: '',
-        userId: '',
-        eventTitle: 'Trip Title',
-        eventDescription: 'Add a short desciption (Optional)',
+        admins: [],
+        tripTitle: 'Add a Title',
+        tripStart: '',
+        tripEnd: '',
         public: false,
         details: []
       }),
