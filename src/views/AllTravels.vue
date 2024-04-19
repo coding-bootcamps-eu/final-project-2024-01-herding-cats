@@ -45,18 +45,9 @@
       </ul>
     </div>
 
-    <form>
-      <label for="fname">Search trip to join</label>
-      <input
-        type="text"
-        class="icon"
-        value
-        placeholder="Search"
-        id="fname"
-        name="fname"
-        @keyup="searchPublicTrip"
-      />
-    </form>
+    
+    <searchPublicTrips />
+    <LogoutButton />
   </div>
 </template>
 
@@ -68,29 +59,50 @@ import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
 </script>
 
 <script>
+import searchPublicTrips from '@/components/searchPublicTrips.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
+import LogoutButton from '@/components/LogoutButton.vue'
 export default {
   data() {
     return {
       showSidebar: false,
       isMultiSelection: true,
-      values: [
+      values: [],
+      state: herdingCatsstore(),
+      values2: [
         new Date('1/1/2020'),
         new Date('1/15/2020'),
         new Date('1/3/2020'),
         new Date('1/25/2020')
-      ],
-
-      state: herdingCatsstore()
+      ]
     }
   },
+  components: {
+    LogoutButton
+    searchPublicTrips
+  },
+
   methods: {
     hideSidebar() {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
+    },
+    formatChange() {
+      this.state.tripData.forEach((trip) => {
+        const date = trip.tripStart.split('.')
+        const day = date[0]
+        const month = date[1]
+        const year = date[2]
 
+        const dateChanged = `${month}/${day}/${year}`
+
+        this.values.push(new Date(dateChanged))
+      })
     }
+  },
+  mounted() {
+    this.formatChange()
   }
 }
 </script>
@@ -129,11 +141,6 @@ h4 {
   font-weight: bold;
 }
 
-form label {
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
 .slide-enter-active {
   transition: transform 0.3s;
 }
@@ -158,20 +165,8 @@ form label {
 
 ul li {
   list-style-position: inside;
-  list-style-type: circle;
+  list-style-type: none;
   font-size: 15px;
   margin-bottom: 10px;
-}
-
-.icon {
-  padding-left: 25px;
-  background: url('https://static.thenounproject.com/png/101791-200.png') no-repeat left;
-  background-size: 20px;
-  margin: 0.7rem auto;
-}
-
-form {
-  margin-top: 3rem;
-  font-weight: bold;
 }
 </style>

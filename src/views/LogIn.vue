@@ -48,6 +48,7 @@ export default {
     validation() {
       this.state.user = this.state.userData.find((user) => user.email === this.email)
       if (this.state.user) {
+        localStorage.setItem('loggedUser', JSON.stringify(this.state.user))
         this.state.tripData = []
         this.state.loadUserTripData()
         return true
