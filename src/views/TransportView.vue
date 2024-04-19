@@ -2,7 +2,11 @@
   <h2>Transport</h2>
   <main class="container">
     <ul>
-      <li class="transport-entry" v-for="transport of transportEntries" :key="transport.id">
+      <li
+        class="transport-entry"
+        v-for="(transport, index) of transportEntries"
+        :key="transport.id"
+      >
         <h3>{{ transport.name }}</h3>
         <ul>
           <li>{{ transport.zipcode }} {{ transport.city }}</li>
@@ -13,6 +17,7 @@
           <li v-if="transport.notes">Notes: {{ transport.notes }}</li>
         </ul>
         <button class="weiterbtn">Edit</button>
+        <button class="delete-btn" @click="deleteItem(index)">x</button>
       </li>
     </ul>
     <InputForm
@@ -46,6 +51,7 @@ import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
+      tripApiUrl: 'http://localhost:3000/events',
       state: herdingCatsstore(),
       itemName: 'Transport',
       beginName: 'Departure',
@@ -55,8 +61,11 @@ export default {
   },
   computed: {
     transportEntries() {
-      if (this.state.tripData.length > 0 && this.state.tripData[0].details) {
-        return this.state.tripData[0].details.filter((entry) => entry.category === 'transport')
+      if (this.state.tripData.length > 0) {
+        if (this.state.tripData[0].details) {
+          return this.state.tripData[0].details.transport
+        }
+        return []
       } else {
         return []
       }
@@ -69,6 +78,17 @@ export default {
   methods: {
     getFromChild(data) {
       this.transportList = data
+    },
+    async deleteItem(index) {
+      console.log(this.state.tripData[0].details.transport[index])
+      this.state.tripData[0].details.transport.splice(index, 1)
+      await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.tripData[0])
+      })
     }
   },
   created() {

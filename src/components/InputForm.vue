@@ -110,9 +110,10 @@ export default {
       } else {
         this.newEntry.id = Math.floor(Math.random() * 1000000).toString()
         this.newEntry.category = this.$route.name
+        const category = this.$route.name
         this.newEntry.startDate = this.convertDate(this.newEntry.startDate)
         this.newEntry.endDate = this.convertDate(this.newEntry.endDate)
-        this.state.tripData[0].details.push({ ...this.newEntry })
+        this.state.tripData[0].details[category].push({ ...this.newEntry })
 
         await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
           method: 'PUT',
