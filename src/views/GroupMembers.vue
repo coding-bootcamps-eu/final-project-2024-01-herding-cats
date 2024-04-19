@@ -1,18 +1,18 @@
 <template>
   <form>
     <div id="form" class="container">
-      <h3>Group members</h3>
+      <h3>Group Members</h3>
       <div class="list">
         <ul>
-          <li v-for="(groupMember, index) in groupMembers" :key="index">
-            <router-link :to="{ name: 'profile', params: { id: groupMember.id } }">
+          <li v-for="(groupMember, index) in groupmembersEntries" :key="index">
+            <router-link :to="{ name: 'profile', params: { index } }">
               {{ groupMember.name }} - {{ groupMember.isAdmin ? 'Admin' : 'Participant' }}
             </router-link>
-            <button @click="deleteMember(index)">x</button>
             <ul>
-              <li v-if="lodging.startDate">From: {{ groupMember.startDate }}</li>
-              <li v-if="lodging.endDate">Until: {{ groupMember.endDate }}</li>
+              <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
+              <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
             </ul>
+            <button @click="deleteMember(index)">x</button>
           </li>
         </ul>
       </div>
@@ -24,26 +24,47 @@
 
 <script>
 import InputForm from '@/components/InputForm.vue'
+import { herdingCatsstore } from '@/stores/counter.js'
 
 export default {
   data() {
     return {
+      tripApiUrl: 'http://localhost:3000/events',
+      state: herdingCatsstore(),
       itemName: 'Group Member',
-      placeholder: 'e. g. Max Mustermann',
-      groupMembers: []
+      placeholder: 'e.g. Max Mustermann'
     }
   },
   created() {
+    this.state.loadTripData(this.$route.params.id)
     this.memberId = this.$route.params.id
   },
-
+  computed: {
+    groupmembersEntries() {
+      if (this.state.tripData.length > 0) {
+        if (this.state.tripData[0].details) {
+          return this.state.tripData[0].details.groupmembers
+        }
+        return []
+      } else {
+        return []
+      }
+    }
+  },
   components: {
     InputForm
   },
 
   methods: {
-    deleteMember(index) {
-      this.groupMembers.splice(index, 1)
+    async deleteMember(index) {
+      this.state.tripData[0].details.groupmembers.splice(index, 1)
+      await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.tripData[0])
+      })
     },
     goToProfile(id) {
       this.$router.push({ name: 'profile', params: { id } })
@@ -55,7 +76,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .addMember {
   border-top: 2px solid grey;
   padding-top: 10px;

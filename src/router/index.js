@@ -60,12 +60,12 @@ const router = createRouter({
       component: NotesView
     },
     {
-      path: '/groupmembers',
+      path: '/groupmembers/:id',
       name: 'groupmembers',
       component: GroupMembers
     },
     {
-      path: '/groupmembers/:id',
+      path: '/groupmembers/:id/:index',
       name: 'profile',
       component: ProfilView
     },
