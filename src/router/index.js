@@ -100,7 +100,7 @@ const router = createRouter({
       component: PackList
     },
     {
-      path: '/lodging',
+      path: '/lodging/:id',
       name: 'lodging',
       component: LodgingView
     }
