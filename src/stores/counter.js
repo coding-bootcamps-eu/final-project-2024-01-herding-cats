@@ -7,14 +7,8 @@ export const herdingCatsstore = defineStore('registration', {
       apiUrl: 'http://localhost:3000/',
       user: {},
       userData: null,
-      tripData: [
-        {
-          tripStart: '30.04.2024 - 13:30',
-          tripEnd: '17.05.2024 - 13:30',
-          tripTitle: 'Hawaii',
-          public: true
-        }
-      ]
+      tripData: [],
+      userSearchedTrips: []
     }
   },
   actions: {

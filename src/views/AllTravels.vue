@@ -45,34 +45,8 @@
       </ul>
     </div>
 
-    <div class="search">
-      <form>
-        <label for="fname">List public trips you like</label>
-        <input
-          type="text"
-          class="icon"
-          value
-          placeholder="Search trips to join"
-          id="fname"
-          name="fname"
-          @keyup="searchPublicTrip"
-        />
-      </form>
-
-      <div class="publictrips-list">
-        <ul>
-          <router-link
-            v-for="trip in state.tripData"
-            :key="trip.tripTitle"
-            :to="{ path: '/trip/' + trip.tripTitle.toLowerCase() }"
-          >
-            <li v-for="trip in filteredPublicTrips" :key="trip.tripTitle">
-              {{ trip.tripTitle }}
-            </li>
-          </router-link>
-        </ul>
-      </div>
-    </div>
+    
+    <searchPublicTrips />
     <LogoutButton />
   </div>
 </template>
@@ -85,6 +59,7 @@ import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
 </script>
 
 <script>
+import searchPublicTrips from '@/components/searchPublicTrips.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
 import LogoutButton from '@/components/LogoutButton.vue'
 export default {
@@ -104,6 +79,7 @@ export default {
   },
   components: {
     LogoutButton
+    searchPublicTrips
   },
 
   methods: {
@@ -124,9 +100,6 @@ export default {
         this.values.push(new Date(dateChanged))
       })
     }
-    // searchPublicTrip(event) {
-    //   const suchbegriff = event.target.value.toLowerCase()
-    // }
   },
   mounted() {
     this.formatChange()
@@ -168,11 +141,6 @@ h4 {
   font-weight: bold;
 }
 
-form label {
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
 .slide-enter-active {
   transition: transform 0.3s;
 }
@@ -197,20 +165,8 @@ form label {
 
 ul li {
   list-style-position: inside;
-  list-style-type: circle;
+  list-style-type: none;
   font-size: 15px;
   margin-bottom: 10px;
-}
-
-.icon {
-  padding-left: 25px;
-  background: url('https://static.thenounproject.com/png/101791-200.png') no-repeat left;
-  background-size: 20px;
-  margin: 0.7rem auto;
-}
-
-form {
-  margin-top: 3rem;
-  font-weight: bold;
 }
 </style>
