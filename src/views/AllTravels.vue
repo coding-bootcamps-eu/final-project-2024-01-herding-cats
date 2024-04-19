@@ -45,7 +45,6 @@
       </ul>
     </div>
 
-    
     <searchPublicTrips />
     <LogoutButton />
   </div>
@@ -78,7 +77,7 @@ export default {
     }
   },
   components: {
-    LogoutButton
+    LogoutButton,
     searchPublicTrips
   },
 

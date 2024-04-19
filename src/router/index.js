@@ -55,7 +55,7 @@ const router = createRouter({
       component: AllTravels
     },
     {
-      path: '/notes',
+      path: '/notes/:id',
       name: 'notes',
       component: NotesView
     },
