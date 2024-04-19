@@ -45,8 +45,9 @@
       </ul>
     </div>
 
+    
     <searchPublicTrips />
-
+    <LogoutButton />
   </div>
 </template>
 
@@ -60,6 +61,7 @@ import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
 <script>
 import searchPublicTrips from '@/components/searchPublicTrips.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
+import LogoutButton from '@/components/LogoutButton.vue'
 export default {
   data() {
     return {
@@ -76,6 +78,7 @@ export default {
     }
   },
   components: {
+    LogoutButton
     searchPublicTrips
   },
 
@@ -100,7 +103,6 @@ export default {
   },
   mounted() {
     this.formatChange()
-
   }
 }
 </script>
