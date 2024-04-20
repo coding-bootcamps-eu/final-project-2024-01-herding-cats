@@ -4,7 +4,26 @@
       <h3>Group Members</h3>
       <div class="list">
         <ul>
-          <li v-for="(groupMember, index) in groupmembersEntries" :key="index">
+          <!-- render admins that created the trip, 
+            so that they don't have to manually add themselves -->
+          <li v-for="(groupMember, index) in filteredUsers" :key="index">
+            <router-link :to="{ name: 'profile', params: { index } }">
+              {{ groupMember.name }} -
+              {{
+                this.adminsEntries.some((item) => item.userId === groupMember.id)
+                  ? 'Admin'
+                  : 'Participant'
+              }}
+            </router-link>
+            <ul>
+              <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
+              <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
+            </ul>
+            <button @click="deleteMember(index)">x</button>
+          </li>
+
+          <!-- render group members that were manually added -->
+          <li v-for="(groupMember, index) in this.groupmembersEntries" :key="index">
             <router-link :to="{ name: 'profile', params: { index } }">
               {{ groupMember.name }} - {{ groupMember.isAdmin ? 'Admin' : 'Participant' }}
             </router-link>
@@ -37,13 +56,37 @@ export default {
   },
   created() {
     this.state.loadTripData(this.$route.params.id)
-    this.memberId = this.$route.params.id
+    this.state.loadUserData()
   },
   computed: {
+    // filter out users that were loaded in via loadUserData()
+    // but that don't participate in the trip
+    filteredUsers() {
+      // Destructure userData from state
+      const { userData } = this.state
+      //prevents errors when loadUserData() malfunctions
+      if (!userData || !this.$route.params.id) {
+        return []
+      }
+
+      return userData.filter((user) => user.trips.includes(this.$route.params.id))
+    },
+
     groupmembersEntries() {
       if (this.state.tripData.length > 0) {
         if (this.state.tripData[0].details) {
           return this.state.tripData[0].details.groupmembers
+        }
+        return []
+      } else {
+        return []
+      }
+    },
+
+    adminsEntries() {
+      if (this.state.tripData.length > 0) {
+        if (this.state.tripData[0].details) {
+          return this.state.tripData[0].admins
         }
         return []
       } else {
