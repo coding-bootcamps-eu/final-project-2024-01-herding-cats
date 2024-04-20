@@ -1,36 +1,36 @@
 <template>
   <header>
-    <h2>{{ tripData.tripTitle }}</h2>
+    <img src="../assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
 
-    <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
+    <!--     <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
       <div class="line"></div>
       <div class="line"></div>
       <div class="line"></div>
-    </div>
+    </div> -->
   </header>
 
   <main>
     <section class="container overview">
-      <p v-if="tripDetails.length < 1" class="initial-text">
+      <h3>{{ state.tripData[0].tripTitle }}</h3>
+      <p v-if="Object.keys(state.tripData[0].details).length === 0" class="initial-text">
         Click "Add Item" to start Herding your Cats
       </p>
       <ul class="list">
-        <h3>Overview</h3>
-        <li v-for="detail in tripDetails" :key="detail.category">
-          <p>{{ detail.category }}</p>
-          <router-link :to="`/${detail.category}/${this.tripId}`">
-            <button class="detail-btn">Details</button></router-link
-          >
+        <li
+          class="list-item"
+          v-for="(key, index) in Object.keys(state.tripData[0].details)"
+          :key="index"
+        >
+          <router-link :to="`/${key}/${this.tripId}`">
+            <p>{{ key }} ></p>
+          </router-link>
         </li>
       </ul>
     </section>
-    <router-link to="/timeline">
-      <button class="timeline">Timeline</button>
-    </router-link>
 
     <ToggleSwitch class="switch" labelText="This trip is Public" />
 
-    <transition name="slide">
+    <!--     <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
         <ul>
           <li><router-link to="/newtrip">Create new trip</router-link></li>
@@ -38,7 +38,7 @@
           <li><router-link to="/logout">Log Out</router-link></li>
         </ul>
       </div>
-    </transition>
+    </transition> -->
 
     <button @click="openOptions">Add Item</button>
     <dialog class="add-options" ref="add-options">
@@ -53,24 +53,24 @@
         <button>Cancel</button>
       </form>
     </dialog>
-    <section class="copy-trip-id">
+    <router-link to="/timeline">
+      <button class="timeline">View Timeline</button>
+    </router-link>
+    <section>
       <p class="white-box-id">Trip ID: {{ tripId }}</p>
-      <button class="btn-copy-id" @click="copyId">Copy ID</button>
+      <button @click="copyId">Copy ID</button>
     </section>
   </main>
 </template>
 
 <script>
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
-      tripApiUrl: 'http://localhost:3000/events',
-      newDetails: '',
-      tripData: [],
+      state: herdingCatsstore(),
       tripId: '',
-      tripDetails: [],
-      disableBtn: true,
       showSidebar: false
     }
   },
@@ -84,30 +84,18 @@ export default {
     async copyId() {
       await navigator.clipboard.writeText(this.tripId)
     },
-    async loadData() {
-      const response = await fetch(`${this.tripApiUrl}/${this.tripId}`)
-      const apiData = await response.json()
-      this.tripData = apiData
-      if (this.tripId === this.tripData.id) {
-        console.log('tripId test passed')
-      } else {
-        alert("Looks like you put in a Trip ID that doesn't exist")
-      }
-      this.tripDetails = this.tripData.details
-      return this.tripDetails
-    },
 
-    checkTripId() {
+    async checkTripId() {
       if (this.tripId === undefined) {
-        this.createTrip()
+        await this.createTrip()
       } else {
-        this.loadData()
+        await this.state.loadTripData(this.tripId)
       }
     },
 
     async createTrip() {
       console.log('createTrip initiated')
-      ;(this.tripData = {
+      ;(this.state.tripData = {
         id: '',
         admins: [],
         tripTitle: 'Add a Title',
@@ -116,12 +104,12 @@ export default {
         public: false,
         details: []
       }),
-        await fetch(this.tripApiUrl, {
+        await fetch(this.state.apiUrl + 'events', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(this.tripData)
+          body: JSON.stringify(this.state.tripData)
         })
     },
 
@@ -140,6 +128,14 @@ export default {
 </script>
 
 <style scoped>
+button {
+  width: 32rem;
+}
+header {
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
+}
 .list {
   margin-top: 2rem;
 }
@@ -147,27 +143,12 @@ export default {
 .detail-btn {
   width: 10rem;
 }
-.copy-trip-id {
-  position: relative;
-  background-color: white;
-  display: flex;
-  align-items: baseline;
-  width: 28rem;
-  height: 4rem;
-}
-.btn-copy-id {
-  position: relative;
-  width: 10rem;
-  height: 3.6rem;
-  margin-top: 0.2rem;
-  margin-right: 0.2rem;
-}
 .white-box-id {
+  padding: 1rem;
   color: black;
-  position: absolute;
   background-color: white;
-  margin-left: 1rem;
-  margin-top: 1rem;
+  margin-bottom: 0;
+  font-size: 1.5rem;
 }
 
 .container {
@@ -180,7 +161,7 @@ export default {
 }
 .timeline {
   color: black;
-  background-color: var(--yellow-calendar);
+  background-color: var(--pink-background);
 }
 .switch {
   margin: 5rem 0px;
