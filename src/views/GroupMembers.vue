@@ -19,7 +19,7 @@
               <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
               <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
             </ul>
-            <button @click="deleteMember(index)">x</button>
+            <!-- <button @click="deleteMember(index)">x</button> -->
           </li>
 
           <!-- render group members that were manually added -->
