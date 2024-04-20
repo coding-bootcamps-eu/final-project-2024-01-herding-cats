@@ -6,18 +6,18 @@
         <input required id="item-name" v-model="newEntry.name" :placeholder="placeholder" />
       </div>
       <div class="inputtext">
-        <label v-if="isLodging || isTransport" for="zipcode">Zipcode:</label>
-        <input v-if="isLodging || isTransport" id="zipcode" v-model="newEntry.zipcode" />
-        <label v-if="isLodging || isTransport" for="city">City:</label>
-        <input v-if="isLodging || isTransport" id="city" v-model="newEntry.city" />
-        <label v-if="isLodging || isTransport" for="address">Adress:</label>
-        <input v-if="isLodging || isTransport" id="address" v-model="newEntry.address" />
+        <label v-if="!isGroupMembers" for="zipcode">Zipcode:</label>
+        <input v-if="!isGroupMembers" id="zipcode" v-model="newEntry.zipcode" />
+        <label v-if="!isGroupMembers" for="city">City:</label>
+        <input v-if="!isGroupMembers" id="city" v-model="newEntry.city" />
+        <label v-if="!isGroupMembers" for="address">Adress:</label>
+        <input v-if="!isGroupMembers" id="address" v-model="newEntry.address" />
         <label for="begin">{{ beginName }}:</label>
         <input type="datetime-local" id="begin" v-model="newEntry.startDate" />
         <label for="end">{{ endName }}:</label>
         <input type="datetime-local" id="end" v-model="newEntry.endDate" />
-        <label v-if="isLodging || isTransport" for="notes">Notes:</label>
-        <input v-if="isLodging || isTransport" id="notes" v-model="newEntry.notes" />
+        <label v-if="!isGroupMembers" for="notes">Notes:</label>
+        <input v-if="!isGroupMembers" id="notes" v-model="newEntry.notes" />
       </div>
       <div v-if="isGroupMembers" class="admin">
         <input id="set-admin" type="checkbox" v-model="newEntry.isAdmin" />

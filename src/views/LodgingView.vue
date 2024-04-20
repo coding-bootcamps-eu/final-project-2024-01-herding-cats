@@ -1,8 +1,8 @@
 <template>
   <h2>Lodging</h2>
-  <main>
+  <main class="container">
     <ul>
-      <li class="lodging-entry" v-for="lodging of lodgingList" :key="lodging.id">
+      <li class="lodging-entry" v-for="(lodging, index) of lodgingEntries" :key="index">
         <h3>{{ lodging.name }}</h3>
         <ul>
           <li>{{ lodging.zipcode }} {{ lodging.city }}</li>
@@ -12,11 +12,17 @@
           <br />
           <li v-if="lodging.notes">Notes: {{ lodging.notes }}</li>
         </ul>
-        <button>Edit</button>
+        <button class="weiterbtn">Edit</button>
+        <button class="delete-btn" @click="deleteItem(index)">x</button>
       </li>
     </ul>
-    <button>Back</button>
-    <InputForm @clickAdd="getFromChild" :item-name="itemName" :placeholder="placeholder" />
+    <InputForm
+      @clickAdd="getFromChild"
+      :item-name="itemName"
+      :begin-name="beginName"
+      :end-name="endName"
+      :placeholder="placeholder"
+    />
   </main>
 </template>
 
@@ -36,45 +42,50 @@
 
 <script>
 import InputForm from '@/components/InputForm.vue'
+import { herdingCatsstore } from '@/stores/counter.js'
+
 export default {
   data() {
     return {
+      tripApiUrl: 'http://localhost:3000/events',
+      state: herdingCatsstore(),
       itemName: 'Lodging',
-      placeholder: 'e.g. Hotel Vier Jahreszeiten',
-      trip: {},
-      tripDetails: [],
-      lodgingList: []
+      placeholder: 'e.g. Hauptbahnhof'
     }
   },
+  computed: {
+    lodgingEntries() {
+      if (this.state.tripData.length > 0) {
+        if (this.state.tripData[0].details) {
+          return this.state.tripData[0].details.lodging
+        }
+        return []
+      } else {
+        return []
+      }
+    }
+  },
+
   components: {
     InputForm
   },
-  computed: {
-    lodgingEntry() {
-      let data = []
-      this.tripDetails.forEach(function (entry) {
-        if (entry.category === 'hotel') {
-          data.push(entry)
-        }
-      })
-      return data
-    }
-  },
   methods: {
-    async loadData() {
-      const response = await fetch(
-        'http://localhost:3000/events/7220e93a-804f-4c9e-880a-8e53e429c1b3'
-      )
-      const data = await response.json()
-      this.trip = data
-      this.tripDetails = data.details
-    },
     getFromChild(data) {
       this.lodgingList = data
+    },
+    async deleteItem(index) {
+      this.state.tripData[0].details.lodging.splice(index, 1)
+      await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.tripData[0])
+      })
     }
   },
   created() {
-    this.loadData()
+    this.state.loadTripData(this.$route.params.id)
   }
 }
 </script>

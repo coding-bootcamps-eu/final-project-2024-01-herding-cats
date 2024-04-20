@@ -1,97 +1,84 @@
 <template>
-  <div id="note-list">
-    <header class="trip-view-header">
-      <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logotype" />
-    </header>
-    <main class="container">
-      <h3>Packing List</h3>
-      <ul class="list">
-        <li v-for="(item, index) of tripDetails.items" :key="index" class="list-item">
-          <p>{{ item }}</p>
-          <button class="delete-btn" @click="deleteItem(index)">x</button>
-        </li>
-      </ul>
-      <div class="input-area">
-        <textarea
-          class="input-text-area"
-          v-model="newDetails"
-          id="item-input"
-          placeholder="Add stuff to bring"
-          @keyup.enter="addItem"
-          @input="checkInput"
-        ></textarea>
-        <button @click="addItem" :disabled="disableBtn" :class="{ 'btn-disabled': disableBtn }">
-          Add Item
-        </button>
-        <router-link :to="{ path: '/trip/' + this.tripId }"
-          ><button>Back to Trip</button></router-link
-        >
-      </div>
-    </main>
-  </div>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logotype" />
+  </header>
+  <main class="container">
+    <h3>Packing List</h3>
+    <ul class="list">
+      <li
+        v-for="(item, index) of this.state.tripData[0].details.packlist"
+        :key="index"
+        class="list-item"
+      >
+        <p>{{ item }}</p>
+        <button class="delete-btn" @click="deleteItem(index)">x</button>
+      </li>
+    </ul>
+    <div class="input-area">
+      <textarea
+        class="input-text-area"
+        v-model="newDetails"
+        id="item-input"
+        placeholder="Add stuff to bring"
+        @keyup.enter="addItem"
+      ></textarea>
+      <button @click="addItem" :disabled="checkInput" :class="{ 'btn-disabled': checkInput }">
+        Add Item
+      </button>
+      <router-link :to="{ path: '/trip/' + this.$route.params.id }"
+        ><button>Back to Trip</button></router-link
+      >
+    </div>
+  </main>
 </template>
 
 <script>
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
-      tripApiUrl: 'http://localhost:3000/events',
-      newDetails: '',
-      tripData: [],
-      tripId: '',
-      tripDetails: [],
-      disableBtn: true
+      state: herdingCatsstore(),
+      newDetails: ''
     }
   },
-
-  methods: {
+  computed: {
     checkInput() {
       if (this.newDetails.trim().length >= 1) {
-        this.disableBtn = false
+        return false
       } else {
-        this.disableBtn = true
+        return true
       }
-    },
-
-    async loadData(tripId) {
-      const response = await fetch(`${this.tripApiUrl}/${tripId}`)
-      const apiData = await response.json()
-      this.tripData = apiData
-      this.tripDetails = this.tripData.details.find((obj) => obj.category === 'packlist')
-      return this.tripDetails
-    },
-
+    }
+  },
+  methods: {
     async addItem() {
       if (this.newDetails.trim() !== '') {
-        this.tripDetails.items.push(this.newDetails.trim())
+        this.state.tripData[0].details.packlist.push(this.newDetails.trim())
         this.newDetails = ''
-        this.disableBtn = true
       }
-
-      await fetch(`${this.tripApiUrl}/${this.tripId}/`, {
+      await fetch(`${this.state.apiUrl}events/${this.$route.params.id}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.tripData)
+        body: JSON.stringify(this.state.tripData[0])
       })
     },
 
     async deleteItem(index) {
-      this.tripDetails.items.splice(index, 1)[0]
+      this.state.tripData[0].details.packlist.splice(index, 1)
 
-      await fetch(`${this.tripApiUrl}/${this.tripId}/`, {
+      await fetch(`${this.state.apiUrl}events/${this.$route.params.id}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.tripData)
+        body: JSON.stringify(this.state.tripData[0])
       })
     }
   },
   created() {
-    this.tripId = this.$route.params.id
-    this.loadData(this.tripId)
+    this.state.loadTripData(this.$route.params.id)
   }
 }
 </script>
@@ -104,26 +91,11 @@ export default {
 h3 {
   color: white;
 }
-.delete-btn {
-  margin: 0;
-  padding: 0;
-  min-height: 2rem;
-  min-width: 2rem;
-  max-height: 2rem;
-  max-width: 2rem;
-  font-size: 1rem;
-}
 
-.trip-view-header {
-  margin: 0 auto;
+header {
+  margin: 1rem auto;
   display: flex;
   justify-content: center;
-  width: 32rem;
-  height: 4rem;
-}
-.list-item {
-  display: flex;
-  align-items: baseline;
 }
 
 .list-item p {
