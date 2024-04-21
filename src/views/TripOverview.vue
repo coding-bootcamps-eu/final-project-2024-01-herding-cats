@@ -1,6 +1,6 @@
 <template>
   <header>
-    <img src="../assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
 
     <!--     <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
       <div class="line"></div>
@@ -11,7 +11,11 @@
 
   <main>
     <section class="container overview">
-      <h3>{{ state.tripData[0].tripTitle }}</h3>
+      <h3>
+        {{
+          state.tripData[0].tripTitle.charAt(0).toUpperCase() + state.tripData[0].tripTitle.slice(1)
+        }}
+      </h3>
       <p v-if="Object.keys(state.tripData[0].details).length === 0" class="initial-text">
         Click "Add Item" to start Herding your Cats
       </p>
@@ -22,13 +26,12 @@
           :key="index"
         >
           <router-link :to="`/${key}/${this.tripId}`">
-            <p>{{ key }} ></p>
+            <img class="arrow" src="@/assets/arrow.svg" alt="Arrow symbol" />
+            <p>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</p>
           </router-link>
         </li>
       </ul>
     </section>
-
-    <ToggleSwitch class="switch" labelText="This trip is Public" />
 
     <!--     <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
@@ -39,27 +42,42 @@
         </ul>
       </div>
     </transition> -->
-
-    <button @click="openOptions">Add Item</button>
-    <dialog class="add-options" ref="add-options">
-      <form method="dialog" action="">
-        <a href="">Transport</a>
-        <a href="">Lodging</a>
-        <a href="">Activity</a>
-        <a href="">Group Members</a>
-        <a href="">Packing List</a>
-        <a href="">Notes</a>
-        <br />
-        <button>Cancel</button>
-      </form>
-    </dialog>
-    <router-link to="/timeline">
-      <button class="timeline">View Timeline</button>
-    </router-link>
-    <section>
+    <nav>
+      <button v-if="isUserThere" @click="openOptions">Add Item</button>
+      <dialog class="add-options" ref="add-options">
+        <form method="dialog" action="">
+          <router-link :to="{ path: '/transport/' + this.$route.params.id }"
+            ><button>Transport</button></router-link
+          >
+          <router-link :to="{ path: '/lodging/' + this.$route.params.id }"
+            ><button>Lodging</button></router-link
+          >
+          <router-link :to="{ path: '/activity/' + this.$route.params.id }"
+            ><button>Activity</button></router-link
+          >
+          <router-link :to="{ path: '/groupmembers/' + this.$route.params.id }"
+            ><button>Group Members</button></router-link
+          >
+          <router-link :to="{ path: '/packlist/' + this.$route.params.id }"
+            ><button>Packing List</button></router-link
+          >
+          <router-link :to="{ path: '/notes/' + this.$route.params.id }"
+            ><button>Notes</button></router-link
+          >
+          <button class="cancel-btn">Cancel</button>
+        </form>
+      </dialog>
+      <router-link to="/timeline">
+        <button v-if="isUserThere" class="timeline">Trip Timeline</button>
+      </router-link>
+      <ToggleSwitch v-if="isUserThere" class="toggle-switch" labelText="This trip is Public" />
       <p class="white-box-id">Trip ID: {{ tripId }}</p>
       <button @click="copyId">Copy ID</button>
-    </section>
+      <router-link :to="{ name: 'alltravels' }">
+        <button v-if="isUserThere">Back to all your trips</button></router-link
+      >
+      <button v-if="isUserThere" class="delete-trip" @click="deleteTrip">Delete Trip</button>
+    </nav>
   </main>
 </template>
 
@@ -71,7 +89,8 @@ export default {
     return {
       state: herdingCatsstore(),
       tripId: '',
-      showSidebar: false
+      showSidebar: false,
+      isUserThere: false
     }
   },
   components: {
@@ -85,75 +104,82 @@ export default {
       await navigator.clipboard.writeText(this.tripId)
     },
 
-    async checkTripId() {
-      if (this.tripId === undefined) {
-        await this.createTrip()
+    async checkUser() {
+      console.log(this.state.user)
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        this.isUserThere = false
       } else {
-        await this.state.loadTripData(this.tripId)
+        this.isUserThere = true
       }
     },
 
-    async createTrip() {
-      console.log('createTrip initiated')
-      ;(this.state.tripData = {
-        id: '',
-        admins: [],
-        tripTitle: 'Add a Title',
-        tripStart: '',
-        tripEnd: '',
-        public: false,
-        details: []
-      }),
-        await fetch(this.state.apiUrl + 'events', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.state.tripData)
-        })
-    },
+    async checkTripId() {
+      if (this.tripId === undefined) {
+        await this.state.createTrip()
+      } else {
+        await this.state.loadTripData(this.tripId)
+      }
+    }
 
-    hideSidebar() {
+    /*  hideSidebar() {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
-    }
+    } */
   },
   created() {
     this.tripId = this.$route.params.id
     console.log('Routed tripId: ' + this.tripId)
     this.checkTripId()
+    this.checkUser()
   }
 }
 </script>
 
 <style scoped>
+.list {
+  position: relative;
+  margin-top: 2rem;
+  width: 28rem;
+}
+.list-item {
+  position: relative;
+}
+.arrow {
+  z-index: 1;
+  position: absolute;
+  margin-left: 25rem;
+  margin-top: 2.2rem;
+}
+
+.cancel-btn {
+  margin-top: 2rem;
+}
+
 button {
   width: 32rem;
 }
+
+.delete-trip {
+  background-color: var(--required-red);
+  margin-top: 2rem;
+}
+
 header {
   margin: 1rem auto;
   display: flex;
   justify-content: center;
 }
-.list {
-  margin-top: 2rem;
-}
 
-.detail-btn {
-  width: 10rem;
-}
 .white-box-id {
   padding: 1rem;
   color: black;
   background-color: white;
   margin-bottom: 0;
-  font-size: 1.5rem;
+  margin-top: 2rem;
+  font-size: 1.3rem;
 }
 
-.container {
-  background-color: var(--turqoise-gray-background);
-}
 .overview {
   color: black;
   min-height: 10rem;
@@ -161,10 +187,7 @@ header {
 }
 .timeline {
   color: black;
-  background-color: var(--pink-background);
-}
-.switch {
-  margin: 5rem 0px;
+  background-color: var(--yellow-calendar);
 }
 
 .add-options form {
