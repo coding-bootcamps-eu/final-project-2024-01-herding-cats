@@ -39,6 +39,9 @@
       <InputForm @clickAdd="getFromChild" :item-name="itemName" :placeholder="placeholder" />
     </div>
   </form>
+  <router-link :to="{ path: '/trip/' + this.$route.params.id }"
+    ><button>Back to Trip</button></router-link
+  >
 </template>
 
 <script>

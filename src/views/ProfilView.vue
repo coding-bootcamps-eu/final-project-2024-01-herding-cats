@@ -27,6 +27,10 @@
       <img src="../assets/WhatsApp.svg.png" />
     </div>
   </div>
+
+  <router-link :to="{ path: '/groupmembers/' + this.$route.params.id }"
+    ><button>Back to Group Members</button></router-link
+  >
 </template>
 
 <script>
