@@ -64,8 +64,8 @@ const router = createRouter({
       name: 'groupmembers',
       component: GroupMembers
     },
-    /* {
-      path: '/groupmembers/:id',
+    {
+      path: '/groupmembers/:id/:index',
       name: 'profile',
       component: ProfilView
     }, */
