@@ -55,7 +55,7 @@ const router = createRouter({
       component: AllTravels
     },
     {
-      path: '/notes',
+      path: '/notes/:id',
       name: 'notes',
       component: NotesView
     },
@@ -85,13 +85,13 @@ const router = createRouter({
       component: TripOverview
     },
     {
-      path: '/transport',
-      name: 'Transport',
+      path: '/transport/:id',
+      name: 'transport',
       component: TransportView
     },
     {
-      path: '/activity',
-      name: 'Activity',
+      path: '/activity/:id',
+      name: 'activity',
       component: ActivityView
     },
     {
@@ -100,8 +100,8 @@ const router = createRouter({
       component: PackList
     },
     {
-      path: '/lodging',
-      name: 'Lodging',
+      path: '/lodging/:id',
+      name: 'lodging',
       component: LodgingView
     }
   ]

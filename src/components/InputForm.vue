@@ -6,18 +6,18 @@
         <input required id="item-name" v-model="newEntry.name" :placeholder="placeholder" />
       </div>
       <div class="inputtext">
-        <label v-if="isLodging || isTransport" for="zipcode">Zipcode:</label>
-        <input v-if="isLodging || isTransport" id="zipcode" v-model="newEntry.zipcode" />
-        <label v-if="isLodging || isTransport" for="city">City:</label>
-        <input v-if="isLodging || isTransport" id="city" v-model="newEntry.city" />
-        <label v-if="isLodging || isTransport" for="address">Adress:</label>
-        <input v-if="isLodging || isTransport" id="address" v-model="newEntry.address" />
+        <label v-if="!isGroupMembers" for="zipcode">Zipcode:</label>
+        <input v-if="!isGroupMembers" id="zipcode" v-model="newEntry.zipcode" />
+        <label v-if="!isGroupMembers" for="city">City:</label>
+        <input v-if="!isGroupMembers" id="city" v-model="newEntry.city" />
+        <label v-if="!isGroupMembers" for="address">Adress:</label>
+        <input v-if="!isGroupMembers" id="address" v-model="newEntry.address" />
         <label for="begin">{{ beginName }}:</label>
         <input type="datetime-local" id="begin" v-model="newEntry.startDate" />
         <label for="end">{{ endName }}:</label>
         <input type="datetime-local" id="end" v-model="newEntry.endDate" />
-        <label v-if="isLodging || isTransport" for="notes">Notes:</label>
-        <input v-if="isLodging || isTransport" id="notes" v-model="newEntry.notes" />
+        <label v-if="!isGroupMembers" for="notes">Notes:</label>
+        <input v-if="!isGroupMembers" id="notes" v-model="newEntry.notes" />
       </div>
       <div v-if="isGroupMembers" class="admin">
         <input id="set-admin" type="checkbox" v-model="newEntry.isAdmin" />
@@ -44,9 +44,12 @@
 </style>
 
 <script>
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
+      tripApiUrl: 'http://localhost:3000/events',
+      state: herdingCatsstore(),
       tripDetails: [],
       newEntry: {
         category: '',
@@ -82,32 +85,44 @@ export default {
       return this.$route.name === 'groupmembers'
     },
     isLodging() {
-      return this.$route.name === 'Lodging'
+      return this.$route.name === 'lodging'
     },
     isTransport() {
-      return this.$route.name === 'Transport'
+      return this.$route.name === 'transport'
     }
   },
 
   methods: {
     convertDate(date) {
-      const year = date.slice(0, 4)
-      const month = date.slice(5, 7)
-      const day = date.slice(8, 10)
-      const time = date.slice(11, 16)
-      const convertedDate = day + '.' + month + '.' + year + ' - ' + time
-      return convertedDate
+      if (date.length >= 1) {
+        const year = date.slice(0, 4)
+        const month = date.slice(5, 7)
+        const day = date.slice(8, 10)
+        const time = date.slice(11, 16)
+        const convertedDate = day + '.' + month + '.' + year + ' - ' + time
+        return convertedDate
+      }
     },
 
-    addItem() {
+    async addItem() {
       if (this.newEntry.name.trim() === '') {
         alert('Enter the name of the participant')
       } else {
         this.newEntry.id = Math.floor(Math.random() * 1000000).toString()
         this.newEntry.category = this.$route.name
+        const category = this.$route.name
         this.newEntry.startDate = this.convertDate(this.newEntry.startDate)
         this.newEntry.endDate = this.convertDate(this.newEntry.endDate)
-        this.tripDetails.push({ ...this.newEntry })
+        this.state.tripData[0].details[category].push({ ...this.newEntry })
+
+        await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.state.tripData[0])
+        })
+
         this.newEntry.name = ''
         this.newEntry.zipcode = ''
         this.newEntry.city = ''
@@ -116,7 +131,6 @@ export default {
         this.newEntry.endDate = ''
         this.newEntry.notes = ''
         this.newEntry.isAdmin = false
-        console.log(this.tripDetails)
       }
     },
     openDialog() {
