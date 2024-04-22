@@ -19,24 +19,12 @@ export default {
 #switch-input {
   display: none;
 }
-
-.label-text {
-  font-family: 'Satoshi-Variable';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  color: white;
-}
 .switch {
-  background-color: var(--turqoise-notes);
   position: relative;
-  width: 32rem;
-  height: 4rem;
+  width: 4rem;
+  height: 2rem;
   display: grid;
-  border: 1px solid white;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  padding: 1rem;
-  grid-template-columns: 26rem 4rem;
+  grid-template-columns: 8rem 4rem;
   grid-template-rows: 2rem;
   grid-template-areas: 'text switch';
 }
@@ -67,7 +55,7 @@ export default {
   width: 1.5rem;
 }
 #switch-input:checked + span {
-  background-color: var(--required-red);
+  background-color: mediumturquoise;
 }
 
 #switch-input:checked + span::before {
