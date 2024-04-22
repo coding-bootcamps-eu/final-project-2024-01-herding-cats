@@ -24,11 +24,6 @@ const router = createRouter({
       name: 'home',
       component: StartPage
     },
-    /*     {
-      path: '/TripOverview',
-      name: 'tripoverview',
-      component: TripOverview
-    }, */
     {
       path: '/NewTrip',
       name: 'newtrip',
@@ -75,7 +70,7 @@ const router = createRouter({
       component: TripOverview
     },
     {
-      path: '/TimeLine',
+      path: '/timeLine/:id',
       name: 'timeline',
       component: TimeLine
     },
