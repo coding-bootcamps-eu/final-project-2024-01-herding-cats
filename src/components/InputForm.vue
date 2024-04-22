@@ -106,7 +106,7 @@ export default {
 
     async addItem() {
       if (this.newEntry.name.trim() === '') {
-        alert('Enter the name of the participant')
+        alert('Please fill out all required fields')
       } else {
         this.newEntry.id = Math.floor(Math.random() * 1000000).toString()
         this.newEntry.category = this.$route.name

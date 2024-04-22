@@ -4,7 +4,9 @@
     <p class="fineprint">Click enter to submit your edits</p>
     <div>
       <label class="required" for="name">Name:</label>
-      <div class="underline" v-if="!editingName" @click="startEditing('name')">{{ name }}</div>
+      <div class="underline" v-if="!editingName" @click="startEditing('name')">
+        {{ name }}
+      </div>
       <!-- Wenn div === false, dann wird das div angezeigt -->
       <input v-else type="text" v-model="nameInput" @keyup.enter="finishEditing('name')" />
     </div>
@@ -34,22 +36,39 @@
 </template>
 
 <script>
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
+      tripApiUrl: 'http://localhost:3000/events',
+      state: herdingCatsstore(),
       editingName: false,
-      name: 'click to change',
       nameInput: '',
 
       editingAdresse: false,
-      adresse: 'click to change',
       adresseInput: '',
 
       editingPhone: false,
-      tele: 'click to change',
       teleInput: ''
     }
   },
+  computed: {
+    currentGroupMember() {
+      return this.state.tripData[0].details.groupmembers.find(
+        (item) => item.id === this.$route.params.index
+      )
+    },
+    name() {
+      return this.currentGroupMember.name + ' - click to change'
+    },
+    adresse() {
+      return this.currentGroupMember.address + ' - click to change'
+    },
+    tele() {
+      return this.currentGroupMember.tele + ' - click to change'
+    }
+  },
+
   methods: {
     startEditing(inputFeld) {
       if (inputFeld === 'name') {
@@ -62,20 +81,33 @@ export default {
         this.editingPhone = true
       }
     },
-    finishEditing(inputFeld) {
+    async finishEditing(inputFeld) {
       if (inputFeld === 'name') {
         this.editingName = false
         this.name = this.nameInput
+        this.currentGroupMember.name = this.nameInput
       }
       if (inputFeld === 'adresse') {
         this.editingAdresse = false
         this.adresse = this.adresseInput
+        this.currentGroupMember.address = this.adresseInput
       }
       if (inputFeld === 'tele') {
         this.editingPhone = false
         this.tele = this.teleInput
+        this.currentGroupMember.tele = this.teleInput
       }
+      await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.tripData[0])
+      })
     }
+  },
+  created() {
+    this.state.loadTripData(this.$route.params.id)
   }
 }
 </script>
