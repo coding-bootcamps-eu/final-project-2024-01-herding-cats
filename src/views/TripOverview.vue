@@ -1,36 +1,39 @@
 <template>
   <header>
-    <h2>{{ tripData.tripTitle }}</h2>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
 
-    <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
+    <!--     <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
       <div class="line"></div>
       <div class="line"></div>
       <div class="line"></div>
-    </div>
+    </div> -->
   </header>
 
   <main>
     <section class="container overview">
-      <p v-if="tripDetails.length < 1" class="initial-text">
+      <h3>
+        {{
+          state.tripData[0].tripTitle.charAt(0).toUpperCase() + state.tripData[0].tripTitle.slice(1)
+        }}
+      </h3>
+      <p v-if="Object.keys(state.tripData[0].details).length === 0" class="initial-text">
         Click "Add Item" to start Herding your Cats
       </p>
       <ul class="list">
-        <h3>Overview</h3>
-        <li v-for="detail in tripDetails" :key="detail.category">
-          <p>{{ detail.category }}</p>
-          <router-link :to="`/${detail.category}/${this.tripId}`">
-            <button class="detail-btn">Details</button></router-link
-          >
+        <li
+          class="list-item"
+          v-for="(key, index) in Object.keys(state.tripData[0].details)"
+          :key="index"
+        >
+          <router-link :to="`/${key}/${this.tripId}`">
+            <img class="arrow" src="@/assets/arrow.svg" alt="Arrow symbol" />
+            <p>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</p>
+          </router-link>
         </li>
       </ul>
     </section>
-    <router-link to="/timeline">
-      <button class="timeline">Timeline</button>
-    </router-link>
 
-    <ToggleSwitch class="switch" labelText="This trip is Public" />
-
-    <transition name="slide">
+    <!--     <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
         <ul>
           <li><router-link to="/newtrip">Create new trip</router-link></li>
@@ -38,40 +41,56 @@
           <li><router-link to="/logout">Log Out</router-link></li>
         </ul>
       </div>
-    </transition>
-
-    <button @click="openOptions">Add Item</button>
-    <dialog class="add-options" ref="add-options">
-      <form method="dialog" action="">
-        <a href="">Transport</a>
-        <a href="">Lodging</a>
-        <a href="">Activity</a>
-        <a href="">Group Members</a>
-        <a href="">Packing List</a>
-        <a href="">Notes</a>
-        <br />
-        <button>Cancel</button>
-      </form>
-    </dialog>
-    <section class="copy-trip-id">
+    </transition> -->
+    <nav>
+      <button v-if="isUserThere" @click="openOptions">Add Item</button>
+      <dialog class="add-options" ref="add-options">
+        <form method="dialog" action="">
+          <router-link :to="{ path: '/transport/' + this.$route.params.id }"
+            ><button>Transport</button></router-link
+          >
+          <router-link :to="{ path: '/lodging/' + this.$route.params.id }"
+            ><button>Lodging</button></router-link
+          >
+          <router-link :to="{ path: '/activity/' + this.$route.params.id }"
+            ><button>Activity</button></router-link
+          >
+          <router-link :to="{ path: '/groupmembers/' + this.$route.params.id }"
+            ><button>Group Members</button></router-link
+          >
+          <router-link :to="{ path: '/packlist/' + this.$route.params.id }"
+            ><button>Packing List</button></router-link
+          >
+          <router-link :to="{ path: '/notes/' + this.$route.params.id }"
+            ><button>Notes</button></router-link
+          >
+          <button class="cancel-btn">Cancel</button>
+        </form>
+      </dialog>
+      <router-link to="/timeline">
+        <button v-if="isUserThere" class="timeline">Trip Timeline</button>
+      </router-link>
+      <ToggleSwitch v-if="isUserThere" class="toggle-switch" labelText="This trip is Public" />
       <p class="white-box-id">Trip ID: {{ tripId }}</p>
-      <button class="btn-copy-id" @click="copyId">Copy ID</button>
-    </section>
+      <button @click="copyId">Copy ID</button>
+      <router-link :to="{ name: 'alltravels' }">
+        <button v-if="isUserThere">Back to all your trips</button></router-link
+      >
+      <button v-if="isUserThere" class="delete-trip" @click="deleteTrip">Delete Trip</button>
+    </nav>
   </main>
 </template>
 
 <script>
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
-      tripApiUrl: 'http://localhost:3000/events',
-      newDetails: '',
-      tripData: [],
+      state: herdingCatsstore(),
       tripId: '',
-      tripDetails: [],
-      disableBtn: true,
-      showSidebar: false
+      showSidebar: false,
+      isUserThere: false
     }
   },
   components: {
@@ -84,95 +103,83 @@ export default {
     async copyId() {
       await navigator.clipboard.writeText(this.tripId)
     },
-    async loadData() {
-      const response = await fetch(`${this.tripApiUrl}/${this.tripId}`)
-      const apiData = await response.json()
-      this.tripData = apiData
-      if (this.tripId === this.tripData.id) {
-        console.log('tripId test passed')
+
+    async checkUser() {
+      console.log(this.state.user)
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        this.isUserThere = false
       } else {
-        alert("Looks like you put in a Trip ID that doesn't exist")
+        this.isUserThere = true
       }
-      this.tripDetails = this.tripData.details
-      return this.tripDetails
     },
 
-    checkTripId() {
+    async checkTripId() {
       if (this.tripId === undefined) {
-        this.createTrip()
+        await this.state.createTrip()
       } else {
-        this.loadData()
+        await this.state.loadTripData(this.tripId)
       }
-    },
+    }
 
-    async createTrip() {
-      console.log('createTrip initiated')
-      ;(this.tripData = {
-        id: '',
-        admins: [],
-        tripTitle: 'Add a Title',
-        tripStart: '',
-        tripEnd: '',
-        public: false,
-        details: []
-      }),
-        await fetch(this.tripApiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.tripData)
-        })
-    },
-
-    hideSidebar() {
+    /*  hideSidebar() {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
-    }
+    } */
   },
   created() {
     this.tripId = this.$route.params.id
     console.log('Routed tripId: ' + this.tripId)
     this.checkTripId()
+    this.checkUser()
   }
 }
 </script>
 
 <style scoped>
 .list {
+  position: relative;
+  margin-top: 2rem;
+  width: 28rem;
+}
+.list-item {
+  position: relative;
+}
+.arrow {
+  z-index: 1;
+  position: absolute;
+  margin-left: 25rem;
+  margin-top: 2.2rem;
+}
+
+.cancel-btn {
   margin-top: 2rem;
 }
 
-.detail-btn {
-  width: 10rem;
-}
-.copy-trip-id {
-  position: relative;
-  background-color: white;
-  display: flex;
-  align-items: baseline;
-  width: 28rem;
-  height: 4rem;
-}
-.btn-copy-id {
-  position: relative;
-  width: 10rem;
-  height: 3.6rem;
-  margin-top: 0.2rem;
-  margin-right: 0.2rem;
-}
-.white-box-id {
-  color: black;
-  position: absolute;
-  background-color: white;
-  margin-left: 1rem;
-  margin-top: 1rem;
+button {
+  width: 32rem;
 }
 
-.container {
-  background-color: var(--turqoise-gray-background);
+.delete-trip {
+  background-color: var(--required-red);
+  margin-top: 2rem;
 }
+
+header {
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
+}
+
+.white-box-id {
+  padding: 1rem;
+  color: black;
+  background-color: white;
+  margin-bottom: 0;
+  margin-top: 2rem;
+  font-size: 1.3rem;
+}
+
 .overview {
   color: black;
   min-height: 10rem;
@@ -181,9 +188,6 @@ export default {
 .timeline {
   color: black;
   background-color: var(--yellow-calendar);
-}
-.switch {
-  margin: 5rem 0px;
 }
 
 .add-options form {
