@@ -34,18 +34,17 @@
       <ul>
         <router-link
           v-for="trip in state.tripData"
-          :key="trip.tripTitle"
-          :to="{ path: '/trip/' + trip.tripTitle.toLowerCase() }"
+          :key="trip.eventTitle"
+          :to="{ path: '/trip/' + trip.eventTitle.toLowerCase() }"
         >
           <li>
-            {{ trip.tripTitle }}: {{ trip.tripStart.split(' ')[0] }} -
-            {{ trip.tripEnd.split(' ')[0] }}
+            {{ trip.eventTitle }}: {{ trip.eventStart.split(' - ')[0] }} -
+            {{ trip.eventEnd.split(' - ')[0] }} {{ values }}
           </li>
         </router-link>
       </ul>
     </div>
 
-    
     <searchPublicTrips />
     <LogoutButton />
   </div>
@@ -67,18 +66,12 @@ export default {
     return {
       showSidebar: false,
       isMultiSelection: true,
-      values: [],
       state: herdingCatsstore(),
-      values2: [
-        new Date('1/1/2020'),
-        new Date('1/15/2020'),
-        new Date('1/3/2020'),
-        new Date('1/25/2020')
-      ]
+      values: [new Date('1/1/2020'), new Date('1/15/2020')]
     }
   },
   components: {
-    LogoutButton
+    LogoutButton,
     searchPublicTrips
   },
 
@@ -90,14 +83,15 @@ export default {
     },
     formatChange() {
       this.state.tripData.forEach((trip) => {
-        const date = trip.tripStart.split('.')
+        let date = trip.eventStart.split(' - ')[0]
+        date = date.replace(/\b(\d{4})\b/g, '$1.')
         const day = date[0]
         const month = date[1]
         const year = date[2]
 
-        const dateChanged = `${month}/${day}/${year}`
+        date = `${month}/${day}/${year}`
 
-        this.values.push(new Date(dateChanged))
+        this.values.push(new Date(date))
       })
     }
   },
@@ -165,7 +159,7 @@ h4 {
 
 ul li {
   list-style-position: inside;
-  list-style-type: none;
+  list-style-type: circle;
   font-size: 15px;
   margin-bottom: 10px;
 }
