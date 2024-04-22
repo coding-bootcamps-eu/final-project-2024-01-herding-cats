@@ -46,7 +46,10 @@
     </div>
 
     <searchPublicTrips />
-    <LogoutButton />
+    <router-link :to="{ name: 'newtrip' }">
+      <button @click="makeTrip">Add trip</button>
+    </router-link>
+    <LogoutButton class="weiterbtn" />
   </div>
 </template>
 
