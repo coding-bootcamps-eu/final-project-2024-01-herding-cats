@@ -15,7 +15,7 @@ export default {
     logOutUser() {
       this.state.user = null
       localStorage.removeItem('loggedUser')
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: 'logout' })
     }
   }
 }

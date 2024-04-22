@@ -1,13 +1,15 @@
 <template>
-  <header><img src="@/assets/cat-logo/cat-logo-large.svg" alt="Herding Cats Logotype" /></header>
-  <main class="start-page-main">
-    <h1>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-large.svg" alt="Herding Cats Logotype" />
+  </header>
+  <main class="container">
+    <h2>
       Off to corral some kitty chaos.<br />
       See you around!
-    </h1>
+    </h2>
 
     <div class="backtoLogIn">
-      <router-link :to="{ name: 'home' }"><button>Back to LogIn</button></router-link>
+      <router-link :to="{ name: 'home' }"><button>Back to Start Page</button></router-link>
     </div>
   </main>
 </template>
@@ -18,18 +20,21 @@ header {
   justify-content: center;
   margin: 0 auto;
   width: 100vw;
-  height: 25.7rem;
+  height: 21.7rem;
+  padding: 3rem;
+}
+
+.container {
+  min-height: 30rem;
+  background-color: var(--gray-accomodation);
 }
 img {
-  padding: 3rem;
   margin-left: 1.5rem;
 }
 
-h1 {
+h2 {
   margin-top: 2rem;
-  color: white;
-  font-weight: 400;
-  text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
+  color: black;
 }
 
 .backtoLogIn {
