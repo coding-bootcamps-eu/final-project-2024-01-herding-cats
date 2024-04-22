@@ -37,6 +37,9 @@
       :end-name="endName"
       :placeholder="placeholder"
     />
+    <router-link :to="{ path: '/trip/' + this.$route.params.id }"
+      ><button>Back to Trip</button></router-link
+    >
   </main>
 </template>
 
