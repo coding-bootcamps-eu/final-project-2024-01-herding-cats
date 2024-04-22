@@ -24,7 +24,7 @@
           id="calendar"
           ref="CalendarInstance"
           :isMultiSelection="isMultiSelection"
-          :values="values"
+          :values="values2"
         ></ejs-calendar>
       </div>
     </div>
@@ -39,7 +39,7 @@
         >
           <li>
             {{ trip.eventTitle }}: {{ trip.eventStart.split(' - ')[0] }} -
-            {{ trip.eventEnd.split(' - ')[0] }} {{ values }}
+            {{ trip.eventEnd.split(' - ')[0] }} {{ values2 }}
           </li>
         </router-link>
       </ul>
@@ -64,13 +64,16 @@ import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
 import searchPublicTrips from '@/components/searchPublicTrips.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
 import LogoutButton from '@/components/LogoutButton.vue'
+
 export default {
   data() {
     return {
       showSidebar: false,
       isMultiSelection: true,
+      eventStart: ['16.05.2024 - 13:30', '09.05.2024 - 12:00'],
       state: herdingCatsstore(),
-      values: [new Date('1/1/2020'), new Date('1/15/2020')]
+      values: [new Date('1/1/2020'), new Date('1/15/2020')],
+      values2: []
     }
   },
   components: {
@@ -85,16 +88,12 @@ export default {
       }, 2000)
     },
     formatChange() {
-      this.state.tripData.forEach((trip) => {
-        let date = trip.eventStart.split(' - ')[0]
-        date = date.replace(/\b(\d{4})\b/g, '$1.')
-        const day = date[0]
-        const month = date[1]
-        const year = date[2]
-
-        date = `${month}/${day}/${year}`
-
-        this.values.push(new Date(date))
+      this.values2 = this.eventStart.map((dateString) => {
+        const parts = dateString.split(' - ')
+        const datePart = parts[0].split('.').reverse().join('-')
+        const timePart = parts[1]
+        const fullDate = new Date(`${datePart}T${timePart}`)
+        return fullDate
       })
     }
   },
