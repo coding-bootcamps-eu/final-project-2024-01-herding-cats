@@ -5,16 +5,19 @@
       <div class="list">
         <ul>
           <!-- render admins that created the trip, 
-            so that they don't have to manually add themselves -->
+            so that they don't have to manually add themselves. 
+            because they are stored in /users and not in /events, 
+            they are currently non interactable
+          -->
           <li v-for="(groupMember, index) in filteredUsers" :key="index">
-            <router-link :to="{ name: 'profile', params: { index } }">
-              {{ groupMember.name }} -
-              {{
-                this.adminsEntries.some((item) => item.userId === groupMember.id)
-                  ? 'Admin'
-                  : 'Participant'
-              }}
-            </router-link>
+            <!-- <router-link :to="{ name: 'profile', params: { index } }"> -->
+            {{ groupMember.name }} -
+            {{
+              this.adminsEntries.some((item) => item.userId === groupMember.id)
+                ? 'Admin'
+                : 'Participant'
+            }}
+            <!-- </router-link> -->
             <ul>
               <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
               <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
@@ -24,7 +27,7 @@
 
           <!-- render group members that were manually added -->
           <li v-for="(groupMember, index) in this.groupmembersEntries" :key="index">
-            <router-link :to="{ name: 'profile', params: { index } }">
+            <router-link :to="{ name: 'profile', params: { index: groupMember.id } }">
               {{ groupMember.name }} - {{ groupMember.isAdmin ? 'Admin' : 'Participant' }}
             </router-link>
             <ul>
@@ -39,6 +42,9 @@
       <InputForm @clickAdd="getFromChild" :item-name="itemName" :placeholder="placeholder" />
     </div>
   </form>
+  <router-link :to="{ path: '/trip/' + this.$route.params.id }"
+    ><button>Back to Trip</button></router-link
+  >
 </template>
 
 <script>
