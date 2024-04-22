@@ -32,16 +32,16 @@
     <div class="calendar-list">
       <h4>List of your trips</h4>
       <ul>
-        <router-link
-          v-for="trip in state.tripData"
-          :key="trip.tripTitle"
-          :to="{ path: '/trip/' + trip.tripTitle.toLowerCase() }"
-        >
-          <li>
-            {{ trip.tripTitle }}: {{ trip.tripStart.split(' ')[0] }} -
+        <li v-for="trip in state.tripData" :key="trip.tripTitle">
+          <router-link :to="{ path: '/trip/' + trip.tripTitle.toLowerCase() }">
+            {{ trip.tripTitle }} : {{ trip.tripStart.split(' ')[0] }} -
             {{ trip.tripEnd.split(' ')[0] }}
-          </li>
-        </router-link>
+          </router-link>
+
+          <span @click="favoriteStatus">
+            {{ favStat ? '\ud83d\udda4' : '\u2665\ufe0f' }}
+          </span>
+        </li>
       </ul>
     </div>
 
@@ -65,6 +65,7 @@ export default {
   data() {
     return {
       showSidebar: false,
+      favStat: false,
       isMultiSelection: true,
       values: [],
       state: herdingCatsstore(),
@@ -86,6 +87,9 @@ export default {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
+    },
+    favoriteStatus() {
+      this.favStat = !this.favStat
     },
     formatChange() {
       this.state.tripData.forEach((trip) => {
@@ -167,5 +171,10 @@ ul li {
   list-style-type: none;
   font-size: 15px;
   margin-bottom: 10px;
+}
+
+span {
+  padding-left: 5px;
+  cursor: pointer;
 }
 </style>
