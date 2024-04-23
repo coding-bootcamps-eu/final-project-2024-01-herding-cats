@@ -8,7 +8,7 @@
       <div class="line"></div>
     </div>
 
-    <transition name="slide">
+    <!-- <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
         <ul>
           <li><router-link to="/newtrip">Create new trip</router-link></li>
@@ -16,7 +16,7 @@
           <li><router-link to="/logout">Log Out</router-link></li>
         </ul>
       </div>
-    </transition>
+    </transition> -->
 
     <div id="app">
       <div class="wrap">
@@ -48,7 +48,7 @@
     <searchPublicTrips />
     <router-link :to="{ name: 'newTrip' }"><button>Create new trip</button></router-link>
     <router-link :to="{ name: 'personalnotes' }"><button>Personal notes</button></router-link>
-    <LogoutButton class="weiterbtn" />
+    <LogoutButton />
   </div>
 </template>
 
