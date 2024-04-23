@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <h2>Profil page</h2>
-    <aside class="profile-text" v-if="isUserThere">click on an entry to change it</aside>
-    <p v-if="isUserThere" class="fineprint profile-text">Click enter to submit your edits</p>
-    <div class="profile-entry profile-text">
+    <aside v-if="isUserThere">click on an entry to change it</aside>
+    <p v-if="isUserThere" class="fineprint">Click enter to submit your edits</p>
+    <div class="profile-entry">
       <label class="required" for="name">Name:</label>
       <div class="underline" v-if="!editingName" @click="startEditing('name')">
         {{ name }}
@@ -12,7 +12,7 @@
       <input v-else type="text" v-model="nameInput" @keyup.enter="finishEditing('name')" />
     </div>
 
-    <div class="profile-entry profile-text">
+    <div class="profile-entry">
       <label for="adresse">Address:</label>
       <div class="underline" v-if="!editingAdresse" @click="startEditing('adresse')">
         {{ adresse }}
@@ -21,9 +21,9 @@
       <input v-else type="text" v-model="adresseInput" @keyup.enter="finishEditing('adresse')" />
     </div>
 
-    <div class="profile-entry profile-text">
+    <div class="profile-entry">
       <label for="tele">Phone:</label>
-      <label v-if="isUserThere" class="fineprint profile-text">(use the +49 formate)</label>
+      <label v-if="isUserThere" class="fineprint">(use the +49 formate)</label>
       <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
       <!-- Wenn div === false, dann wird das div angezeigt -->
       <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
@@ -57,13 +57,9 @@ export default {
   },
   computed: {
     currentGroupMember() {
-      if (this.state.tripData[0]) {
-        return this.state.tripData[0].details.groupmembers.find(
-          (item) => item.id === this.$route.params.index
-        )
-      } else {
-        return []
-      }
+      return this.state.tripData[0].details.groupmembers.find(
+        (item) => item.id === this.$route.params.index
+      )
     },
     name() {
       return this.currentGroupMember.name
@@ -142,11 +138,6 @@ export default {
 .profile-entry {
   margin-top: 2rem;
 }
-
-.profile-text {
-  font-size: 1.75rem;
-}
-
 aside {
   text-align: center;
   font-style: italic;
