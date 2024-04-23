@@ -32,16 +32,17 @@
     <div class="calendar-list">
       <h4>List of your trips</h4>
       <ul>
-        <router-link
-          v-for="trip in state.tripData"
-          :key="trip.eventTitle"
-          :to="{ path: '/trip/' + trip.eventTitle.toLowerCase() }"
-        >
-          <li>
-            {{ trip.eventTitle }}: {{ trip.eventStart.split(' - ')[0] }} -
-            {{ trip.eventEnd.split(' - ')[0] }} {{ values2 }}
-          </li>
-        </router-link>
+        <li v-for="trip in state.tripData" :key="trip.tripTitle">
+          <router-link :to="{ path: '/trip/' + trip.tripTitle.toLowerCase() }">
+            {{ trip.tripTitle }} : {{ trip.tripStart.split(' ')[0] }} -
+            {{ trip.tripEnd.split(' ')[0] }}
+          </router-link>
+
+          <span @click="favoriteStatus">
+            {{ favStat ? '\ud83d\udda4' : '\u2665\ufe0f' }}
+          </span>
+        </li>
+
       </ul>
     </div>
 
@@ -69,6 +70,7 @@ export default {
   data() {
     return {
       showSidebar: false,
+      favStat: false,
       isMultiSelection: true,
       eventStart: ['16.05.2024 - 13:30', '09.05.2024 - 12:00'],
       state: herdingCatsstore(),
@@ -86,6 +88,9 @@ export default {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
+    },
+    favoriteStatus() {
+      this.favStat = !this.favStat
     },
     formatChange() {
       this.values2 = this.eventStart.map((dateString) => {
@@ -164,5 +169,10 @@ ul li {
   list-style-type: circle;
   font-size: 15px;
   margin-bottom: 10px;
+}
+
+span {
+  padding-left: 5px;
+  cursor: pointer;
 }
 </style>

@@ -8,12 +8,10 @@ export const herdingCatsstore = defineStore('registration', {
       user: null,
       userData: null,
       tripData: [
-        {
-          eventTitle: 'Ausflug nach Bremen',
-          eventStart: '16.05.2024 - 13:30',
-          eventEnd: '20.05.2024 - 12:00'
-        }
+        { tripTitle: 'England', tripStart: '01.02.2024', tripEnd: '02.03.2024' },
+        { tripTitle: 'Schottland', tripStart: '03.04.2024', tripEnd: '04.05.2024' }
       ],
+
       userSearchedTrips: []
     }
   },
