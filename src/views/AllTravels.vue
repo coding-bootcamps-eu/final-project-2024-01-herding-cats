@@ -24,7 +24,7 @@
           id="calendar"
           ref="CalendarInstance"
           :isMultiSelection="isMultiSelection"
-          :values="values"
+          :values="values2"
         ></ejs-calendar>
       </div>
     </div>
@@ -42,11 +42,15 @@
             {{ favStat ? '\ud83d\udda4' : '\u2665\ufe0f' }}
           </span>
         </li>
+
       </ul>
     </div>
 
     <searchPublicTrips />
-    <LogoutButton />
+    <router-link :to="{ name: 'newtrip' }">
+      <button @click="makeTrip">Add trip</button>
+    </router-link>
+    <LogoutButton class="weiterbtn" />
   </div>
 </template>
 
@@ -61,20 +65,17 @@ import { CalendarComponent as EjsCalendar } from '@syncfusion/ej2-vue-calendars'
 import searchPublicTrips from '@/components/searchPublicTrips.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
 import LogoutButton from '@/components/LogoutButton.vue'
+
 export default {
   data() {
     return {
       showSidebar: false,
       favStat: false,
       isMultiSelection: true,
-      values: [],
+      eventStart: ['16.05.2024 - 13:30', '09.05.2024 - 12:00'],
       state: herdingCatsstore(),
-      values2: [
-        new Date('1/1/2020'),
-        new Date('1/15/2020'),
-        new Date('1/3/2020'),
-        new Date('1/25/2020')
-      ]
+      values: [new Date('1/1/2020'), new Date('1/15/2020')],
+      values2: []
     }
   },
   components: {
@@ -92,15 +93,12 @@ export default {
       this.favStat = !this.favStat
     },
     formatChange() {
-      this.state.tripData.forEach((trip) => {
-        const date = trip.tripStart.split('.')
-        const day = date[0]
-        const month = date[1]
-        const year = date[2]
-
-        const dateChanged = `${month}/${day}/${year}`
-
-        this.values.push(new Date(dateChanged))
+      this.values2 = this.eventStart.map((dateString) => {
+        const parts = dateString.split(' - ')
+        const datePart = parts[0].split('.').reverse().join('-')
+        const timePart = parts[1]
+        const fullDate = new Date(`${datePart}T${timePart}`)
+        return fullDate
       })
     }
   },
@@ -168,7 +166,7 @@ h4 {
 
 ul li {
   list-style-position: inside;
-  list-style-type: none;
+  list-style-type: circle;
   font-size: 15px;
   margin-bottom: 10px;
 }
