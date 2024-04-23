@@ -12,7 +12,21 @@
           <br />
           <li v-if="lodging.notes">Notes: {{ lodging.notes }}</li>
         </ul>
-        <button class="weiterbtn">Edit</button>
+        <EditButton
+          @clickAdd="getFromChild"
+          :item-name="itemName"
+          :begin-name="beginName"
+          :end-name="endName"
+          :placeholder="placeholder"
+          :nameValue="lodging.name"
+          :zipcodeValue="lodging.zipcode"
+          :cityValue="lodging.city"
+          :addressValue="lodging.address"
+          :startDateValue="lodging.startDate"
+          :endDateValue="lodging.endDate"
+          :notesValue="lodging.notes"
+          :idValue="lodging.id"
+        />
         <button class="delete-btn" @click="deleteItem(index)">x</button>
       </li>
     </ul>
@@ -23,6 +37,9 @@
       :end-name="endName"
       :placeholder="placeholder"
     />
+    <router-link :to="{ path: '/trip/' + this.$route.params.id }"
+      ><button>Back to Trip</button></router-link
+    >
   </main>
 </template>
 
@@ -41,6 +58,7 @@
 </style>
 
 <script>
+import EditButton from '@/components/EditButton.vue'
 import InputForm from '@/components/InputForm.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
 
@@ -67,7 +85,8 @@ export default {
   },
 
   components: {
-    InputForm
+    InputForm,
+    EditButton
   },
   methods: {
     getFromChild(data) {
