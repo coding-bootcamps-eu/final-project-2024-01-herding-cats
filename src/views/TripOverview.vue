@@ -67,7 +67,7 @@
           <button class="cancel-btn">Cancel</button>
         </form>
       </dialog>
-      <router-link to="/timeline">
+      <router-link :to="{ path: '/timeline/' + this.$route.params.id }">
         <button v-if="isUserThere" class="timeline">Trip Timeline</button>
       </router-link>
       <ToggleSwitch v-if="isUserThere" class="toggle-switch" labelText="This trip is Public" />

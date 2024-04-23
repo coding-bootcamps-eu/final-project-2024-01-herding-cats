@@ -1,96 +1,108 @@
 <template>
-  <div class="container">
-    <h2>Timeline</h2>
+  <header>
+    <img src="../assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+  </header>
+  <main class="container">
+    <h3>Timeline</h3>
 
-    <div class="line">
-      <div v-for="item in sortedItems" :key="item.id">
+    <ul class="list">
+      <li class="list-item" v-for="(value, index) in sortedEvents" :key="index">
+        <p class="value-name">
+          {{ value.name }}
+        </p>
+        <p class="value-startdate">
+          {{ value.startDate }}
+        </p>
+      </li>
+    </ul>
+    <!-- <div class="line">
+      <div v-for="item in allEvents" :key="item">
         <h3 class="week">{{ weekNumber(item.startDate) }}</h3>
         <h3 class="weekline">{{ item.category }}</h3>
         <h3>{{ item.to }}</h3>
         <p>Start date: {{ item.startDate }}</p>
         <p>Time: {{ item.startTime }}</p>
       </div>
-    </div>
-  </div>
+    </div> -->
+    <router-link :to="{ path: '/trip/' + this.$route.params.id }"
+      ><button>Back to Trip</button></router-link
+    >
+  </main>
 </template>
 
 <script>
+import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
-      items: [
-        {
-          category: 'flight',
-          startDate: '2015-01-25',
-          startTime: '9:45',
-          from: 'Hamburg Flughafen',
-          to: 'Malaga Airport',
-          gate: 'D4',
-          company: 'Musterflüge',
-          seat: '234',
-          id: '222352'
-        },
-        {
-          category: 'flight',
-          startDate: '2015-03-28',
-          startTime: '9:30',
-          from: 'Frankfurt Flughafen',
-          to: 'Malaga Airport',
-          gate: 'D2',
-          company: 'Musterflüge',
-          seat: '24',
-          id: '536272'
-        },
-        {
-          category: 'flight',
-          startDate: '2015-01-25',
-          startTime: '9:30',
-          from: 'Hamburg Flughafen',
-          to: 'Stockholm Airport',
-          gate: 'D4',
-          company: 'Musterflüge',
-          seat: '234',
-          id: '33333'
-        }
-      ]
+      state: herdingCatsstore(),
+      tripData: [],
+      allEvents: []
     }
   },
   computed: {
-    sortedItems() {
-      // 2024-04-16T09:30:00:
-      return this.items.slice().sort((a, b) => {
-        let datecomp = new Date(a.startDate) - new Date(b.startDate)
-        if (datecomp === 0) {
-          return a.startTime.localeCompare(b.startTime)
+    sortedEvents() {
+      return this.allEvents.slice().sort((a, b) => {
+        const [dayA, monthA, yearA, timeA] = a.startDate.split(/[.\s-]+/)
+        const [dayB, monthB, yearB, timeB] = b.startDate.split(/[.\s-]+/)
+
+        const dateA = new Date(`${yearA}-${monthA}-${dayA}T${timeA}`)
+        const dateB = new Date(`${yearB}-${monthB}-${dayB}T${timeB}`)
+
+        if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+          console.error('Invalid date format:', a.startDate, b.startDate)
+          return 0
         }
-        return datecomp
+
+        return dateA - dateB
       })
     }
   },
   methods: {
-    weekNumber(startDate) {
-      //object with current date
-      const todaydate = new Date(startDate)
-
-      //object für den 1. Januar des jetzigen Jahres
-      // let oneJan = new Date(todaydate.getFullYear(), 0, 1)
-
-      // // number of days between 1. Januar and today (24 Std./Tag, 60 min./std., 60 sec./min, 1000 Millisekunden/ sec.
-      // let numberOfDays = Math.floor((todaydate - oneJan) / (24 * 60 * 60 * 1000))
-
-      // Kalenderwoche:
-      let daynr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-      let weekday = todaydate.getDay()
-      let weekday2 = daynr[parseInt(weekday)]
-      // let result = Math.ceil((todaydate.getDay() + 1 + numberOfDays) / 7)
-
-      return weekday2
+    async mergeAndSortEvents() {
+      const middleData = this.tripData[0]
+      console.log(middleData)
+      const details = middleData.details
+      const filteredDetails = Object.values(details).flatMap((items) =>
+        items.filter((item) => item.startDate)
+      )
+      this.allEvents = filteredDetails.filter(
+        (item) => item.category === 'activity' || item.category === 'transport'
+      )
     }
+  },
+
+  created() {
+    this.state.loadTripData(this.$route.params.id)
+    console.log(this.state.tripData)
+    this.tripData = this.state.tripData
+  },
+  beforeMount() {
+    this.mergeAndSortEvents()
   }
 }
 </script>
 
 <style scoped>
+.list {
+  margin-top: 2rem;
+}
+.list-item {
+  display: block;
+}
+.value-name {
+  margin: 0;
+}
+.value-startdate {
+  margin-top: 0.5rem;
+  margin-bottom: 3rem;
+  font-size: 1.5rem;
+}
+header {
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
+}
 .week {
   text-align: left;
 }
@@ -102,14 +114,11 @@ export default {
 
 .container {
   margin: 0.7rem auto;
-  font-family: 'Satoshi-Variable';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  line-height: 2.7rem;
-  width: 32rem;
-  height: 4rem;
-  border: 0.1rem solid var(--dark-button-blue);
-  box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
+  background-color: var(--yellow-calendar);
+  min-height: 10rem;
+}
+
+h2 {
+  color: black;
 }
 </style>
