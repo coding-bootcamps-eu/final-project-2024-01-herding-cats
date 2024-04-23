@@ -6,7 +6,7 @@
     <h3>Timeline</h3>
 
     <ul class="list">
-      <li class="list-item" v-for="(value, index) in allEvents" :key="index">
+      <li class="list-item" v-for="(value, index) in sortedEvents" :key="index">
         <p class="value-name">
           {{ value.name }}
         </p>
@@ -41,40 +41,35 @@ export default {
     }
   },
   computed: {
-    /*  sortedItems() {
-      return this.state.tripData[0].details.slice().sort((a, b) => {
-        let datecomp = new Date(a.startDate) - new Date(b.startDate)
-        if (datecomp === 0) {
-          return a.startTime.localeCompare(b.startTime)
+    sortedEvents() {
+      return this.allEvents.slice().sort((a, b) => {
+        const [dayA, monthA, yearA, timeA] = a.startDate.split(/[.\s-]+/)
+        const [dayB, monthB, yearB, timeB] = b.startDate.split(/[.\s-]+/)
+
+        const dateA = new Date(`${yearA}-${monthA}-${dayA}T${timeA}`)
+        const dateB = new Date(`${yearB}-${monthB}-${dayB}T${timeB}`)
+
+        if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+          console.error('Invalid date format:', a.startDate, b.startDate)
+          return 0
         }
-        return datecomp
+
+        return dateA - dateB
       })
-    } */
+    }
   },
   methods: {
     async mergeAndSortEvents() {
-      console.log(this.tripData[0])
       const middleData = this.tripData[0]
-      console.log(middleData)
       const details = middleData.details
       const filteredDetails = Object.values(details).flatMap((items) =>
         items.filter((item) => item.startDate)
       )
-      console.log(filteredDetails)
       this.allEvents = filteredDetails.filter(
         (item) => item.category === 'activity' || item.category === 'transport'
       )
-      console.log(this.allEvents)
     }
   },
-
-  /*   // Sort the merged array by startDate
-      this.allEvents.sort((a, b) => {
-        const dateA = new Date(a.startDate)
-        const dateB = new Date(b.startDate)
-        return dateA - dateB
-      }) */
-  //return this.allEvents
 
   created() {
     this.state.loadTripData(this.$route.params.id)
@@ -119,6 +114,7 @@ header {
 .container {
   margin: 0.7rem auto;
   background-color: var(--yellow-calendar);
+  min-height: 10rem;
 }
 
 h2 {
