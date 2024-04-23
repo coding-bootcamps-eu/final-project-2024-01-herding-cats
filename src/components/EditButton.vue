@@ -28,7 +28,7 @@
     </form>
   </dialog>
   <footer>
-    <button @click.prevent="openDialog">Edit</button>
+    <button v-if="isUserThere" @click.prevent="openDialog">Edit</button>
   </footer>
 </template>
 
@@ -48,6 +48,7 @@ import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
+      isUserThere: false,
       tripApiUrl: 'http://localhost:3000/events',
       state: herdingCatsstore(),
       tripDetails: [],
@@ -106,6 +107,15 @@ export default {
   },
 
   methods: {
+    async checkUser() {
+      console.log(this.state.user)
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        this.isUserThere = false
+      } else {
+        this.isUserThere = true
+      }
+    },
+
     convertDate(date) {
       if (date.length >= 1) {
         const year = date.slice(0, 4)
@@ -173,15 +183,13 @@ export default {
       this.newEntry.name = newValue
     })
     this.$emit('clickAdd', this.tripDetails)
-    console.log(this.newEntry.startDate)
-    console.log(this.startDateValue)
     if (this.startDateValue) {
       this.newEntry.startDate = this.reconvertDate(this.startDateValue)
     }
     if (this.endDateValue) {
       this.newEntry.endDate = this.reconvertDate(this.endDateValue)
     }
-    console.log(this.newEntry.startDate)
+    this.checkUser()
   },
 
   emits: ['clickAdd']

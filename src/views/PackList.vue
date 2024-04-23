@@ -11,18 +11,24 @@
         class="list-item"
       >
         <p>{{ item }}</p>
-        <button class="delete-btn" @click="deleteItem(index)">x</button>
+        <button v-if="isUserThere" class="delete-btn" @click="deleteItem(index)">x</button>
       </li>
     </ul>
     <div class="input-area">
       <textarea
+        v-if="isUserThere"
         class="input-text-area"
         v-model="newDetails"
         id="item-input"
         placeholder="Add stuff to bring"
         @keyup.enter="addItem"
       ></textarea>
-      <button @click="addItem" :disabled="checkInput" :class="{ 'btn-disabled': checkInput }">
+      <button
+        v-if="isUserThere"
+        @click="addItem"
+        :disabled="checkInput"
+        :class="{ 'btn-disabled': checkInput }"
+      >
         Add Item
       </button>
       <router-link :to="{ path: '/trip/' + this.$route.params.id }"
@@ -37,6 +43,7 @@ import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
+      isUserThere: false,
       state: herdingCatsstore(),
       newDetails: ''
     }
@@ -51,6 +58,14 @@ export default {
     }
   },
   methods: {
+    async checkUser() {
+      console.log(this.state.user)
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        this.isUserThere = false
+      } else {
+        this.isUserThere = true
+      }
+    },
     async addItem() {
       if (this.newDetails.trim() !== '') {
         this.state.tripData[0].details.packlist.push(this.newDetails.trim())
@@ -79,6 +94,7 @@ export default {
   },
   created() {
     this.state.loadTripData(this.$route.params.id)
+    this.checkUser()
   }
 }
 </script>

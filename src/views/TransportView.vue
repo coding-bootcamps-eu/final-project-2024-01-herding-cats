@@ -31,7 +31,7 @@
           :notesValue="transport.notes"
           :idValue="transport.id"
         />
-        <button class="delete-btn" @click="deleteItem(index)">x</button>
+        <button v-if="isUserThere" class="delete-btn" @click="deleteItem(index)">x</button>
       </li>
     </ul>
     <InputForm
@@ -69,6 +69,7 @@ import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
+      isUserThere: false,
       tripApiUrl: 'http://localhost:3000/events',
       state: herdingCatsstore(),
       itemName: 'Transport',
@@ -95,6 +96,15 @@ export default {
     EditButton
   },
   methods: {
+    async checkUser() {
+      console.log(this.state.user)
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        this.isUserThere = false
+      } else {
+        this.isUserThere = true
+      }
+    },
+
     getFromChild(data) {
       this.transportList = data
     },
@@ -111,6 +121,7 @@ export default {
   },
   created() {
     this.state.loadTripData(this.$route.params.id)
+    this.checkUser()
   }
 }
 </script>

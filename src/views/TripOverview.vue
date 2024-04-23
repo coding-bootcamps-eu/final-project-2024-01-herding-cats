@@ -68,7 +68,7 @@
         </form>
       </dialog>
       <router-link :to="{ path: '/timeline/' + this.$route.params.id }">
-        <button v-if="isUserThere" class="timeline">Trip Timeline</button>
+        <button class="timeline">Trip Timeline</button>
       </router-link>
       <ToggleSwitch v-if="isUserThere" class="toggle-switch" labelText="This trip is Public" />
       <p class="white-box-id">Trip ID: {{ tripId }}</p>
@@ -76,6 +76,7 @@
       <router-link :to="{ name: 'alltravels' }">
         <button v-if="isUserThere">Back to all your trips</button></router-link
       >
+      <router-link :to="{ name: 'home' }"> <button v-if="!isUserThere">Back</button></router-link>
       <button v-if="isUserThere" class="delete-trip" @click="deleteTrip">Delete Trip</button>
     </nav>
   </main>
