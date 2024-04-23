@@ -61,6 +61,7 @@ export default {
   methods: {
     async mergeAndSortEvents() {
       const middleData = this.tripData[0]
+      console.log(middleData)
       const details = middleData.details
       const filteredDetails = Object.values(details).flatMap((items) =>
         items.filter((item) => item.startDate)
