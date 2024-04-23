@@ -7,10 +7,7 @@ export const herdingCatsstore = defineStore('registration', {
       apiUrl: 'http://localhost:3000/',
       user: null,
       userData: null,
-      tripData: [
-        { tripTitle: 'England', tripStart: '01.02.2024', tripEnd: '02.03.2024' },
-        { tripTitle: 'Schottland', tripStart: '03.04.2024', tripEnd: '04.05.2024' }
-      ],
+      tripData: [],
 
       userSearchedTrips: []
     }
@@ -42,27 +39,7 @@ export const herdingCatsstore = defineStore('registration', {
         return this.tripData
       }
     },
-    async createTrip() {
-      console.log('createTrip initiated')
-      const newTripData = {
-        id: '',
-        admins: [],
-        tripTitle: 'Click to add a Title',
-        tripStart: '',
-        tripEnd: '',
-        public: false,
-        details: []
-      }
-      this.tripData.push(newTripData)
-      console.log(this.tripData)
-      await fetch(this.apiUrl + 'events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.tripData)
-      })
-    },
+
     async deleteTrip(tripId) {
       await fetch(`${this.state.apiUrl}events/${tripId}`, {
         method: 'DELETE'
