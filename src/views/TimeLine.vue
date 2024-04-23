@@ -5,25 +5,20 @@
   <main class="container">
     <h3>Timeline</h3>
 
-    <ul class="list">
-      <li class="list-item" v-for="(value, index) in sortedEvents" :key="index">
-        <p class="value-name">
-          {{ value.name }}
-        </p>
-        <p class="value-startdate">
-          {{ value.startDate }}
-        </p>
-      </li>
-    </ul>
-    <!-- <div class="line">
-      <div v-for="item in allEvents" :key="item">
-        <h3 class="week">{{ weekNumber(item.startDate) }}</h3>
+    <div class="line">
+      <div v-for="(item, index) in sortedEvents" :key="item">
+        <h3 v-if="isNewDate(item.startDate, index)" class="week">
+          {{ weekNumber(item.startDate) }} {{ item.startDate.slice(0, 10) }}
+        </h3>
         <h3 class="weekline">{{ item.category }}</h3>
+        <p class="value-name">
+          {{ item.name }}
+        </p>
         <h3>{{ item.to }}</h3>
-        <p>Start date: {{ item.startDate }}</p>
-        <p>Time: {{ item.startTime }}</p>
+        <p class="value-startdate">{{ item.startDate.slice(13, 18) }}</p>
       </div>
-    </div> -->
+    </div>
+
     <router-link :to="{ path: '/trip/' + this.$route.params.id }"
       ><button>Back to Trip</button></router-link
     >
@@ -36,13 +31,13 @@ export default {
   data() {
     return {
       state: herdingCatsstore(),
-      tripData: [],
+      tripData: {},
       allEvents: []
     }
   },
   computed: {
     sortedEvents() {
-      return this.allEvents.slice().sort((a, b) => {
+      return this.mergeAndSortEvents.slice().sort((a, b) => {
         const [dayA, monthA, yearA, timeA] = a.startDate.split(/[.\s-]+/)
         const [dayB, monthB, yearB, timeB] = b.startDate.split(/[.\s-]+/)
 
@@ -56,29 +51,67 @@ export default {
 
         return dateA - dateB
       })
+    },
+    mergeAndSortEvents() {
+      if (Object.keys(this.tripData).length > 0) {
+        const middleData = this.tripData
+        console.log(this.tripData)
+        console.log(middleData)
+        const details = middleData.details
+        const filteredDetails = Object.values(details).flatMap((items) =>
+          items.filter((item) => item.startDate)
+        )
+        return filteredDetails.filter(
+          (item) =>
+            item.category === 'activity' ||
+            item.category === 'transport' ||
+            item.category === 'lodging'
+        )
+      } else {
+        console.log('error')
+        return []
+      }
     }
   },
   methods: {
-    async mergeAndSortEvents() {
-      const middleData = this.tripData[0]
-      console.log(middleData)
-      const details = middleData.details
-      const filteredDetails = Object.values(details).flatMap((items) =>
-        items.filter((item) => item.startDate)
-      )
-      this.allEvents = filteredDetails.filter(
-        (item) => item.category === 'activity' || item.category === 'transport'
-      )
+    isNewDate(startDate, currentIndex) {
+      // Check if current date is different from the previous date
+      if (currentIndex === 0) {
+        // Always show the date header for the first item
+        return true
+      } else {
+        // Compare current date with the previous date
+        const currentDate = startDate.slice(0, 10)
+        const previousDate = this.sortedEvents[currentIndex - 1].startDate.slice(0, 10)
+        return currentDate !== previousDate
+      }
+    },
+    weekNumber(startDate) {
+      //object with current date
+      const year = startDate.slice(6, 10)
+      const month = startDate.slice(3, 5)
+      const day = startDate.slice(0, 2)
+      const time = startDate.slice(13, 18)
+      const reconvertedDate = year + '-' + month + '-' + day + 'T' + time
+      const todaydate = new Date(reconvertedDate)
+      console.log(todaydate)
+      //object für den 1. Januar des jetzigen Jahres
+      // let oneJan = new Date(todaydate.getFullYear(), 0, 1)
+      // // number of days between 1. Januar and today (24 Std./Tag, 60 min./std., 60 sec./min, 1000 Millisekunden/ sec.
+      // let numberOfDays = Math.floor((todaydate - oneJan) / (24 * 60 * 60 * 1000))
+      // Kalenderwoche:
+      let daynr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      let weekday = todaydate.getDay()
+      let weekday2 = daynr[parseInt(weekday)]
+      // let result = Math.ceil((todaydate.getDay() + 1 + numberOfDays) / 7)
+      return weekday2
     }
   },
 
-  created() {
-    this.state.loadTripData(this.$route.params.id)
-    console.log(this.state.tripData)
-    this.tripData = this.state.tripData
-  },
-  beforeMount() {
-    this.mergeAndSortEvents()
+  async created() {
+    await this.state.loadTripData(this.$route.params.id)
+    console.log(this.state.tripData[0])
+    this.tripData = this.state.tripData[0]
   }
 }
 </script>
@@ -110,6 +143,7 @@ header {
 .weekline {
   border-top: 2px solid white;
   text-align: left;
+  font-size: 2rem;
 }
 
 .container {
