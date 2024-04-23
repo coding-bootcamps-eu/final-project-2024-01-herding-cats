@@ -34,7 +34,7 @@
               <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
               <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
             </ul>
-            <button @click="deleteMember(index)">x</button>
+            <button class="delete-btn" @click="deleteMember(index)">x</button>
           </li>
         </ul>
       </div>
@@ -54,6 +54,7 @@ import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
+      isUserThere: false,
       tripApiUrl: 'http://localhost:3000/events',
       state: herdingCatsstore(),
       itemName: 'Group Member',
@@ -63,6 +64,7 @@ export default {
   created() {
     this.state.loadTripData(this.$route.params.id)
     this.state.loadUserData()
+    this.checkUser
   },
   computed: {
     // filter out users that were loaded in via loadUserData()
@@ -105,6 +107,15 @@ export default {
   },
 
   methods: {
+    async checkUser() {
+      console.log(this.state.user)
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        this.isUserThere = false
+      } else {
+        this.isUserThere = true
+      }
+    },
+
     async deleteMember(index) {
       this.state.tripData[0].details.groupmembers.splice(index, 1)
       await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
@@ -146,5 +157,13 @@ export default {
 
 li li {
   list-style-type: none;
+}
+
+li + li {
+  margin-top: 2rem;
+}
+
+li ul li + li {
+  margin-top: 0;
 }
 </style>
