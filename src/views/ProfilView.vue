@@ -66,13 +66,13 @@ export default {
       }
     },
     name() {
-      return this.currentGroupMember.name
+      return '-' + this.currentGroupMember.name
     },
     adresse() {
-      return this.currentGroupMember.address
+      return '-' + this.currentGroupMember.address
     },
     tele() {
-      return this.currentGroupMember.tele
+      return '-' + this.currentGroupMember.tele
     }
   },
 
