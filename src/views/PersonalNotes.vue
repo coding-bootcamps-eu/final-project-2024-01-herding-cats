@@ -22,7 +22,10 @@
         <button class="delete-note" @click="deleteNote(index)">x</button>
       </div>
       <button class="add-note" @click="addNote" type="button">+</button>
-      <router-link :to="{ name: 'alltravels' }"><button>Back to Trip</button></router-link>
+
+      <router-link :to="{ path: '/AllTravels/' + this.$route.params.id }"
+        ><button>Back to Trip</button></router-link
+      >
     </div>
   </main>
 </template>
@@ -79,6 +82,7 @@ export default {
     }
   },
   created() {
+    console.log('created() hook called')
     this.state.loadTripData(this.$route.params.id)
   }
 }
@@ -98,12 +102,13 @@ header {
 
 .note {
   flex: 1;
-  height: 50px;
+  width: 50px;
+  height: 48px;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 20px;
   border: none;
   border-radius: 10px;
-  box-shadow: 0 0 7px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 
@@ -124,12 +129,12 @@ header {
   flex: 1;
   height: 50px;
   box-sizing: border-box;
-  padding: 16px;
+  padding: 20px;
   border: none;
   border-radius: 10px;
-  background-color: #fefabc;
+  background: #ffa;
   background-image: linear-gradient(150deg, #efec88 0%, #fefabc 100%);
-  box-shadow: 0 0 7px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 </style>
