@@ -61,7 +61,7 @@ export default {
       const tripEndFormatted = this.convertDate(this.tripEnd)
       const requestData = {
         id: this.tripId,
-        admins: this.state.user.id,
+        admins: [{ userId: this.state.user.id }],
         tripTitle: this.tripName,
         tripStart: tripStartFormatted,
         tripEnd: tripEndFormatted,
