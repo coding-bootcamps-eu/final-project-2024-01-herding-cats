@@ -120,6 +120,12 @@ export default {
       } else {
         await this.state.loadTripData(this.tripId)
       }
+    },
+    async deleteTrip() {
+      await fetch(`${this.state.apiUrl}events/${this.tripId}`, {
+        method: 'DELETE'
+      })
+      this.$router.push({ name: 'alltravels' })
     }
 
     /*  hideSidebar() {
