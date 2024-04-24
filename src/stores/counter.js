@@ -59,11 +59,6 @@ export const herdingCatsstore = defineStore('registration', {
         },
         body: JSON.stringify(this.tripData)
       })
-    },
-    async deleteTrip(tripId) {
-      await fetch(`${this.state.apiUrl}events/${tripId}`, {
-        method: 'DELETE'
-      })
     }
   }
 })
