@@ -8,7 +8,6 @@ export const herdingCatsstore = defineStore('registration', {
       user: null,
       userData: null,
       tripData: [],
-
       userSearchedTrips: []
     }
   },
@@ -58,7 +57,8 @@ export const herdingCatsstore = defineStore('registration', {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(this.tripData)
-      })
+
+     })
     }
   }
 })
