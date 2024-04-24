@@ -41,6 +41,7 @@ export const herdingCatsstore = defineStore('registration', {
     },
 
     async loadTripData(tripId) {
+      this.tripData = []
       const existingTrip = this.tripData.find((trip) => trip.id === tripId)
       if (!existingTrip) {
         const response = await fetch(this.apiUrl + 'events/' + tripId)
