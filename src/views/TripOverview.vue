@@ -4,11 +4,9 @@
   </header>
 
   <main>
-    <section class="container overview">
+    <section v-if="state.tripData[0]" class="container overview">
       <h3>
-        {{
-          state.tripData[0].tripTitle.charAt(0).toUpperCase() + state.tripData[0].tripTitle.slice(1)
-        }}
+        {{ state.tripData[0].tripTitle }}
       </h3>
       <p
         v-if="Object.values(state.tripData[0].details).every((array) => array.length === 0)"
@@ -106,20 +104,11 @@ export default {
       await navigator.clipboard.writeText(this.tripId)
     },
 
-    async checkUser() {
-      console.log(this.state.user)
+    checkUser() {
       if (this.state.user === null || Object.keys(this.state.user).length === 0) {
         this.isUserThere = false
       } else {
         this.isUserThere = true
-      }
-    },
-
-    async checkTripId() {
-      if (this.tripId === undefined) {
-        alert('Looks like you have an invalid Trip ID. Sorry Mate.')
-      } else {
-        await this.state.loadTripData(this.tripId)
       }
     },
     async deleteTrip() {
@@ -137,7 +126,7 @@ export default {
   },
   created() {
     this.tripId = this.$route.params.id
-    this.checkTripId()
+    this.state.loadTripData(this.tripId)
     this.checkUser()
   }
 }
