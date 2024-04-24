@@ -110,9 +110,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  background-color: var(--green-travel);
-}
 .hamburger-menu {
   width: 30px;
   height: 20px;
@@ -120,6 +117,10 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
+}
+
+.container {
+  background-color: var(--green-travel);
 }
 
 .line {
