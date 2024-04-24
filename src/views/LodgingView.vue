@@ -1,6 +1,9 @@
 <template>
-  <h2>Lodging</h2>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+  </header>
   <main class="container">
+    <h2 class="title">Lodging</h2>
     <ul>
       <li class="lodging-entry" v-for="(lodging, index) of lodgingEntries" :key="index">
         <h3>{{ lodging.name }}</h3>
@@ -119,3 +122,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.container {
+  background-color: var(--gray-accomodation);
+}
+</style>

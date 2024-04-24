@@ -3,7 +3,7 @@
     <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logotype" />
   </header>
   <main class="container">
-    <h3>Packing List</h3>
+    <h2 class="title">Packing List</h2>
     <ul class="list">
       <li
         v-for="(item, index) of this.state.tripData[0].details.packlist"
@@ -129,5 +129,9 @@ header {
 
 .input-area {
   margin-top: auto;
+}
+
+.container {
+  background-color: var(--green-packing-list);
 }
 </style>

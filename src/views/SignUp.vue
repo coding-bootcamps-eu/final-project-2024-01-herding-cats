@@ -95,7 +95,7 @@ export default {
 <style scoped>
 .info-icon {
   cursor: pointer;
-  font-size: small;
+  font-size: large;
 }
 
 .info-list {
@@ -138,5 +138,18 @@ export default {
 
 .row {
   display: inline;
+}
+
+.container {
+  min-height: 30rem;
+  background-color: var(--pink-activities);
+}
+
+label {
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  color: #000000;
 }
 </style>

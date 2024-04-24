@@ -1,7 +1,9 @@
 <template>
-  <header><img src="../assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" /></header>
+  <header>
+    <img src="../assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+  </header>
   <main class="container">
-    <h2>Create new trip</h2>
+    <h2 class="title">Create new trip</h2>
 
     <label class="required">Name your trip</label>
     <input v-model="tripName" type="text" />

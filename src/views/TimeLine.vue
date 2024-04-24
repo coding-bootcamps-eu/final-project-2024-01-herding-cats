@@ -3,8 +3,7 @@
     <img src="../assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
   </header>
   <main class="container">
-    <h3>Timeline</h3>
-
+    <h2 class="title">Timeline</h2>
     <div class="line">
       <div v-for="(item, index) in sortedEvents" :key="item">
         <h3 v-if="isNewDate(item.startDate, index)" class="week">
@@ -154,5 +153,9 @@ header {
 
 h2 {
   color: black;
+}
+
+.container {
+  background-color: var(--pink-background);
 }
 </style>

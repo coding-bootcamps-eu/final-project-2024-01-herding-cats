@@ -1,6 +1,9 @@
 <template>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+  </header>
   <div class="container">
-    <h2>Profil page</h2>
+    <h2 class="title">Profil page</h2>
     <aside class="profile-text" v-if="isUserThere">click on an entry to change it</aside>
     <p v-if="isUserThere" class="fineprint profile-text">Click enter to submit your edits</p>
     <div class="profile-entry profile-text">
@@ -24,9 +27,11 @@
     <div class="profile-entry profile-text">
       <label for="tele">Phone:</label>
       <label v-if="isUserThere" class="fineprint profile-text">(use the +49 formate)</label>
-      <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
-      <!-- Wenn div === false, dann wird das div angezeigt -->
-      <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
+      <div class="row">
+        <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
+        <!-- Wenn div === false, dann wird das div angezeigt -->
+        <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
+              <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
       <br />
       <a @click="sendMessage" href="'https://wa.me/' + 4915754288565">
         <!-- Like this:
@@ -36,6 +41,8 @@ https://wa.me/+55(021)96312-XXXX -->
 
         <img src="../assets/WhatsApp.svg.png" alt="Click here to send a message" />
       </a>
+      </div>
+
     </div>
   </div>
 
@@ -166,5 +173,22 @@ aside {
 
 img {
   width: 3rem;
+  margin-left: 10px;
+}
+.row {
+  display: flex;
+  align-items: center;
+}
+
+label {
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  color: #000000;
+}
+
+.container {
+  background-color: var(--turqoise-gray-background);
 }
 </style>

@@ -1,12 +1,6 @@
 <template>
   <header>
     <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
-
-    <!--     <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
-      <div class="line"></div>
-      <div class="line"></div>
-      <div class="line"></div>
-    </div> -->
   </header>
 
   <main>
@@ -178,12 +172,6 @@ button {
   margin-top: 2rem;
 }
 
-header {
-  margin: 1rem auto;
-  display: flex;
-  justify-content: center;
-}
-
 .white-box-id {
   padding: 1rem;
   color: black;
@@ -247,5 +235,9 @@ header {
 .slide-enter,
 .slide-leave-to {
   transform: translateX(-200px);
+}
+
+.container {
+  background-color: var(--green-travel);
 }
 </style>
