@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <h2>Profil page</h2>
-    <p class="fineprint">Click enter to submit your edits</p>
-    <div>
+    <aside class="profile-text" v-if="isUserThere">click on an entry to change it</aside>
+    <p v-if="isUserThere" class="fineprint profile-text">Click enter to submit your edits</p>
+    <div class="profile-entry profile-text">
       <label class="required" for="name">Name:</label>
       <div class="underline" v-if="!editingName" @click="startEditing('name')">
         {{ name }}
@@ -11,7 +12,7 @@
       <input v-else type="text" v-model="nameInput" @keyup.enter="finishEditing('name')" />
     </div>
 
-    <div>
+    <div class="profile-entry profile-text">
       <label for="adresse">Address:</label>
       <div class="underline" v-if="!editingAdresse" @click="startEditing('adresse')">
         {{ adresse }}
@@ -20,12 +21,13 @@
       <input v-else type="text" v-model="adresseInput" @keyup.enter="finishEditing('adresse')" />
     </div>
 
-    <div>
+    <div class="profile-entry profile-text">
       <label for="tele">Phone:</label>
-      <label class="fineprint">(use the +49 formate)</label>
+      <label v-if="isUserThere" class="fineprint profile-text">(use the +49 formate)</label>
       <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
       <!-- Wenn div === false, dann wird das div angezeigt -->
       <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
+      <br />
       <img src="../assets/WhatsApp.svg.png" />
     </div>
   </div>
@@ -40,6 +42,7 @@ import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
+      isUserThere: false,
       tripApiUrl: 'http://localhost:3000/events',
       state: herdingCatsstore(),
       editingName: false,
@@ -54,31 +57,46 @@ export default {
   },
   computed: {
     currentGroupMember() {
-      return this.state.tripData[0].details.groupmembers.find(
-        (item) => item.id === this.$route.params.index
-      )
+      if (this.state.tripData[0]) {
+        return this.state.tripData[0].details.groupmembers.find(
+          (item) => item.id === this.$route.params.index
+        )
+      } else {
+        return []
+      }
     },
     name() {
-      return this.currentGroupMember.name + ' - click to change'
+      return '-' + this.currentGroupMember.name
     },
     adresse() {
-      return this.currentGroupMember.address + ' - click to change'
+      return '-' + this.currentGroupMember.address
     },
     tele() {
-      return this.currentGroupMember.tele + ' - click to change'
+      return '-' + this.currentGroupMember.tele
     }
   },
 
   methods: {
+    async checkUser() {
+      console.log(this.state.user)
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        this.isUserThere = false
+      } else {
+        this.isUserThere = true
+      }
+    },
+
     startEditing(inputFeld) {
-      if (inputFeld === 'name') {
-        this.editingName = true
-      }
-      if (inputFeld === 'adresse') {
-        this.editingAdresse = true
-      }
-      if (inputFeld === 'tele') {
-        this.editingPhone = true
+      if (this.isUserThere) {
+        if (inputFeld === 'name') {
+          this.editingName = true
+        }
+        if (inputFeld === 'adresse') {
+          this.editingAdresse = true
+        }
+        if (inputFeld === 'tele') {
+          this.editingPhone = true
+        }
       }
     },
     async finishEditing(inputFeld) {
@@ -108,6 +126,7 @@ export default {
   },
   created() {
     this.state.loadTripData(this.$route.params.id)
+    this.checkUser()
   }
 }
 </script>
@@ -119,6 +138,18 @@ export default {
 .fineprint {
   color: var(--turqoise-gray-background);
   font-size: 1rem;
+}
+.profile-entry {
+  margin-top: 2rem;
+}
+
+.profile-text {
+  font-size: 1.75rem;
+}
+
+aside {
+  text-align: center;
+  font-style: italic;
 }
 
 img {

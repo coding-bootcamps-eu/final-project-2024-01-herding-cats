@@ -11,12 +11,13 @@
         class="list-item"
       >
         <p>{{ item }}</p>
-        <button class="delete-btn" @click="deleteItem(index)">X</button>
+        <button v-if="isUserThere" class="delete-btn" @click="deleteItem(index)">X</button>
       </li>
     </ul>
 
     <form class="note-input-form">
       <textarea
+        v-if="isUserThere"
         v-model="newNotes"
         id="note-input"
         name="note-input"
@@ -24,6 +25,7 @@
         @keydown.enter="addNote"
       ></textarea>
       <button
+        v-if="isUserThere"
         @click.prevent="addNote"
         :disabled="checkInput"
         :class="{ 'btn-disabled': checkInput }"
@@ -57,6 +59,15 @@ export default {
     }
   },
   methods: {
+    async checkUser() {
+      console.log(this.state.user)
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        this.isUserThere = false
+      } else {
+        this.isUserThere = true
+      }
+    },
+
     async addNote() {
       if (this.newNotes.trim() !== '') {
         this.state.tripData[0].details.notes.push(this.newNotes.trim())
@@ -85,6 +96,7 @@ export default {
   },
   created() {
     this.state.loadTripData(this.$route.params.id)
+    this.checkUser()
   }
 }
 </script>

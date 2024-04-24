@@ -8,7 +8,7 @@
       <div class="line"></div>
     </div>
 
-    <transition name="slide">
+    <!-- <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
         <ul>
           <li><router-link to="/newtrip">Create new trip</router-link></li>
@@ -16,7 +16,7 @@
           <li><router-link to="/logout">Log Out</router-link></li>
         </ul>
       </div>
-    </transition>
+    </transition> -->
 
     <div id="app">
       <div class="wrap">
@@ -33,7 +33,7 @@
       <h4>List of your trips</h4>
       <ul>
         <li v-for="trip in state.tripData" :key="trip.tripTitle">
-          <router-link :to="{ path: '/trip/' + trip.tripTitle.toLowerCase() }">
+          <router-link :to="{ path: '/trip/' + trip.id }">
             {{ trip.tripTitle }} : {{ trip.tripStart.split(' ')[0] }} -
             {{ trip.tripEnd.split(' ')[0] }}
           </router-link>
@@ -42,15 +42,13 @@
             {{ favStat ? '\ud83d\udda4' : '\u2665\ufe0f' }}
           </span>
         </li>
-
       </ul>
     </div>
 
     <searchPublicTrips />
-    <router-link :to="{ name: 'newtrip' }">
-      <button @click="makeTrip">Add trip</button>
-    </router-link>
-    <LogoutButton class="weiterbtn" />
+    <router-link :to="{ name: 'newTrip' }"><button>Create new trip</button></router-link>
+    <router-link :to="{ name: 'personalnotes' }"><button>Personal notes</button></router-link>
+    <LogoutButton />
   </div>
 </template>
 
@@ -72,7 +70,6 @@ export default {
       showSidebar: false,
       favStat: false,
       isMultiSelection: true,
-      eventStart: ['16.05.2024 - 13:30', '09.05.2024 - 12:00'],
       state: herdingCatsstore(),
       values: [new Date('1/1/2020'), new Date('1/15/2020')],
       values2: []
@@ -93,7 +90,8 @@ export default {
       this.favStat = !this.favStat
     },
     formatChange() {
-      this.values2 = this.eventStart.map((dateString) => {
+      const eventStart = this.state.tripData.tripStart
+      this.values2 = eventStart.map((dateString) => {
         const parts = dateString.split(' - ')
         const datePart = parts[0].split('.').reverse().join('-')
         const timePart = parts[1]

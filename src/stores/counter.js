@@ -8,7 +8,6 @@ export const herdingCatsstore = defineStore('registration', {
       user: null,
       userData: null,
       tripData: [],
-
       userSearchedTrips: []
     }
   },

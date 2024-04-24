@@ -6,22 +6,23 @@
   <main class="container">
     <label for="e-mail"><h3 class="required">E-Mail</h3></label>
     <input type="email" id="e-mail" v-model="email" placeholder=" example@example.com" />
-
-    <label for="pw" class="info">
-      <h3 class="required">
-        Password
-        <span class="info-icon" @click="showInfo">&#9432;</span>
-      </h3>
-      <span v-show="showExtraInfo" class="extra-info container">
-        <p>Password must contain:</p>
-        <ul>
-          <li class="popup-info-p">min. 8 characters</li>
-          <li class="popup-info-p">min. 1 uppercase letter</li>
-          <li class="popup-info-p">min. 1 lowercase letter</li>
-          <li class="popup-info-p">min. 1 digit</li>
-        </ul>
-      </span>
-    </label>
+    <div class="row">
+      <label for="pw" class="info">
+        <div><h3 class="required">Password</h3></div>
+        <div class="infoIcondiv">
+          <span class="info-icon">&#9432;</span>
+          <span class="info-list">
+            <p>Password must contain:</p>
+            <ul>
+              <li>min. 8 characters</li>
+              <li>min. 1 uppercase letter</li>
+              <li>min. 1 lowercase letter</li>
+              <li>min. 1 digit</li>
+            </ul>
+          </span>
+        </div>
+      </label>
+    </div>
     <input type="password" id="pw" v-model="password" />
     <button @click="logIn()">LogIn</button>
   </main>
@@ -35,14 +36,11 @@ export default {
       state: herdingCatsstore(),
       email: '',
       password: '',
-      showExtraInfo: false
+      showList: false
     }
   },
 
   methods: {
-    showInfo() {
-      this.showExtraInfo = !this.showExtraInfo
-    },
     validation() {
       this.state.user = this.state.userData.find((user) => user.email === this.email)
 
@@ -86,16 +84,19 @@ header {
   min-height: auto;
 }
 
-.info {
-  margin-top: 2rem;
-  position: relative;
+.info-icon {
+  cursor: pointer;
+  font-size: large;
 }
 
-.extra-info {
+.info-list {
   position: absolute;
+  visibility: hidden;
   top: 100%;
   left: 0;
   background-color: #fff;
+  color: black;
+  text-align: left;
   border: 1px solid var(--dark-button-blue);
   padding: 1rem;
   width: 26rem;
@@ -103,11 +104,30 @@ header {
   margin: 0;
 }
 
-.popup-info-p {
+.info-list ul li {
   font-family: 'Satoshi-Variable';
   font-style: normal;
   font-weight: 400;
   font-size: 1.5rem;
-  color: #000000;
+  padding-left: 20px;
+  text-indent: -20px;
+}
+
+.infoIcondiv {
+  margin-top: 5px;
+  width: 10%;
+  float: left;
+}
+
+.infoIcondiv {
+  position: relative;
+}
+
+.infoIcondiv:hover .info-list {
+  visibility: visible;
+}
+
+.row {
+  display: inline;
 }
 </style>

@@ -19,18 +19,20 @@
       <input type="text" v-model="phone" />
 
       <div class="info">
-        <label class="required">
+        <label class="required pw">
           Password
-          <span class="info-icon" @mouseover="showInfo" @mouseleave="hideInfo">&#9432;</span>
-          <span class="extra-info">
-            Password must contain:
-            <ul>
-              <li>min. 8 characters</li>
-              <li>min. 1 uppercase letter</li>
-              <li>min. 1 lowercase letter</li>
-              <li>min. 1 digit</li>
-            </ul>
-          </span>
+          <div class="infoIcondiv">
+            <span class="info-icon">&#9432;</span>
+            <span class="info-list">
+              <p>Password must contain:</p>
+              <ul>
+                <li>min. 8 characters</li>
+                <li>min. 1 uppercase letter</li>
+                <li>min. 1 lowercase letter</li>
+                <li>min. 1 digit</li>
+              </ul>
+            </span>
+          </div>
         </label>
         <input type="password" v-model="password" />
       </div>
@@ -90,4 +92,51 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.info-icon {
+  cursor: pointer;
+  font-size: small;
+}
+
+.info-list {
+  position: absolute;
+  visibility: hidden;
+  left: 0;
+  background-color: #fff;
+  color: black;
+  text-align: left;
+  border: 1px solid var(--dark-button-blue);
+  padding: 1rem;
+  width: 26rem;
+  height: 15rem;
+  margin: 0;
+}
+
+.info-list ul li {
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.5rem;
+  padding-left: 20px;
+  text-indent: -20px;
+}
+
+.infoIcondiv {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+}
+
+.pw {
+  position: relative;
+}
+
+.infoIcondiv:hover .info-list {
+  visibility: visible;
+}
+
+.row {
+  display: inline;
+}
+</style>
