@@ -31,18 +31,21 @@
         <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
         <!-- Wenn div === false, dann wird das div angezeigt -->
         <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
-              <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
-      <br />
-      <a @click="sendMessage" href="'https://wa.me/' + 4915754288565">
-        <!-- Like this:
+        <br />
+        <a
+          @click="sendMessage"
+          href="'https://wa.me/' + 4915754288565"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <!-- Like this:
 https://wa.me/552196312XXXX
 NOT like this:
 https://wa.me/+55(021)96312-XXXX -->
 
-        <img src="../assets/WhatsApp.svg.png" alt="Click here to send a message" />
-      </a>
+          <img src="../assets/WhatsApp.svg.png" alt="Click here to send a message" />
+        </a>
       </div>
-
     </div>
   </div>
 
