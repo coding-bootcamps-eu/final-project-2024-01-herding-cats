@@ -32,9 +32,10 @@
     <div class="calendar-list">
       <h4>List of your trips</h4>
       <ul>
-        <li v-for="trip in state.tripData" :key="trip.tripTitle">
-          <router-link :to="{ path: '/trip/' + trip.id }">
-            {{ trip.tripTitle }} : {{ trip.tripStart.split(' ')[0] }} -
+        <li v-for="trip in sortedEvents" :key="trip.id">
+          <router-link :to="`/trip/${trip.id}`">
+            {{ trip.tripTitle }} <br />
+            {{ trip.tripStart.split(' ')[0] }} -
             {{ trip.tripEnd.split(' ')[0] }}
           </router-link>
 
@@ -79,7 +80,24 @@ export default {
     LogoutButton,
     searchPublicTrips
   },
+  computed: {
+    sortedEvents() {
+      return this.state.userTrips.slice().sort((a, b) => {
+        const [dayA, monthA, yearA, timeA] = a.tripStart.split(/[.\s-]+/)
+        const [dayB, monthB, yearB, timeB] = b.tripStart.split(/[.\s-]+/)
 
+        const dateA = new Date(`${yearA}-${monthA}-${dayA}T${timeA}`)
+        const dateB = new Date(`${yearB}-${monthB}-${dayB}T${timeB}`)
+
+        if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+          console.error('Invalid date format:', a.startDate, b.startDate)
+          return 0
+        }
+
+        return dateA - dateB
+      })
+    }
+  },
   methods: {
     /*     hideSidebar() {
       setTimeout(() => {
@@ -90,18 +108,27 @@ export default {
       this.favStat = !this.favStat
     },
     formatChange() {
-      const eventStart = this.state.tripData.tripStart
-      this.values2 = eventStart.map((dateString) => {
+      const eventStart = this.state.userTrips.map((trip) => trip.tripStart)
+      this.values2 = eventStart.flatMap((dateString) => {
         const parts = dateString.split(' - ')
         const datePart = parts[0].split('.').reverse().join('-')
         const timePart = parts[1]
         const fullDate = new Date(`${datePart}T${timePart}`)
         return fullDate
       })
+    },
+
+    async checkUser() {
+      if (this.state.user === null || Object.keys(this.state.user).length === 0) {
+        alert('No user logged in. No data to show. Sorry mate.')
+      } else {
+        await this.state.loadUserTripData()
+        this.formatChange()
+      }
     }
   },
-  mounted() {
-    this.formatChange()
+  async created() {
+    await this.checkUser()
   }
 }
 </script>

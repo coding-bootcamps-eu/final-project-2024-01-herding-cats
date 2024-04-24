@@ -8,6 +8,7 @@ export const herdingCatsstore = defineStore('registration', {
       user: null,
       userData: null,
       tripData: [],
+      userTrips: [],
       userSearchedTrips: []
     }
   },
@@ -20,10 +21,22 @@ export const herdingCatsstore = defineStore('registration', {
     },
 
     async loadUserTripData() {
-      if (this.user && this.user.trips && this.user.trips.length > 0) {
-        for (const tripId of this.user.trips) {
-          await this.loadTripData(tripId)
-        }
+      this.userTrips = []
+      const uniqueTripIds = [...new Set(this.user.trips)]
+      for (const tripId of uniqueTripIds) {
+        await this.loadUserTrips(tripId)
+      }
+    },
+
+    async loadUserTrips(tripId) {
+      const existingTrip = this.userTrips.find((trip) => trip.id === tripId)
+      if (!existingTrip) {
+        const response = await fetch(this.apiUrl + 'events/' + tripId)
+        const apiTripData = await response.json()
+        this.userTrips.push(apiTripData)
+        return this.userTrips
+      } else {
+        return this.userTrips
       }
     },
 
@@ -37,28 +50,6 @@ export const herdingCatsstore = defineStore('registration', {
       } else {
         return this.tripData
       }
-    },
-    async createTrip() {
-      console.log('createTrip initiated')
-      const newTripData = {
-        id: '',
-        admins: [],
-        tripTitle: 'Click to add a Title',
-        tripStart: '',
-        tripEnd: '',
-        public: false,
-        details: []
-      }
-      this.tripData.push(newTripData)
-      console.log(this.tripData)
-      await fetch(this.apiUrl + 'events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.tripData)
-
-     })
     }
   }
 })
