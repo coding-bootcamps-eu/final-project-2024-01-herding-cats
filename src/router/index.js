@@ -71,11 +71,6 @@ const router = createRouter({
       component: ProfilView
     },
     {
-      path: '/trip',
-      name: 'newTrip',
-      component: TripOverview
-    },
-    {
       path: '/timeLine/:id',
       name: 'timeline',
       component: TimeLine

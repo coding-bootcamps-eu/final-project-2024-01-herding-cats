@@ -15,7 +15,7 @@
     <label class="required"> End of trip </label>
     <input v-model="tripEnd" type="datetime-local" />
 
-    <router-link :to="{ name: 'alltravels' }">
+    <router-link :to="`trip/${this.tripId}`">
       <button class="create-btn" @click="makeTrip">Create Trip</button>
     </router-link>
     <router-link :to="{ name: 'alltravels' }">
@@ -66,7 +66,14 @@ export default {
         tripStart: tripStartFormatted,
         tripEnd: tripEndFormatted,
         public: false,
-        details: []
+        details: {
+          transport: [],
+          lodging: [],
+          activity: [],
+          groupmembers: [],
+          packlist: [],
+          notes: []
+        }
       }
 
       const createResponse = await fetch(this.state.apiUrl + 'events', {
