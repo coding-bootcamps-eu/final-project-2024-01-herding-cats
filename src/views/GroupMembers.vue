@@ -94,6 +94,7 @@ export default {
     adminsEntries() {
       if (this.state.tripData.length > 0) {
         if (this.state.tripData[0].details) {
+          console.log(this.state.tripData[0].admins)
           return this.state.tripData[0].admins
         }
         return []
