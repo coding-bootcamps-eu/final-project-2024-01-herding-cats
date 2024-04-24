@@ -49,7 +49,7 @@
     </div>
 
     <searchPublicTrips />
-    <router-link :to="{ name: 'newTrip' }"><button>Create new trip</button></router-link>
+    <router-link :to="'/NewTrip'"><button>Create new trip</button></router-link>
     <router-link :to="{ name: 'personalnotes' }"><button>Personal notes</button></router-link>
     <LogoutButton />
   </div>
@@ -84,11 +84,11 @@ export default {
   },
 
   methods: {
-    hideSidebar() {
+    /*     hideSidebar() {
       setTimeout(() => {
         this.showSidebar = false
       }, 2000)
-    },
+    }, */
     favoriteStatus() {
       this.favStat = !this.favStat
     },

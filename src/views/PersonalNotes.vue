@@ -23,9 +23,7 @@
       </div>
       <button class="add-note" @click="addNote" type="button">+</button>
 
-      <router-link :to="{ path: '/AllTravels/' + this.$route.params.id }"
-        ><button>Back to Trip</button></router-link
-      >
+      <router-link :to="{ path: '/AllTravels/' }"><button>Back to Trip</button></router-link>
     </div>
   </main>
 </template>
@@ -45,45 +43,55 @@ export default {
       this.editMode[index] = true
     },
     finishEditing(index) {
+      this.submitNote()
       this.editMode[index] = false
     },
     addNote() {
       this.notes.push('')
       this.editMode.push(true)
     },
-    deleteNote(index) {
+    async deleteNote(index) {
       this.notes.splice(index, 1)
       this.editMode.splice(index, 1)
+      this.submitNote()
     },
     async submitNote() {
-      if (this.newNotes.trim() !== '') {
-        this.state.tripData[0].details.notes.push(this.newNotes.trim())
-        this.newNotes = ''
-      }
-      await fetch(`${this.state.apiUrl}events/${this.$route.params.id}/`, {
+      const userId = JSON.parse(localStorage.getItem('loggedUser')).id
+      const currentUser = this.state.userData.find((data) => data.id === userId)
+      currentUser.notes = this.notes.slice()
+
+      await fetch(`${this.state.apiUrl}users/${userId}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(this.state.tripData[0])
-      })
-    },
-
-    async deleteItem(index) {
-      this.state.tripData[0].details.notes.splice(index, 1)
-
-      await fetch(`${this.state.apiUrl}events/${this.$route.params.id}/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.state.tripData[0])
+        body: JSON.stringify(currentUser)
       })
     }
+
+    // async deleteItem(index) {
+    //   const userId = JSON.parse(localStorage.getItem('loggedUser')).id
+    //   const currentUser = this.state.userData.find((data) => data.id === userId)
+    //   currentUser.notes.splice(index, 1)
+
+    //   await fetch(`${this.state.apiUrl}users/${userId}/`, {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(currentUser)
+    //   })
+    // }
   },
-  created() {
+  async created() {
     console.log('created() hook called')
-    this.state.loadTripData(this.$route.params.id)
+    await this.state.loadUserData()
+
+    const userId = JSON.parse(localStorage.getItem('loggedUser')).id
+    const currentUser = this.state.userData.find((user) => user.id === userId)
+    if (currentUser.notes) {
+      this.notes = currentUser.notes || []
+    }
   }
 }
 </script>

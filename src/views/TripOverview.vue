@@ -10,15 +10,15 @@
           state.tripData[0].tripTitle.charAt(0).toUpperCase() + state.tripData[0].tripTitle.slice(1)
         }}
       </h3>
-      <p v-if="Object.keys(state.tripData[0].details).length === 0" class="initial-text">
+      <p
+        v-if="Object.values(state.tripData[0].details).every((array) => array.length === 0)"
+        class="initial-text"
+      >
         Click "Add Item" to start Herding your Cats
       </p>
+
       <ul class="list">
-        <li
-          class="list-item"
-          v-for="(key, index) in Object.keys(state.tripData[0].details)"
-          :key="index"
-        >
+        <li class="list-item" v-for="(key, index) in filteredDetailsKeys" :key="index">
           <router-link :to="`/${key}/${this.tripId}`">
             <img class="arrow" src="@/assets/arrow.svg" alt="Arrow symbol" />
             <p>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</p>
@@ -91,6 +91,13 @@ export default {
   components: {
     ToggleSwitch
   },
+  computed: {
+    filteredDetailsKeys() {
+      return Object.keys(this.state.tripData[0].details).filter(
+        (key) => this.state.tripData[0].details[key].length > 0
+      )
+    }
+  },
   methods: {
     openOptions() {
       this.$refs['add-options'].showModal()
@@ -110,7 +117,7 @@ export default {
 
     async checkTripId() {
       if (this.tripId === undefined) {
-        await this.state.createTrip()
+        alert('Looks like you have an invalid Trip ID. Sorry Mate.')
       } else {
         await this.state.loadTripData(this.tripId)
       }
@@ -130,7 +137,6 @@ export default {
   },
   created() {
     this.tripId = this.$route.params.id
-    console.log('Routed tripId: ' + this.tripId)
     this.checkTripId()
     this.checkUser()
   }

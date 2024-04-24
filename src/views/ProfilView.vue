@@ -31,8 +31,18 @@
         <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
         <!-- Wenn div === false, dann wird das div angezeigt -->
         <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
-        <img src="../assets/WhatsApp.svg.png" class="whatsapp-icon" />
+              <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
+      <br />
+      <a @click="sendMessage" href="'https://wa.me/' + 4915754288565">
+        <!-- Like this:
+https://wa.me/552196312XXXX
+NOT like this:
+https://wa.me/+55(021)96312-XXXX -->
+
+        <img src="../assets/WhatsApp.svg.png" alt="Click here to send a message" />
+      </a>
       </div>
+
     </div>
   </div>
 
@@ -88,6 +98,11 @@ export default {
       } else {
         this.isUserThere = true
       }
+    },
+    sendMessage() {
+      const phoneNumber = this.teleInput.replace(/\D/g, '')
+      const whatsappLink = `https://wa.me/${phoneNumber}`
+      window.open(whatsappLink)
     },
 
     startEditing(inputFeld) {

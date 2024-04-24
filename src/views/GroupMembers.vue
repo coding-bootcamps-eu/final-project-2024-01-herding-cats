@@ -40,7 +40,7 @@
               <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
               <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
             </ul>
-            <button class="delete-btn" @click="deleteMember(index)">x</button>
+            <button v-if="isUserThere" class="delete-btn" @click="deleteMember(index)">x</button>
           </li>
         </ul>
       </div>
@@ -70,7 +70,7 @@ export default {
   created() {
     this.state.loadTripData(this.$route.params.id)
     this.state.loadUserData()
-    this.checkUser
+    this.checkUser()
   },
   computed: {
     // filter out users that were loaded in via loadUserData()
@@ -100,6 +100,7 @@ export default {
     adminsEntries() {
       if (this.state.tripData.length > 0) {
         if (this.state.tripData[0].details) {
+          console.log(this.state.tripData[0].admins)
           return this.state.tripData[0].admins
         }
         return []
