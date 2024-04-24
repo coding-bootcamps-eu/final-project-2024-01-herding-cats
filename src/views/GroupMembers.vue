@@ -7,9 +7,6 @@
       <h2 class="title">Group Members</h2>
       <div class="list">
         <ul>
-          <li>test</li>
-        </ul>
-        <ul>
           <!-- render admins that created the trip, 
             so that they don't have to manually add themselves. 
             because they are stored in /users and not in /events, 
