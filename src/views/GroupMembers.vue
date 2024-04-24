@@ -1,8 +1,14 @@
 <template>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+  </header>
   <form>
     <div id="form" class="container">
-      <h3>Group Members</h3>
+      <h2 class="title">Group Members</h2>
       <div class="list">
+        <ul>
+          <li>test</li>
+        </ul>
         <ul>
           <!-- render admins that created the trip, 
             so that they don't have to manually add themselves. 
@@ -165,5 +171,17 @@ li + li {
 
 li ul li + li {
   margin-top: 0;
+}
+
+ul li {
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  color: #000000;
+}
+
+.container {
+  background-color: var(--turqoise-gray-background);
 }
 </style>

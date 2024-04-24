@@ -1,6 +1,9 @@
 <template>
-  <h2>Transport</h2>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+  </header>
   <main class="container">
+    <h2 class="title">Transport</h2>
     <ul>
       <li
         class="transport-entry"
@@ -125,3 +128,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.container {
+  background-color: var(--turqoise-notes);
+}
+</style>

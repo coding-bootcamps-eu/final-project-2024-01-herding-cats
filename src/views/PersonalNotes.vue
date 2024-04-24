@@ -3,7 +3,7 @@
     <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
   </header>
   <main class="container">
-    <h2>Your personal notes</h2>
+    <h2 class="title">Your personal notes</h2>
     <div id="app">
       <!-- Iteriere über die Notizen -->
       <div v-for="(note, index) in notes" :key="index" class="note-container">
@@ -136,5 +136,9 @@ header {
   background-image: linear-gradient(150deg, #efec88 0%, #fefabc 100%);
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+}
+
+.container {
+  background-color: var(--turqoise-notes);
 }
 </style>

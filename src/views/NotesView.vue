@@ -3,7 +3,7 @@
     <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
   </header>
   <main class="container">
-    <h2>Notes</h2>
+    <h2 class="title">Notes</h2>
     <ul class="note-content">
       <li
         v-for="(item, index) of this.state.tripData[0].details.notes"
@@ -106,6 +106,9 @@ header {
   margin: 1rem auto;
   display: flex;
   justify-content: center;
+}
+.container {
+  background-color: var(--turqoise-notes);
 }
 
 h2 {

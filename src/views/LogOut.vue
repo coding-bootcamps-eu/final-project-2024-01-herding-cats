@@ -26,7 +26,7 @@ header {
 
 .container {
   min-height: 30rem;
-  background-color: var(--gray-accomodation);
+  background-color: var(--pink-activities);
 }
 img {
   margin-left: 1.5rem;

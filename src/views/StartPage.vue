@@ -103,4 +103,9 @@ input[type='text'] {
 .start-button-input {
   margin-top: auto;
 }
+
+.container {
+  min-height: 30rem;
+  background-color: var(--pink-activities);
+}
 </style>

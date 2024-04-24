@@ -1,6 +1,9 @@
 <template>
-  <h2>Activities</h2>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+  </header>
   <main class="container">
+    <h2 class="title">Activities</h2>
     <ul>
       <li class="activity-entry" v-for="(activity, index) of activityEntries" :key="index">
         <h3>{{ activity.name }}</h3>
@@ -117,3 +120,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.container {
+  background-color: var(--pink-activities);
+}
+</style>

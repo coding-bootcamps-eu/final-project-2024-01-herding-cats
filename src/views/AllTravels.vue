@@ -1,6 +1,9 @@
 <template>
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
+  </header>
   <div class="container">
-    <h2>Your trips</h2>
+    <h2 class="title">Your trips</h2>
 
     <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
       <div class="line"></div>
@@ -107,6 +110,9 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  background-color: var(--green-travel);
+}
 .hamburger-menu {
   width: 30px;
   height: 20px;
