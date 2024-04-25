@@ -7,7 +7,7 @@
     <ul>
       <li class="lodging-entry" v-for="(lodging, index) of lodgingEntries" :key="index">
         <h3>{{ lodging.name }}</h3>
-        <ul>
+        <ul class="list-p">
           <li>{{ lodging.zipcode }} {{ lodging.city }}</li>
           <li>{{ lodging.address }}</li>
           <li v-if="lodging.startDate">From: {{ lodging.startDate }}</li>
@@ -30,7 +30,9 @@
           :notesValue="lodging.notes"
           :idValue="lodging.id"
         />
-        <button v-if="isUserThere" class="delete-btn" @click="deleteItem(index)">x</button>
+        <button v-if="isUserThere" class="rect-delete-btn" @click="deleteItem(index)">
+          Delete
+        </button>
       </li>
     </ul>
     <InputForm
@@ -45,20 +47,6 @@
     >
   </main>
 </template>
-
-<style scoped>
-.lodging-entry {
-  margin: 0 auto;
-  text-align: center;
-  max-width: 60%;
-}
-
-.lodging-entry + .lodging-entry {
-  border-top: 0.25rem solid black;
-  margin-top: 2rem;
-  padding-top: 1rem;
-}
-</style>
 
 <script>
 import EditButton from '@/components/EditButton.vue'
@@ -126,5 +114,10 @@ export default {
 <style scoped>
 .container {
   background-color: var(--gray-accomodation);
+  min-height: 10rem;
+}
+
+h3 {
+  margin-top: 2rem;
 }
 </style>

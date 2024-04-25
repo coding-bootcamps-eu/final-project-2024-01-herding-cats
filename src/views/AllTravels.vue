@@ -3,14 +3,14 @@
     <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
   </header>
   <div class="container">
-    <h2 class="title">Your trips</h2>
-
-    <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
-      <div class="line"></div>
-      <div class="line"></div>
-      <div class="line"></div>
+    <div class="burger-title">
+      <div @mouseover="showSidebar = true" @mouseleave="hideSidebar" class="hamburger-menu">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+      <h2 class="your-trips">Your trips</h2>
     </div>
-
     <!-- <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
         <ul>
@@ -33,11 +33,12 @@
     </div>
 
     <div class="calendar-list">
-      <h4>List of your trips</h4>
+      <h3>List of your trips</h3>
       <ul>
-        <li v-for="trip in sortedEvents" :key="trip.id">
+        <li class="calendar-list-item" v-for="trip in sortedEvents" :key="trip.id">
           <router-link :to="`/trip/${trip.id}`">
-            {{ trip.tripTitle }} <br />
+            <p>{{ trip.tripTitle }}</p>
+            <br />
             {{ trip.tripStart.split(' ')[0] }} -
             {{ trip.tripEnd.split(' ')[0] }}
           </router-link>
@@ -145,7 +146,13 @@ export default {
   justify-content: space-between;
   cursor: pointer;
 }
-
+.burger-title {
+  display: flex;
+  align-items: center;
+}
+.your-trips {
+  width: 21rem;
+}
 .container {
   background-color: var(--green-travel);
 }
@@ -154,7 +161,7 @@ export default {
   width: 100%;
   height: 3px;
   margin-top: 5px;
-  background-color: #000;
+  background-color: white;
 }
 
 .sidebar {
@@ -168,10 +175,9 @@ export default {
   padding-left: 5px;
 }
 
-h4 {
-  font-size: 18px;
-  margin-bottom: 5px;
-  font-weight: bold;
+h3 {
+  color: white;
+  margin-bottom: 1rem;
 }
 
 .slide-enter-active {
@@ -196,11 +202,23 @@ h4 {
   text-align: center;
 }
 
-ul li {
+ul li a {
   list-style-position: inside;
-  list-style-type: circle;
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: white;
+}
+
+p {
+  color: white;
+  margin-bottom: 0;
+}
+
+.calendar-list-item {
+  margin-bottom: 2rem;
+  border-top: 0.1rem solid var(--dark-button-blue);
 }
 
 span {

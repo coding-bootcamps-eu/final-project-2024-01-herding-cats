@@ -32,17 +32,6 @@
   </footer>
 </template>
 
-<style>
-.inputtext input {
-  margin-bottom: 10px;
-  display: block;
-}
-
-.admin input {
-  margin-right: 5px;
-}
-</style>
-
 <script>
 import { herdingCatsstore } from '@/stores/counter.js'
 export default {
@@ -158,3 +147,18 @@ export default {
   emits: ['clickAdd']
 }
 </script>
+
+<style scoped>
+.inputtext {
+  margin-bottom: 1rem;
+  display: block;
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: #000000;
+}
+.admin input {
+  margin-right: 5px;
+}
+</style>
