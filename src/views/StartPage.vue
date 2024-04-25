@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       tripApiUrl: 'http://localhost:3000/events',
-      tripId: '',
+      tripId: null,
       disableGoBtn: true,
       tripData: [],
       allTripIds: []
@@ -55,7 +55,7 @@ export default {
       this.tripData.forEach((trip) => {
         this.allTripIds.push(trip.id)
       })
-      if (this.allTripIds.includes(this.tripId)) {
+      if (this.allTripIds.includes(Number(this.tripId))) {
         this.$router.push({ name: 'trip', params: { id: this.tripId } })
         return true
       } else {
