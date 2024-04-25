@@ -89,6 +89,36 @@ p {
   color: #000000;
 }
 
+.list-p {
+  margin-top: 1rem;
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.4rem;
+  color: #000000;
+  line-height: 2.5rem;
+}
+.transport-entry,
+.lodging-entry,
+.activity-entry {
+  margin: 0 auto;
+  text-align: center;
+  max-width: 28rem;
+}
+
+.transport-entry + .transport-entry,
+.lodging-entry + .lodging-entry,
+.activity-entry + .activity-entry {
+  border-top: 0.25rem solid black;
+  margin-top: 2rem;
+  padding-top: 1rem;
+}
+
+.rect-delete-btn {
+  background-color: var(--required-red);
+  margin-bottom: 2rem;
+}
+
 .required::after {
   content: '*';
   color: var(--required-red);

@@ -7,7 +7,7 @@
     <ul>
       <li class="activity-entry" v-for="(activity, index) of activityEntries" :key="index">
         <h3>{{ activity.name }}</h3>
-        <ul>
+        <ul class="list-p">
           <li>{{ activity.zipcode }} {{ activity.city }}</li>
           <li>{{ activity.address }}</li>
           <li v-if="activity.startDate">From: {{ activity.startDate }}</li>
@@ -30,7 +30,9 @@
           :notesValue="activity.notes"
           :idValue="activity.id"
         />
-        <button v-if="isUserThere" class="delete-btn" @click="deleteItem(index)">x</button>
+        <button v-if="isUserThere" class="rect-delete-btn" @click="deleteItem(index)">
+          Delete
+        </button>
       </li>
     </ul>
     <InputForm
@@ -45,20 +47,6 @@
     >
   </main>
 </template>
-
-<style scoped>
-.activity-entry {
-  margin: 0 auto;
-  text-align: center;
-  max-width: 60%;
-}
-
-.activity-entry + .activity-entry {
-  border-top: 0.25rem solid black;
-  margin-top: 2rem;
-  padding-top: 1rem;
-}
-</style>
 
 <script>
 import EditButton from '@/components/EditButton.vue'
@@ -124,5 +112,10 @@ export default {
 <style scoped>
 .container {
   background-color: var(--pink-activities);
+  min-height: 10rem;
+}
+
+h3 {
+  margin-top: 2rem;
 }
 </style>

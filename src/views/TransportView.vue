@@ -11,7 +11,7 @@
         :key="transport.id"
       >
         <h3>{{ transport.name }}</h3>
-        <ul>
+        <ul class="list-p">
           <li>{{ transport.zipcode }} {{ transport.city }}</li>
           <li>{{ transport.address }}</li>
           <li v-if="transport.startDate">Departure: {{ transport.startDate }}</li>
@@ -34,7 +34,9 @@
           :notesValue="transport.notes"
           :idValue="transport.id"
         />
-        <button v-if="isUserThere" class="delete-btn" @click="deleteItem(index)">x</button>
+        <button v-if="isUserThere" class="rect-delete-btn" @click="deleteItem(index)">
+          Delete
+        </button>
       </li>
     </ul>
     <InputForm
@@ -49,20 +51,6 @@
     >
   </main>
 </template>
-
-<style scoped>
-.transport-entry {
-  margin: 0 auto;
-  text-align: center;
-  max-width: 60%;
-}
-
-.transport-entry + .transport-entry {
-  border-top: 0.25rem solid black;
-  margin-top: 2rem;
-  padding-top: 1rem;
-}
-</style>
 
 <script>
 import EditButton from '@/components/EditButton.vue'
@@ -100,7 +88,6 @@ export default {
   },
   methods: {
     async checkUser() {
-      console.log(this.state.user)
       if (this.state.user === null || Object.keys(this.state.user).length === 0) {
         this.isUserThere = false
       } else {
@@ -132,5 +119,9 @@ export default {
 <style scoped>
 .container {
   background-color: var(--turqoise-notes);
+  min-height: 10rem;
+}
+h3 {
+  margin-top: 2rem;
 }
 </style>
