@@ -8,6 +8,10 @@
       <h3>
         {{ state.tripData[0].tripTitle }}
       </h3>
+      <h4>
+        {{ state.tripData[0].tripStart.split(' ')[0] }} -
+        {{ state.tripData[0].tripEnd.split(' ')[0] }}
+      </h4>
       <p
         v-if="Object.values(state.tripData[0].details).every((array) => array.length === 0)"
         class="initial-text"
@@ -133,6 +137,9 @@ export default {
 </script>
 
 <style scoped>
+h4 {
+  margin-top: 1rem;
+}
 .list {
   position: relative;
   margin-top: 2rem;
