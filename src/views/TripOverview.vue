@@ -72,14 +72,17 @@
       <router-link :to="{ name: 'alltravels' }">
         <button v-if="isUserThere">Back to all your trips</button></router-link
       >
-      <router-link :to="{ name: 'home' }"> <button v-if="!isUserThere">Back</button></router-link>
-      <button v-if="isUserThere" class="delete-trip" @click="deleteTrip">Delete Trip</button>
+      <router-link :to="{ name: 'home' }">
+        <button v-if="!isUserThere">Back to Start Page</button></router-link
+      >
+      <DeleteButton v-if="isUserThere" />
     </nav>
   </main>
 </template>
 
 <script>
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
+import DeleteButton from '@/components/DeleteButton.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
@@ -91,7 +94,8 @@ export default {
     }
   },
   components: {
-    ToggleSwitch
+    ToggleSwitch,
+    DeleteButton
   },
   computed: {
     filteredDetailsKeys() {
@@ -114,12 +118,6 @@ export default {
       } else {
         this.isUserThere = true
       }
-    },
-    async deleteTrip() {
-      await fetch(`${this.state.apiUrl}events/${this.tripId}`, {
-        method: 'DELETE'
-      })
-      this.$router.push({ name: 'alltravels' })
     }
 
     /*  hideSidebar() {
@@ -161,11 +159,6 @@ h4 {
 
 button {
   width: 32rem;
-}
-
-.delete-trip {
-  background-color: var(--required-red);
-  margin-top: 2rem;
 }
 
 .white-box-id {
@@ -234,6 +227,6 @@ button {
 }
 
 .container {
-  background-color: var(--green-travel);
+  background-color: var(--gray-accomodation);
 }
 </style>
