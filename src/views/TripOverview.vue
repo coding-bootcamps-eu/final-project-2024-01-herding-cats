@@ -227,6 +227,6 @@ button {
 }
 
 .container {
-  background-color: var(--green-travel);
+  background-color: var(--gray-accomodation);
 }
 </style>
