@@ -1,35 +1,23 @@
-# .
+# Herding Cats Travel App
 
-This template should help get you started developing with Vue 3 in Vite.
+## Manage the Impossible
 
-## Recommended IDE Setup
+Your new favorite tool for trying to herd your mates on a group holiday is here: Herding Cats Travel App.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+The idea was to make an app for easily gathering travel information. The idea came from traveling with friends where one person had the train ticket information, another had the hotel booking, and a third arrived one day later with her own car. What we tried to build is an easy tool for all travelers to gather information in one place.
 
-## Customize configuration
+This was our final project in the Coding Bootcamps Europe Web Developer training. It incorporates everything we learned during the Bootcamp: HTML, CSS, JavaScript, Vue.js, NPM, REST, and RESTful API. The graphic design was developed in Figma.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Feel free to try it out on Netlify:
+https://herdingcats-cbe.netlify.app/
 
-## Project Setup
+Made by: 
+https://github.com/Vieraaaas
+https://github.com/ghersmann
+https://github.com/SonjaElena
 
-```sh
-npm install
-```
+With the never ending support from:
+https://github.com/ferniemann
+https://github.com/codingbootcampseu
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+This project is MIT License licensed.
