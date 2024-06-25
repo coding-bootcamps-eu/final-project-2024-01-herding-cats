@@ -3,25 +3,25 @@
     <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
   </header>
   <main class="container">
-    <h2 class="title">Your personal notes</h2>
+    <h2 class="title">Personal Notes</h2>
     <div id="app">
       <!-- Iteriere über die Notizen -->
       <div v-for="(note, index) in notes" :key="index" class="note-container">
         <template v-if="!editMode[index]">
           <!-- Div anzeigen, wenn nicht im Bearbeitungsmodus -->
-          <div class="text" @click="startEditing(index)">{{ note }}</div>
+          <p class="note-box" @click="startEditing(index)">{{ note }}</p>
         </template>
         <template v-else>
           <!-- Textarea anzeigen, wenn im Bearbeitungsmodus -->
           <textarea
-            class="note"
+            class="note-box edit-note"
             v-model="notes[index]"
             @keyup.enter="finishEditing(index)"
           ></textarea>
         </template>
-        <button class="delete-note" @click="deleteNote(index)">x</button>
+        <button class="delete-btn" @click="deleteNote(index)">x</button>
       </div>
-      <button class="add-note" @click="addNote" type="button">+</button>
+      <button class="add-note" @click="addNote" type="button">New Note</button>
 
       <router-link :to="{ path: '/AllTravels/' }"><button>Back to Trip</button></router-link>
     </div>
@@ -97,53 +97,29 @@ export default {
 </script>
 
 <style scoped>
-header {
-  margin: 1rem auto;
-  display: flex;
-  justify-content: center;
-}
 .note-container {
   display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+  align-items: top;
 }
 
-.note {
+.note-box {
   flex: 1;
-  width: 50px;
-  height: 48px;
-  box-sizing: border-box;
-  padding: 20px;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-}
-
-.delete-note {
-  margin-left: 10px;
-  height: 50px;
-  width: 50px;
-  box-sizing: border-box;
-  outline: none;
-  background-color: rgba(247, 243, 243, 0.1);
-  color: rgba(0, 0, 0, 0.5);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.text {
-  flex: 1;
-  height: 50px;
-  box-sizing: border-box;
-  padding: 20px;
-  border: none;
-  border-radius: 10px;
+  margin-bottom: 1.4rem;
+  margin-top: 0;
+  min-width: 5rem;
+  padding: 1.4rem;
   background: #ffa;
   background-image: linear-gradient(150deg, #efec88 0%, #fefabc 100%);
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
+}
+
+.edit-note {
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.8);
+}
+
+.delete-btn {
+  margin-left: 1rem;
+  border-radius: 0%;
 }
 
 .container {

@@ -5,13 +5,15 @@
 
   <main>
     <section v-if="state.tripData[0]" class="container overview">
-      <h3>
-        {{ state.tripData[0].tripTitle }}
-      </h3>
-      <h4>
-        {{ state.tripData[0].tripStart.split(' ')[0] }} -
-        {{ state.tripData[0].tripEnd.split(' ')[0] }}
-      </h4>
+      <div @click="editTripTitleDate">
+        <h3>
+          {{ state.tripData[0].tripTitle }}
+        </h3>
+        <h4>
+          {{ state.tripData[0].tripStart.split(' ')[0] }} -
+          {{ state.tripData[0].tripEnd.split(' ')[0] }}
+        </h4>
+      </div>
       <p
         v-if="Object.values(state.tripData[0].details).every((array) => array.length === 0)"
         class="initial-text"
@@ -118,6 +120,9 @@ export default {
       } else {
         this.isUserThere = true
       }
+    },
+    editTripTitleDate() {
+      console.log('Click Works')
     }
 
     /*  hideSidebar() {
@@ -195,7 +200,7 @@ button {
   cursor: pointer;
 }
 
-.line {
+/* .line {
   width: 100%;
   height: 3px;
   margin-top: 5px;
@@ -224,7 +229,7 @@ button {
 .slide-enter,
 .slide-leave-to {
   transform: translateX(-200px);
-}
+} */
 
 .container {
   background-color: var(--gray-accomodation);
