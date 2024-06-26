@@ -20,3 +20,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+button {
+  background-color: var(--required-red);
+  margin-top: 2rem;
+}
+</style>

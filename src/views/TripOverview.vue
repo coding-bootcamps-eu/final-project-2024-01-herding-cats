@@ -5,13 +5,7 @@
 
   <main>
     <section v-if="state.tripData[0]" class="container overview">
-      <h3>
-        {{ state.tripData[0].tripTitle }}
-      </h3>
-      <h4>
-        {{ state.tripData[0].tripStart.split(' ')[0] }} -
-        {{ state.tripData[0].tripEnd.split(' ')[0] }}
-      </h4>
+      <EditTripTitleDate />
       <p
         v-if="Object.values(state.tripData[0].details).every((array) => array.length === 0)"
         class="initial-text"
@@ -64,7 +58,7 @@
         </form>
       </dialog>
       <router-link :to="{ path: '/timeline/' + this.$route.params.id }">
-        <button class="timeline">Trip Timeline</button>
+        <button class="timeline-btn">Trip Timeline</button>
       </router-link>
       <ToggleSwitch v-if="isUserThere" class="toggle-switch" labelText="This trip is Public" />
       <p class="white-box-id">Trip ID: {{ tripId }}</p>
@@ -83,6 +77,7 @@
 <script>
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
 import DeleteButton from '@/components/DeleteButton.vue'
+import EditTripTitleDate from '@/components/EditTripTitleDate.vue'
 import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
@@ -95,7 +90,8 @@ export default {
   },
   components: {
     ToggleSwitch,
-    DeleteButton
+    DeleteButton,
+    EditTripTitleDate
   },
   computed: {
     filteredDetailsKeys() {
@@ -108,6 +104,7 @@ export default {
     openOptions() {
       this.$refs['add-options'].showModal()
     },
+
     async copyId() {
       await navigator.clipboard.writeText(this.tripId)
     },
@@ -135,6 +132,10 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  background-color: var(--gray-accomodation);
+}
+
 h4 {
   margin-top: 1rem;
 }
@@ -175,7 +176,7 @@ button {
   min-height: 10rem;
   background-color: var(--gray-accomodation);
 }
-.timeline {
+.timeline-btn {
   color: black;
   background-color: var(--yellow-calendar);
 }
@@ -185,7 +186,7 @@ button {
   flex-direction: column;
 }
 
-.hamburger-menu {
+/* .hamburger-menu {
   margin-top: 5rem;
   width: 30px;
   height: 20px;
@@ -224,9 +225,5 @@ button {
 .slide-enter,
 .slide-leave-to {
   transform: translateX(-200px);
-}
-
-.container {
-  background-color: var(--gray-accomodation);
-}
+} */
 </style>

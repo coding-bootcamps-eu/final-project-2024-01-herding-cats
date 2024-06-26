@@ -8,9 +8,6 @@
     <label class="required">Name your trip</label>
     <input v-model="tripName" type="text" />
 
-    <!--     <label class="required"> Event description </label>
-    <input v-model="tripdesc" type="text" /> -->
-
     <label class="required"> Start of trip </label>
     <input v-model="tripStart" type="datetime-local" />
 
