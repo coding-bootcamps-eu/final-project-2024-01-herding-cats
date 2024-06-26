@@ -8,13 +8,13 @@
     <label class="required">Name your trip</label>
     <input v-model="tripName" type="text" />
 
-    <label class="required"> Start of trip </label>
+    <label class="required">Start of trip</label>
     <input v-model="tripStart" type="datetime-local" />
 
-    <label class="required"> End of trip </label>
+    <label class="required">End of trip</label>
     <input v-model="tripEnd" type="datetime-local" />
 
-    <router-link :to="`trip/${this.tripId}`">
+    <router-link :to="`/trip/${this.tripId}`">
       <button class="create-btn" @click="makeTrip">Create Trip</button>
     </router-link>
     <router-link :to="{ name: 'alltravels' }">
@@ -31,7 +31,6 @@ export default {
       state: herdingCatsstore(),
       tripId: '',
       tripName: '',
-      //tripdesc: '',
       tripStart: '',
       tripEnd: ''
     }
@@ -111,11 +110,7 @@ export default {
   min-height: 10rem;
   background-color: var(--turqoise-notes);
 }
-header {
-  margin: 1rem auto;
-  display: flex;
-  justify-content: center;
-}
+
 label {
   margin-top: 2rem;
   font-family: 'Satoshi-Variable';
@@ -126,6 +121,7 @@ label {
 }
 .create-btn {
   margin-top: 4rem;
+  background-color: var(--green-packing-list);
 }
 .cancel-btn {
   margin-top: 2rem;

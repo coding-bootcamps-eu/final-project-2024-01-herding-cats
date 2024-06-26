@@ -34,6 +34,12 @@ body {
   background-image: url('background-pattern.svg');
 }
 
+header {
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
+}
+
 main {
   width: 32rem;
   margin: 2rem auto;
@@ -61,10 +67,6 @@ h2 {
   text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
 }
 
-.title {
-  margin-bottom: 3rem;
-}
-
 h3 {
   font-family: 'Satoshi-Variable';
   font-style: normal;
@@ -85,12 +87,6 @@ h4 {
   text-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
 }
 
-header {
-  margin: 1rem auto;
-  display: flex;
-  justify-content: center;
-}
-
 p {
   font-family: 'Satoshi-Variable';
   font-style: normal;
@@ -108,6 +104,21 @@ p {
   color: #000000;
   line-height: 2.5rem;
 }
+
+.title {
+  margin-bottom: 3rem;
+}
+
+.container {
+  width: 32rem;
+  min-height: 52rem;
+  background-color: var(--green-packing-list);
+  border: 1px solid white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 2rem;
+  margin: 0.7rem auto;
+}
+
 .transport-entry,
 .lodging-entry,
 .activity-entry {
@@ -214,14 +225,17 @@ input[type='password']:hover {
   outline: 0.1rem solid white;
 }
 
-.container {
-  width: 32rem;
-  min-height: 52rem;
-  background-color: var(--green-packing-list);
-  border: 1px solid white;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  padding: 2rem;
+input[type='datetime-local'] {
   margin: 0.7rem auto;
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 1.5rem;
+  color: black;
+  width: 28rem;
+  height: 3rem;
+  border: 0.1rem solid black;
+  box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
 }
 
 .list-item {
