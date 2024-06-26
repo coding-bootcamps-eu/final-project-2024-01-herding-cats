@@ -9,7 +9,7 @@
         <div class="line"></div>
         <div class="line"></div>
       </div>
-      <h2 class="your-trips">Your trips</h2>
+      <h3 class="user-name">Hello <br />{{ state.user.name }}!</h3>
     </div>
     <!-- <transition name="slide">
       <div v-show="showSidebar" class="sidebar">
@@ -147,13 +147,13 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  cursor: pointer;
 }
 .burger-title {
   display: flex;
-  align-items: center;
+  align-items: top;
 }
-.your-trips {
+
+.user-name {
   width: 21rem;
 }
 .container {
