@@ -33,7 +33,6 @@
     </div>
 
     <div class="calendar-list">
-      <h3>List of your trips</h3>
       <ul>
         <li class="calendar-list-item" v-for="trip in sortedEvents" :key="trip.id">
           <router-link :to="`/trip/${trip.id}`">
@@ -51,8 +50,12 @@
     </div>
 
     <searchPublicTrips />
-    <router-link :to="'/NewTrip'"><button>Create new trip</button></router-link>
-    <router-link :to="{ name: 'personalnotes' }"><button>Personal notes</button></router-link>
+    <router-link :to="'/NewTrip'"
+      ><button class="create-trip-btn">Create New Trip</button></router-link
+    >
+    <router-link :to="{ name: 'personalnotes' }"
+      ><button class="personal-btn">Personal Notes</button></router-link
+    >
     <LogoutButton />
   </div>
 </template>
@@ -157,6 +160,15 @@ export default {
   background-color: var(--green-travel);
 }
 
+.create-trip-btn {
+  background-color: var(--green-packing-list);
+}
+
+.personal-btn {
+  color: black;
+  background-color: var(--yellow-calendar);
+}
+
 .line {
   width: 100%;
   height: 3px;
@@ -222,7 +234,6 @@ p {
 }
 
 span {
-  padding-left: 5px;
-  cursor: pointer;
+  padding-left: 1rem;
 }
 </style>

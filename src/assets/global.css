@@ -247,3 +247,13 @@ input[type='password']:hover {
 .title {
   margin-bottom: 5px;
 }
+
+.date-label {
+  margin-top: 1rem;
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.4rem;
+  color: #000000;
+  line-height: 2.5rem;
+}

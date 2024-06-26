@@ -33,7 +33,7 @@ import { herdingCatsstore } from '@/stores/counter.js'
 export default {
   data() {
     return {
-      notes: ['Take notes and click enter once you are done'],
+      notes: [],
       editMode: [false],
       state: herdingCatsstore()
     }
@@ -84,19 +84,24 @@ export default {
     // }
   },
   async created() {
-    console.log('created() hook called')
     await this.state.loadUserData()
 
     const userId = JSON.parse(localStorage.getItem('loggedUser')).id
     const currentUser = this.state.userData.find((user) => user.id === userId)
-    if (currentUser.notes) {
-      this.notes = currentUser.notes || []
+    if (currentUser.notes.length > 0) {
+      this.notes = currentUser.notes
+    } else if (currentUser.notes.length === 0) {
+      this.notes = ['Take notes and click enter once you are done']
     }
   }
 }
 </script>
 
 <style scoped>
+.title {
+  margin-bottom: 2rem;
+}
+
 .note-container {
   display: flex;
   align-items: top;
@@ -111,6 +116,7 @@ export default {
   background: #ffa;
   background-image: linear-gradient(150deg, #efec88 0%, #fefabc 100%);
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
 }
 
 .edit-note {
@@ -119,7 +125,11 @@ export default {
 
 .delete-btn {
   margin-left: 1rem;
-  border-radius: 0%;
+  border-radius: 0.5rem;
+}
+
+.add-note {
+  background-color: var(--green-packing-list);
 }
 
 .container {
