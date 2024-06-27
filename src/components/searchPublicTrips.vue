@@ -8,9 +8,16 @@
       id="search-field"
       name="search-field"
       v-model="searchField"
+      @input="checkInputLength"
       @keydown.enter.once="searchPublicTrip"
     />
-    <button @click.prevent="searchPublicTrip">Search</button>
+    <button
+      @click.prevent="searchPublicTrip"
+      :disabled="disableGoBtn"
+      :class="{ 'btn-disabled': disableGoBtn }"
+    >
+      Search
+    </button>
   </form>
   <section v-if="state.userSearchedTrips.length > 0" class="search-result">
     <p>Search Results</p>
@@ -26,6 +33,7 @@
         </p>
       </li>
     </router-link>
+    <button @click.prevent="resetSearch">Reset</button>
   </section>
 </template>
 
@@ -38,6 +46,7 @@ export default {
     return {
       allTripData: [],
       searchField: '',
+      disableGoBtn: true,
       state: herdingCatsstore()
     }
   },
@@ -51,7 +60,16 @@ export default {
         (event) => event.public === true && event.tripTitle.toLowerCase().includes(searchTermLower)
       )
       this.searchField = ''
+      this.disableGoBtn = true
       return this.state.userSearchedTrips
+    },
+    checkInputLength() {
+      this.disableGoBtn = this.searchField.trim().length <= 1
+    },
+    resetSearch() {
+      this.searchField = ''
+      this.state.userSearchedTrips = []
+      this.disableGoBtn = true
     }
   }
 }
@@ -76,10 +94,15 @@ export default {
 }
 
 .search-result {
+  position: relative;
   background-color: var(--gray-accomodation);
   border: 1px solid white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding: 1rem 2rem;
   margin: 0.7rem auto;
+}
+
+.close-btn {
+  position: absolute;
 }
 </style>
