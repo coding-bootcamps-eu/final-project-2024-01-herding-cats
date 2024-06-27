@@ -130,11 +130,6 @@ export default {
   margin-bottom: 3rem;
   font-size: 1.5rem;
 }
-header {
-  margin: 1rem auto;
-  display: flex;
-  justify-content: center;
-}
 .week {
   text-align: left;
 }
@@ -151,8 +146,10 @@ header {
   min-height: 10rem;
 }
 
-h2 {
+.title {
   color: black;
+  text-shadow: 0px 0.2rem 0.2rem rgba(0, 0, 0, 0.25);
+  margin-bottom: 2rem;
 }
 
 .container {

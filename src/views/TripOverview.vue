@@ -64,7 +64,7 @@
       <p class="white-box-id">Trip ID: {{ tripId }}</p>
       <button @click="copyId">Copy ID</button>
       <router-link :to="{ name: 'alltravels' }">
-        <button v-if="isUserThere">Back to all your trips</button></router-link
+        <button class="back-btn" v-if="isUserThere">Back to all your trips</button></router-link
       >
       <router-link :to="{ name: 'home' }">
         <button v-if="!isUserThere">Back to Start Page</button></router-link
@@ -156,6 +156,10 @@ h4 {
 
 .cancel-btn {
   margin-top: 2rem;
+}
+
+.back-btn {
+  background-color: var(--green-travel);
 }
 
 button {
