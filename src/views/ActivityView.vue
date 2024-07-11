@@ -80,7 +80,6 @@ export default {
   },
   methods: {
     async checkUser() {
-      console.log(this.state.user)
       if (this.state.user === null || Object.keys(this.state.user).length === 0) {
         this.isUserThere = false
       } else {
