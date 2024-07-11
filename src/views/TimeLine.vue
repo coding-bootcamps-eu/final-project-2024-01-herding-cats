@@ -54,8 +54,6 @@ export default {
     mergeAndSortEvents() {
       if (Object.keys(this.tripData).length > 0) {
         const middleData = this.tripData
-        console.log(this.tripData)
-        console.log(middleData)
         const details = middleData.details
         const filteredDetails = Object.values(details).flatMap((items) =>
           items.filter((item) => item.startDate)
@@ -93,7 +91,6 @@ export default {
       const time = startDate.slice(13, 18)
       const reconvertedDate = year + '-' + month + '-' + day + 'T' + time
       const todaydate = new Date(reconvertedDate)
-      console.log(todaydate)
       //object für den 1. Januar des jetzigen Jahres
       // let oneJan = new Date(todaydate.getFullYear(), 0, 1)
       // // number of days between 1. Januar and today (24 Std./Tag, 60 min./std., 60 sec./min, 1000 Millisekunden/ sec.
@@ -109,7 +106,6 @@ export default {
 
   async created() {
     await this.state.loadTripData(this.$route.params.id)
-    console.log(this.state.tripData[0])
     this.tripData = this.state.tripData[0]
   }
 }

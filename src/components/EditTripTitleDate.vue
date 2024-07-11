@@ -39,19 +39,13 @@ export default {
       this.$refs['edit-trip-title'].showModal()
     },
     async saveTripChanges() {
-      const createResponse = await fetch(`${this.state.apiUrl}events/${this.$route.params.id}/`, {
+      await fetch(`${this.state.apiUrl}events/${this.$route.params.id}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(this.state.tripData[0])
       })
-
-      if (createResponse.ok) {
-        console.log('success')
-      } else {
-        console.log('Fail')
-      }
     }
   }
 }

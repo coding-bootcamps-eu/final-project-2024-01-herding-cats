@@ -97,7 +97,6 @@ export default {
     adminsEntries() {
       if (this.state.tripData.length > 0) {
         if (this.state.tripData[0].details) {
-          console.log(this.state.tripData[0].admins)
           return this.state.tripData[0].admins
         }
         return []
@@ -112,7 +111,6 @@ export default {
 
   methods: {
     async checkUser() {
-      console.log(this.state.user)
       if (this.state.user === null || Object.keys(this.state.user).length === 0) {
         this.isUserThere = false
       } else {
