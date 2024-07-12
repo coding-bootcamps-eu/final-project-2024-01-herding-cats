@@ -14,9 +14,7 @@
     <label class="required">End of trip</label>
     <input v-model="tripEnd" type="datetime-local" />
 
-    <router-link :to="`/trip/${this.tripId}`">
-      <button class="create-btn" @click="makeTrip">Create Trip</button>
-    </router-link>
+    <button class="create-btn" @click="makeTrip">Create Trip</button>
     <router-link :to="{ name: 'alltravels' }">
       <button class="cancel-btn">Cancel</button>
     </router-link>
@@ -25,6 +23,7 @@
 
 <script>
 import { herdingCatsstore } from '@/stores/counter.js'
+import router from '@/router/index.js'
 export default {
   data() {
     return {
@@ -74,31 +73,38 @@ export default {
         }
       }
 
-      const createResponse = await fetch(this.state.apiUrl + 'events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestData)
-      })
-
-      if (createResponse.ok) {
-        const responseData = await createResponse.json()
-        const createdTripId = responseData.id
-        const currentUser = this.state.user
-        currentUser.trips.push(createdTripId.toString())
-        const updateUserRequestData = currentUser
-
-        await fetch(this.state.apiUrl + 'users/' + this.state.user.id, {
-          method: 'PUT',
+      try {
+        const createResponse = await fetch(this.state.apiUrl + 'events', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(updateUserRequestData)
+          body: JSON.stringify(requestData)
         })
-        localStorage.setItem('loggedUser', JSON.stringify(updateUserRequestData))
-      } else {
-        console.error('Failed to create trip:', createResponse.status)
+
+        if (createResponse.ok) {
+          router.push(`/trip/${this.tripId}`)
+          const responseData = await createResponse.json()
+          const createdTripId = responseData.id
+          const currentUser = this.state.user
+          currentUser.trips.push(createdTripId.toString())
+          const updateUserRequestData = currentUser
+
+          await fetch(this.state.apiUrl + 'users/' + this.state.user.id, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateUserRequestData)
+          })
+          localStorage.setItem('loggedUser', JSON.stringify(updateUserRequestData))
+        } else {
+          router.push('/AllTravels/')
+          alert('Server Error. Failed to create trip. Sorry.')
+        }
+      } catch (error) {
+        router.push('/AllTravels/')
+        alert('Server Error. Failed to create trip. Sorry.')
       }
     }
   }
