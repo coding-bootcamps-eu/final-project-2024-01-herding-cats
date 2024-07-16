@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <header>
+    <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logotype" />
+  </header>
+  <main class="container">
     <h2 class="title">Sign Up</h2>
 
     <form>
@@ -44,7 +47,7 @@
     <router-link @click.prevent="createAccount" :to="validation() ? { name: 'alltravels' } : ''">
       <button class="weiterbtn">Create Account</button>
     </router-link>
-  </div>
+  </main>
 </template>
 
 <script>
