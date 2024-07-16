@@ -116,6 +116,10 @@ export default {
   min-height: 10rem;
 }
 
+ul {
+  margin-bottom: 2rem;
+}
+
 h3 {
   margin-top: 2rem;
 }

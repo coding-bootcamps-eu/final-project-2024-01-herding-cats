@@ -144,12 +144,4 @@ export default {
   min-height: 30rem;
   background-color: var(--pink-activities);
 }
-
-label {
-  font-family: 'Satoshi-Variable';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  color: #000000;
-}
 </style>
