@@ -95,6 +95,10 @@ p {
   color: #000000;
 }
 
+.list {
+  margin-top: 2rem;
+}
+
 .list-p {
   margin-top: 1rem;
   font-family: 'Satoshi-Variable';
@@ -103,6 +107,11 @@ p {
   font-size: 1.4rem;
   color: #000000;
   line-height: 2.5rem;
+}
+
+.list-item {
+  display: flex;
+  align-items: baseline;
 }
 
 .title {
@@ -238,11 +247,6 @@ input[type='datetime-local'] {
   box-shadow: 0px 0.2rem 0.4rem rgba(0, 0, 0, 0.25);
 }
 
-.list-item {
-  display: flex;
-  align-items: baseline;
-}
-
 .delete-btn {
   margin: 0;
   padding: 0;
@@ -262,6 +266,14 @@ input[type='datetime-local'] {
   margin-bottom: 5px;
 }
 
+label {
+  font-family: 'Satoshi-Variable';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+  color: #000000;
+}
+
 .date-label {
   margin-top: 1rem;
   font-family: 'Satoshi-Variable';
@@ -270,4 +282,12 @@ input[type='datetime-local'] {
   font-size: 1.4rem;
   color: #000000;
   line-height: 2.5rem;
+}
+
+.member-dates {
+  display: block;
+  font-size: 1.1rem;
+  line-height: 1.4rem;
+  color: white;
+  text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
 }

@@ -2,52 +2,45 @@
   <header>
     <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
   </header>
-  <form>
-    <div id="form" class="container">
-      <h2 class="title">Group Members</h2>
-      <div class="list">
-        <ul>
-          <!-- render admins that created the trip, 
+  <main id="form" class="container">
+    <h2 class="title">Group Members</h2>
+    <ul class="list list-p">
+      <!-- render admins that created the trip, 
             so that they don't have to manually add themselves. 
             because they are stored in /users and not in /events, 
             they are currently non interactable
           -->
-          <li v-for="(groupMember, index) in filteredUsers" :key="index">
-            <!-- <router-link :to="{ name: 'profile', params: { index } }"> -->
-            {{ groupMember.name }} -
-            {{
-              this.adminsEntries.some((item) => item.userId === groupMember.id)
-                ? 'Admin'
-                : 'Participant'
-            }}
-            <!-- </router-link> -->
-            <ul>
-              <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
-              <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
-            </ul>
-            <!-- <button @click="deleteMember(index)">x</button> -->
-          </li>
-
-          <!-- render group members that were manually added -->
-          <li v-for="(groupMember, index) in this.groupmembersEntries" :key="index">
-            <router-link :to="{ name: 'profile', params: { index: groupMember.id } }">
-              {{ groupMember.name }} - {{ groupMember.isAdmin ? 'Admin' : 'Participant' }}
-            </router-link>
-            <ul>
-              <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
-              <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
-            </ul>
-            <button v-if="isUserThere" class="delete-btn" @click="deleteMember(index)">x</button>
-          </li>
+      <li class="list-item" v-for="(groupMember, index) in filteredUsers" :key="index">
+        {{ groupMember.name }} - Admin
+        <br />
+        <ul>
+          <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
+          <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
         </ul>
-      </div>
+      </li>
 
+      <!-- render group members that were manually added -->
+      <li v-for="(groupMember, index) in this.groupmembersEntries" :key="index">
+        <div class="list-item">
+          <router-link :to="{ name: 'profile', params: { index: groupMember.id } }">
+            {{ groupMember.name }} - {{ groupMember.isAdmin ? 'Admin' : 'Participant' }}
+          </router-link>
+
+          <button v-if="isUserThere" class="delete-btn" @click="deleteMember(index)">x</button>
+        </div>
+        <ul class="member-dates">
+          <li v-if="groupMember.startDate">From: {{ groupMember.startDate }}</li>
+          <li v-if="groupMember.endDate">Until: {{ groupMember.endDate }}</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="btns">
       <InputForm @clickAdd="getFromChild" :item-name="itemName" :placeholder="placeholder" />
+      <router-link :to="{ path: '/trip/' + this.$route.params.id }"
+        ><button>Back to Trip</button></router-link
+      >
     </div>
-  </form>
-  <router-link :to="{ path: '/trip/' + this.$route.params.id }"
-    ><button>Back to Trip</button></router-link
-  >
+  </main>
 </template>
 
 <script>
@@ -60,7 +53,7 @@ export default {
       isUserThere: false,
       tripApiUrl: 'http://localhost:3000/events',
       state: herdingCatsstore(),
-      itemName: 'Group Member',
+      itemName: 'Member',
       placeholder: 'e.g. Max Mustermann'
     }
   },
@@ -73,9 +66,7 @@ export default {
     // filter out users that were loaded in via loadUserData()
     // but that don't participate in the trip
     filteredUsers() {
-      // Destructure userData from state
       const { userData } = this.state
-      //prevents errors when loadUserData() malfunctions
       if (!userData || !this.$route.params.id) {
         return []
       }
@@ -139,45 +130,29 @@ export default {
 </script>
 
 <style scoped>
-.addMember {
-  border-top: 2px solid grey;
-  padding-top: 10px;
-}
-
-.list {
-  padding-bottom: 10px;
-}
-
-.inputtext input {
-  margin-bottom: 10px;
-  display: block;
-}
-
-.admin input {
-  margin-right: 5px;
-}
-
-li li {
-  list-style-type: none;
-}
-
-li + li {
+.list-item {
+  justify-content: space-between;
   margin-top: 2rem;
 }
 
-li ul li + li {
-  margin-top: 0;
+.delete-btn {
+  line-height: 0rem;
 }
-
-ul li {
-  font-family: 'Satoshi-Variable';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  color: #000000;
-}
-
 .container {
+  display: flex;
+  flex-direction: column;
   background-color: var(--turqoise-gray-background);
+}
+
+.btns {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+.list-p,
+a {
+  font-size: 2rem;
+  color: white;
+  text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
 }
 </style>

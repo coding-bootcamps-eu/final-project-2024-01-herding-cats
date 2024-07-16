@@ -11,7 +11,7 @@
         class="list-item"
       >
         <p>{{ item }}</p>
-        <button v-if="isUserThere" class="delete-btn" @click="deleteItem(index)">X</button>
+        <button v-if="isUserThere" class="delete-btn" @click="deleteItem(index)">x</button>
       </li>
     </ul>
 
@@ -146,8 +146,6 @@ h2 {
 }
 
 .list-item {
-  display: flex;
-  align-items: baseline;
   justify-content: space-between;
 }
 p {

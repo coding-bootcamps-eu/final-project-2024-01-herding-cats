@@ -2,56 +2,57 @@
   <header>
     <img src="@/assets/cat-logo/cat-logo-small.svg" alt="Herding Cats Logo" />
   </header>
-  <div class="container">
-    <h2 class="title">Profil page</h2>
-    <aside class="profile-text" v-if="isUserThere">click on an entry to change it</aside>
-    <p v-if="isUserThere" class="fineprint profile-text">Click enter to submit your edits</p>
-    <div class="profile-entry profile-text">
+  <main class="container">
+    <h2 class="title">Profile page</h2>
+    <div class="profile-entry">
       <label class="required" for="name">Name:</label>
-      <div class="underline" v-if="!editingName" @click="startEditing('name')">
-        {{ name }}
-      </div>
-      <!-- Wenn div === false, dann wird das div angezeigt -->
-      <input v-else type="text" v-model="nameInput" @keyup.enter="finishEditing('name')" />
+      <p v-if="!editing">
+        {{ currentGroupMember.name }}
+      </p>
+      <input v-else type="text" v-model="nameInput" :placeholder="currentGroupMember.name" />
     </div>
 
-    <div class="profile-entry profile-text">
+    <div class="profile-entry">
       <label for="adresse">Address:</label>
-      <div class="underline" v-if="!editingAdresse" @click="startEditing('adresse')">
-        {{ adresse }}
-      </div>
-      <!-- Wenn div === false, dann wird das div angezeigt sonst input -->
-      <input v-else type="text" v-model="adresseInput" @keyup.enter="finishEditing('adresse')" />
+      <p v-if="!editing">
+        {{ currentGroupMember.address }}
+      </p>
+      <input v-else type="text" v-model="addressInput" :placeholder="currentGroupMember.address" />
     </div>
 
-    <div class="profile-entry profile-text">
+    <div class="profile-entry">
       <label for="tele">Phone:</label>
-      <label v-if="isUserThere" class="fineprint profile-text">(use the +49 formate)</label>
       <div class="row">
-        <div class="underline" v-if="!editingPhone" @click="startEditing('tele')">{{ tele }}</div>
-        <!-- Wenn div === false, dann wird das div angezeigt -->
-        <input v-else type="text" v-model="teleInput" @keyup.enter="finishEditing('tele')" />
-        <br />
+        <p v-if="!editing">{{ currentGroupMember.tele }}</p>
         <a
+          v-if="!editing"
           @click="sendMessage"
           href="'https://wa.me/' + 4915754288565"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <!-- Like this:
-https://wa.me/552196312XXXX
-NOT like this:
-https://wa.me/+55(021)96312-XXXX -->
-
-          <img src="../assets/WhatsApp.svg.png" alt="Click here to send a message" />
+          <img class="wa" src="../assets/WhatsApp.svg.png" alt="Click here to send a message" />
         </a>
-      </div>
-    </div>
-  </div>
 
-  <router-link :to="{ path: '/groupmembers/' + this.$route.params.id }"
-    ><button>Back to Group Members</button></router-link
-  >
+        <input v-else type="text" v-model="teleInput" :placeholder="currentGroupMember.tele" />
+      </div>
+
+      <label v-if="isUserThere && editing" class="member-dates">(Please use the +49 format)</label>
+    </div>
+    <div class="profile-entry list-p">
+      <ul class="member-dates">
+        <li v-if="currentGroupMember.startDate">From: {{ currentGroupMember.startDate }}</li>
+        <li v-if="currentGroupMember.endDate">Until: {{ currentGroupMember.endDate }}</li>
+      </ul>
+    </div>
+    <div class="btns">
+      <button v-if="isUserThere && !editing" class="edit-btn" @click="startEditing">Edit</button>
+      <button v-if="editing" class="save-btn" @click="finishEditing">Save</button>
+      <router-link :to="{ path: '/groupmembers/' + this.$route.params.id }"
+        ><button class="back-btn">Back to Group Members</button></router-link
+      >
+    </div>
+  </main>
 </template>
 
 <script>
@@ -60,15 +61,10 @@ export default {
   data() {
     return {
       isUserThere: false,
-      tripApiUrl: 'http://localhost:3000/events',
       state: herdingCatsstore(),
-      editingName: false,
+      editing: false,
       nameInput: '',
-
-      editingAdresse: false,
-      adresseInput: '',
-
-      editingPhone: false,
+      addressInput: '',
       teleInput: ''
     }
   },
@@ -81,15 +77,6 @@ export default {
       } else {
         return []
       }
-    },
-    name() {
-      return '-' + this.currentGroupMember.name
-    },
-    adresse() {
-      return '-' + this.currentGroupMember.address
-    },
-    tele() {
-      return '-' + this.currentGroupMember.tele
     }
   },
 
@@ -101,48 +88,38 @@ export default {
         this.isUserThere = true
       }
     },
+
     sendMessage() {
       const phoneNumber = this.teleInput.replace(/\D/g, '')
       const whatsappLink = `https://wa.me/${phoneNumber}`
       window.open(whatsappLink)
     },
 
-    startEditing(inputFeld) {
-      if (this.isUserThere) {
-        if (inputFeld === 'name') {
-          this.editingName = true
-        }
-        if (inputFeld === 'adresse') {
-          this.editingAdresse = true
-        }
-        if (inputFeld === 'tele') {
-          this.editingPhone = true
-        }
-      }
+    startEditing() {
+      this.editing = true
+      this.nameInput = this.currentGroupMember.name
+      this.addressInput = this.currentGroupMember.address
+      this.teleInput = this.currentGroupMember.tele
     },
-    async finishEditing(inputFeld) {
-      if (inputFeld === 'name') {
-        this.editingName = false
-        this.name = this.nameInput
+    async finishEditing() {
+      if (this.nameInput && this.nameInput !== this.currentGroupMember.name) {
         this.currentGroupMember.name = this.nameInput
       }
-      if (inputFeld === 'adresse') {
-        this.editingAdresse = false
-        this.adresse = this.adresseInput
-        this.currentGroupMember.address = this.adresseInput
+      if (this.addressInput && this.addressInput !== this.currentGroupMember.address) {
+        this.currentGroupMember.address = this.addressInput
       }
-      if (inputFeld === 'tele') {
-        this.editingPhone = false
-        this.tele = this.teleInput
+      if (this.teleInput && this.teleInput !== this.currentGroupMember.tele) {
         this.currentGroupMember.tele = this.teleInput
       }
-      await fetch(`${this.tripApiUrl}/${this.$route.params.id}/`, {
+
+      await fetch(`${this.state.apiUrl}events/${this.$route.params.id}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(this.state.tripData[0])
       })
+      this.editing = false
     }
   },
   created() {
@@ -153,44 +130,42 @@ export default {
 </script>
 
 <style scoped>
-.underline {
-  text-decoration: underline;
-}
-.fineprint {
-  color: var(--turqoise-gray-background);
-  font-size: 1rem;
-}
 .profile-entry {
   margin-top: 2rem;
 }
 
-.profile-text {
-  font-size: 1.75rem;
-}
-
-aside {
-  text-align: center;
-  font-style: italic;
-}
-
-img {
-  width: 3rem;
-  margin-left: 10px;
+.wa {
+  width: 2rem;
+  margin-left: 1rem;
 }
 .row {
   display: flex;
-  align-items: center;
-}
-
-label {
-  font-family: 'Satoshi-Variable';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 2rem;
-  color: #000000;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   background-color: var(--turqoise-gray-background);
+}
+
+.btns {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+p,
+label {
+  color: white;
+  text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.edit-btn {
+  background-color: var(--required-red);
+}
+
+.save-btn {
+  background-color: var(--green-travel);
 }
 </style>

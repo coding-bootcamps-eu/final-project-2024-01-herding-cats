@@ -123,5 +123,15 @@ export default {
 }
 h3 {
   margin-top: 2rem;
+  color: white;
+  text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
+}
+.list-p {
+  color: white;
+  text-shadow: 0px 0.2rem 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.transport-entry + .transport-entry {
+  border-top: 0.25rem solid rgb(255, 255, 255);
 }
 </style>

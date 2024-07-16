@@ -99,18 +99,8 @@ export default {
 </script>
 
 <style scoped>
-.list {
-  margin-top: 2rem;
-}
-
 h3 {
   color: white;
-}
-
-header {
-  margin: 1rem auto;
-  display: flex;
-  justify-content: center;
 }
 
 .list-item p {
@@ -124,13 +114,10 @@ header {
 .container {
   display: flex;
   flex-direction: column;
+  background-color: var(--green-packing-list);
 }
 
 .input-area {
   margin-top: auto;
-}
-
-.container {
-  background-color: var(--green-packing-list);
 }
 </style>
